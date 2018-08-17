@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<title>Video_bcont</title>
+		<script>
+			function handlePupSrcChange() {parent.parent.window.handlePupChange(document,"PupSrc","");};
+			function handlePupResChange() {parent.parent.window.handlePupChange(document,"PupRes","");};
+			function handleButPlayClick() {parent.parent.window.handleButClick("ButPlay");};
+			function handleButStopClick() {parent.parent.window.handleButClick("ButStop");};
+			function handleSldExtJpleftMov() {parent.parent.window.handleSldJpleftMov(document,"SldExt");};
+			function handleSldExtJpleftMou() {parent.parent.window.handleSldJpleftMou(document,"SldExt");};
+			function handleSldExtJpleftClick(evt) {parent.parent.window.handleSldJpleftClick(document,"SldExt",true,true,true,evt);};
+			function handleSldExtJprightMov() {parent.parent.window.handleSldJprightMov(document,"SldExt");};
+			function handleSldExtJprightMou() {parent.parent.window.handleSldJprightMou(document,"SldExt");};
+			function handleSldExtJprightClick(evt) {parent.parent.window.handleSldJprightClick(document,"SldExt",true,true,true,evt);};
+			function handleSldExtMov() {parent.parent.window.handleSldMov(document,"SldExt");};
+			function handleSldExtMou() {parent.parent.window.handleSldMou(document,"SldExt");};
+			function handleSldExtMdn() {parent.parent.window.handleSldMdn(document,"SldExt");};
+			function handleSldExtMove(evt) {parent.parent.window.handleSldMove(document,"SldExt",true,true,true,evt);};
+			function handleSldExtMup() {parent.parent.window.handleSldMup(document,"SldExt",true);};
+			function handleSldExtValKey(evt) {return parent.parent.window.handleSldValKey(document,"SldExt",true,true,true,evt);};
+			function handleSldExtValChange() {parent.parent.window.handleSldValChange(document,"SldExt",true,true,true);};
+			function handleSldFcsJpleftMov() {parent.parent.window.handleSldJpleftMov(document,"SldFcs");};
+			function handleSldFcsJpleftMou() {parent.parent.window.handleSldJpleftMou(document,"SldFcs");};
+			function handleSldFcsJpleftClick(evt) {parent.parent.window.handleSldJpleftClick(document,"SldFcs",true,false,false,evt);};
+			function handleSldFcsJprightMov() {parent.parent.window.handleSldJprightMov(document,"SldFcs");};
+			function handleSldFcsJprightMou() {parent.parent.window.handleSldJprightMou(document,"SldFcs");};
+			function handleSldFcsJprightClick(evt) {parent.parent.window.handleSldJprightClick(document,"SldFcs",true,false,false,evt);};
+			function handleSldFcsMov() {parent.parent.window.handleSldMov(document,"SldFcs");};
+			function handleSldFcsMou() {parent.parent.window.handleSldMou(document,"SldFcs");};
+			function handleSldFcsMdn() {parent.parent.window.handleSldMdn(document,"SldFcs");};
+			function handleSldFcsMove(evt) {parent.parent.window.handleSldMove(document,"SldFcs",true,false,false,evt);};
+			function handleSldFcsMup() {parent.parent.window.handleSldMup(document,"SldFcs",true);};
+			function handleSldFcsValKey(evt) {return parent.parent.window.handleSldValKey(document,"SldFcs",true,false,false,evt);};
+			function handleSldFcsValChange() {parent.parent.window.handleSldValChange(document,"SldFcs",true,false,false);};
+			<!-- IP custScript - INSERT -->
+		</script>
+		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
+		<!-- IP custStyle - INSERT -->
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table cellspacing="0" border="0" cellpadding="0"><form action="">
+			<colgroup>
+				<col width="5"/>
+				<col width="215"/>
+				<col width="5"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="68"/>
+				<col width="2"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="1"/>
+				<col width="114"/>
+			</colgroup>
+			<tbody id="tbl">
+				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trSrc" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptSrc" class="cpt">CptSrc</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<select id="PupSrc" class="pup" size="1" onchange="handlePupSrcChange()"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trRes" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptRes" class="cpt">CptRes</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<select id="PupRes" class="pup" size="1" onchange="handlePupResChange()"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trImg" class="show">
+					<!-- IP trImg - RBEGIN -->
+					<td id="tdImg" height="480" colspan="11">
+						<canvas style="display:block;cursor:pointer" id="cvs" width="690" height="480">This page needs a web-browser capable of displaying canvasses!</canvas>
+					</td>
+					<!-- IP trImg - REND -->
+				</tr>
+				<tr id="trPlaystop" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<img id="ButPlay" class="but" src="../iconmsdc/play.png" width="16" height="16" alt="ButPlay" onmouseover="src='../iconmsdc/play_hlt.png'" onmouseout="src='../iconmsdc/play.png'" onclick="handleButPlayClick()"/>
+						&#160;<img id="ButStop" class="but" src="../iconmsdc/stop.png" width="16" height="16" alt="ButStop" onmouseover="src='../iconmsdc/stop_hlt.png'" onmouseout="src='../iconmsdc/stop.png'" onclick="handleButStopClick()"/>
+					</td>
+				</tr>
+				<tr id="trExt" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptExt" class="cpt">CptExt</span>
+					</td>
+					<td></td>
+					<td id="tdSldExt" colspan="5">
+						<svg class="svg" width="340" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<line class="sldlinact" x1="0" y1="12.5" x2="5" y2="12.5"/>
+							<line class="sldlinact" x1="335" y1="12.5" x2="340" y2="12.5"/>
+							<g id="SldExtJpleft" class="sld" onmouseover="handleSldExtJpleftMov()" onmouseout="handleSldExtJpleftMou()" onclick="handleSldExtJpleftClick(event)">
+								<rect id="SldExtJpleftr" class="sldr" x="5" y="2" width="165" height="18"/>
+								<line id="SldExtJpleftl" class="sldl" x1="5" y1="12.5" x2="167.5" y2="12.5"/>
+							</g>
+							<g id="SldExtJpright" class="sld" onmouseover="handleSldExtJprightMov()" onmouseout="handleSldExtJprightMou()" onclick="handleSldExtJprightClick(event)">
+								<rect id="SldExtJprightr" class="sldr" x="170" y="2" width="165" height="18"/>
+								<line id="SldExtJprightl" class="sldl" x1="172.5" y1="12.5" x2="335" y2="12.5"/>
+							</g>
+							<g id="SldExt" class="sld" transform="translate(170 0)" onmouseover="handleSldExtMov()" onmouseout="handleSldExtMou()" onmousedown="handleSldExtMdn()">
+								<rect id="SldExtR" class="sldr" x="-3" y="2" width="6" height="21"/>
+								<g id="SldExtBar" class="sldl">
+									<line x1="-2" y1="2" x2="-2" y2="23"/>
+									<line x1="2" y1="2" x2="2" y2="23"/>
+								</g>
+							</g>
+						</svg>
+					</td>
+					<td></td>
+					<td colspan="2" align="left">
+						<input id="SldExtVal" class="txfxs" type="text" value="SldExtVal" onchange="handleSldExtValChange()" onkeypress="return handleSldExtValKey(event)"/>
+					</td>
+				</tr>
+				<tr id="trFcs" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptFcs" class="cpt">CptFcs</span>
+					</td>
+					<td></td>
+					<td id="tdSldFcs" colspan="5">
+						<svg class="svg" width="340" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<line class="sldlinact" x1="0" y1="12.5" x2="5" y2="12.5"/>
+							<line class="sldlinact" x1="335" y1="12.5" x2="340" y2="12.5"/>
+							<g id="SldFcsJpleft" class="sld" onmouseover="handleSldFcsJpleftMov()" onmouseout="handleSldFcsJpleftMou()" onclick="handleSldFcsJpleftClick(event)">
+								<rect id="SldFcsJpleftr" class="sldr" x="5" y="2" width="165" height="18"/>
+								<line id="SldFcsJpleftl" class="sldl" x1="5" y1="12.5" x2="167.5" y2="12.5"/>
+							</g>
+							<g id="SldFcsJpright" class="sld" onmouseover="handleSldFcsJprightMov()" onmouseout="handleSldFcsJprightMou()" onclick="handleSldFcsJprightClick(event)">
+								<rect id="SldFcsJprightr" class="sldr" x="170" y="2" width="165" height="18"/>
+								<line id="SldFcsJprightl" class="sldl" x1="172.5" y1="12.5" x2="335" y2="12.5"/>
+							</g>
+							<g id="SldFcs" class="sld" transform="translate(170 0)" onmouseover="handleSldFcsMov()" onmouseout="handleSldFcsMou()" onmousedown="handleSldFcsMdn()">
+								<rect id="SldFcsR" class="sldr" x="-3" y="2" width="6" height="21"/>
+								<g id="SldFcsBar" class="sldl">
+									<line x1="-2" y1="2" x2="-2" y2="23"/>
+									<line x1="2" y1="2" x2="2" y2="23"/>
+								</g>
+							</g>
+						</svg>
+					</td>
+					<td></td>
+					<td colspan="2" align="left">
+						<input id="SldFcsVal" class="txfxs" type="text" value="SldFcsVal" onchange="handleSldFcsValChange()" onkeypress="return handleSldFcsValKey(event)"/>
+					</td>
+				</tr>
+				<tr><td colspan="11" height="4"></td></tr>
+			</tbody>
+		</form></table>
+	</body>
+</html>
+
+
+
+

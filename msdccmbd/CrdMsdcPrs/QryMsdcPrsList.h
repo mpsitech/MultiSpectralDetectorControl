@@ -1,0 +1,146 @@
+/**
+  * \file QryMsdcPrsList.h
+  * job handler for job QryMsdcPrsList (declarations)
+  * \author Alexander Wirthmueller
+  * \date created: 15 Aug 2018
+  * \date modified: 15 Aug 2018
+  */
+
+#ifndef QRYMSDCPRSLIST_H
+#define QRYMSDCPRSLIST_H
+
+// IP custInclude --- INSERT
+
+#define VecVQryMsdcPrsListOrd QryMsdcPrsList::VecVOrd
+
+#define StatAppQryMsdcPrsList QryMsdcPrsList::StatApp
+#define StatShrQryMsdcPrsList QryMsdcPrsList::StatShr
+#define StgIacQryMsdcPrsList QryMsdcPrsList::StgIac
+
+/**
+  * QryMsdcPrsList
+  */
+class QryMsdcPrsList : public JobMsdc {
+
+public:
+	/**
+		* VecVOrd (full: VecVQryMsdcPrsListOrd)
+		*/
+	class VecVOrd {
+
+	public:
+		static const uint LNM = 1;
+		static const uint GRP = 2;
+		static const uint OWN = 3;
+
+		static uint getIx(const string& sref);
+		static string getSref(const uint ix);
+
+		static void fillFeed(Feed& feed);
+	};
+
+	/**
+		* StatApp (full: StatAppQryMsdcPrsList)
+		*/
+	class StatApp {
+
+	public:
+		static void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true, const uint firstcol = 1, const uint jnumFirstdisp = 1, const uint ncol = 9, const uint ndisp = 25);
+	};
+
+	/**
+		* StatShr (full: StatShrQryMsdcPrsList)
+		*/
+	class StatShr : public Block {
+
+	public:
+		static const uint NTOT = 1;
+		static const uint JNUMFIRSTLOAD = 2;
+		static const uint NLOAD = 3;
+
+	public:
+		StatShr(const uint ntot = 0, const uint jnumFirstload = 0, const uint nload = 0);
+
+	public:
+		uint ntot;
+		uint jnumFirstload;
+		uint nload;
+
+	public:
+		void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
+		set<uint> comm(const StatShr* comp);
+		set<uint> diff(const StatShr* comp);
+	};
+
+	/**
+		* StgIac (full: StgIacQryMsdcPrsList)
+		*/
+	class StgIac : public Block {
+
+	public:
+		static const uint JNUM = 1;
+		static const uint JNUMFIRSTLOAD = 2;
+		static const uint NLOAD = 3;
+
+	public:
+		StgIac(const uint jnum = 0, const uint jnumFirstload = 1, const uint nload = 100);
+
+	public:
+		uint jnum;
+		uint jnumFirstload;
+		uint nload;
+
+	public:
+		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+		void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
+		set<uint> comm(const StgIac* comp);
+		set<uint> diff(const StgIac* comp);
+	};
+
+public:
+	QryMsdcPrsList(XchgMsdc* xchg, DbsMsdc* dbsmsdc, const ubigint jrefSup, const uint ixMsdcVLocale);
+	~QryMsdcPrsList();
+
+public:
+	StatShr statshr;
+	StgIac stgiac;
+
+	ListMsdcQPrsList rst;
+
+	uint ixMsdcVQrystate;
+
+	// IP custVar --- INSERT
+
+public:
+	// IP cust --- INSERT
+
+public:
+	void refreshJnum();
+
+	void rerun(DbsMsdc* dbsmsdc, const bool call = false);
+	void rerun_filtSQL(string& sqlstr, const string& preLnm, const ubigint preGrp, const ubigint preOwn, const bool addwhere);
+	void rerun_filtSQL_append(string& sqlstr, bool& first);
+	void rerun_orderSQL(string& sqlstr, const uint preIxOrd);
+
+	void fetch(DbsMsdc* dbsmsdc);
+
+	uint getJnumByRef(const ubigint ref);
+	ubigint getRefByJnum(const uint jnum);
+	MsdcQPrsList* getRecByJnum(const uint jnum);
+
+public:
+
+	void handleRequest(DbsMsdc* dbsmsdc, ReqMsdc* req);
+
+	bool handleRerun(DbsMsdc* dbsmsdc);
+	bool handleShow(DbsMsdc* dbsmsdc);
+
+	void handleCall(DbsMsdc* dbsmsdc, Call* call);
+
+	bool handleCallMsdcStubChg(DbsMsdc* dbsmsdc, const ubigint jrefTrig);
+	bool handleCallMsdcPrsMod(DbsMsdc* dbsmsdc, const ubigint jrefTrig);
+	bool handleCallMsdcPrsUpd_refEq(DbsMsdc* dbsmsdc, const ubigint jrefTrig, const ubigint refInv);
+};
+
+#endif
+

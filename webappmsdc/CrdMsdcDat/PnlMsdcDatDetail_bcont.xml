@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<title>Detail_bcont</title>
+		<script>
+			function handlePupAftChange() {parent.parent.window.handlePupChange(document,"PupAft","");};
+			function handleButAftToggleClick() {parent.parent.window.handleButToggleClick("PupAft");};
+			function handleTxfAftKey(evt) {return parent.parent.window.handleTxfKey(document,"TxfAft","",evt);};
+			function handleTxfAftChange() {parent.parent.window.handleTxfChange(document,"TxfAft","");};
+			function handleButAftEditClick() {parent.parent.window.handleButDlgopenClick("ButAftEdit");};
+			function handleButPrdViewClick() {parent.parent.window.handleButCrdopenClick("ButPrdView");};
+			function handleTxfStaKey(evt) {return parent.parent.window.handleTxfKey(document,"TxfSta","",evt);};
+			function handleTxfStaChange() {parent.parent.window.handleTxfChange(document,"TxfSta","");};
+			function handleTxfStoKey(evt) {return parent.parent.window.handleTxfKey(document,"TxfSto","",evt);};
+			function handleTxfStoChange() {parent.parent.window.handleTxfChange(document,"TxfSto","");};
+			function handleTxfCmtKey(evt) {return parent.parent.window.handleTxftKey(document,"TxfCmt",evt);};
+			function handleTxfCmtChange() {parent.parent.window.handleTxftChange(document,"TxfCmt");};
+			<!-- IP custScript - INSERT -->
+		</script>
+		<link href="../style/pnlDetail.css" rel="styleSheet" type="text/css"/>
+		<!-- IP custStyle - INSERT -->
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table cellspacing="0" border="0" cellpadding="0"><form action="">
+			<colgroup>
+				<col width="5"/>
+				<col width="155"/>
+				<col width="5"/>
+				<col width="78"/>
+				<col width="2"/>
+				<col width="38"/>
+				<col width="2"/>
+				<col width="78"/>
+				<col width="2"/>
+				<col width="1"/>
+				<col width="74"/>
+			</colgroup>
+			<tbody id="tbl">
+				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trAft" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptAft" class="cpt">CptAft</span>
+						&#160;<img id="ButAftToggle" class="but" src="../icon/toggle.png" width="16" height="16" valign="bottom" alt="ButAftToggle" onmouseover="src='../icon/toggle_hlt.png'" onmouseout="src='../icon/toggle.png'" onclick="handleButAftToggleClick()"/>
+					</td>
+					<td></td>
+					<td id="dynAft" colspan="5" align="left">
+					</td>
+					<td></td>
+					<td id="rdynAft" colspan="2" align="left">
+					</td>
+				</tr>
+				<tr id="trA1" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trA2" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="trA3" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trPrd" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptPrd" class="cpt">CptPrd</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtPrd" class="txfnoed" type="text" readonly="readonly" value="TxtPrd"/>
+					</td>
+					<td></td>
+					<td id="rdynPrd" colspan="2" align="left">
+					</td>
+				</tr>
+				<tr id="trSta" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptSta" class="cpt">CptSta</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxfSta" class="txf" type="text" value="TxfSta" onchange="handleTxfStaChange()" onkeypress="return handleTxfStaKey(event)"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trSto" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptSto" class="cpt">CptSto</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxfSto" class="txf" type="text" value="TxfSto" onchange="handleTxfStoChange()" onkeypress="return handleTxfStoKey(event)"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trCmt" class="show">
+					<td height="75"></td>
+					<td align="right" valign="top">
+						<span id="CptCmt" class="cpt">CptCmt</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<textarea id="TxfCmt" class="txf" rows="4" cols="20" type="text" value="TxfCmt" onchange="handleTxfCmtChange()" onkeypress="return handleTxfCmtKey(event)"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr><td colspan="11" height="4"></td></tr>
+			</tbody>
+		</form></table>
+	</body>
+</html>
+

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<title>Align_bcont</title>
+		<script>
+			function handleSldTheJpleftMov() {parent.parent.window.handleSldJpleftMov(document,"SldThe");};
+			function handleSldTheJpleftMou() {parent.parent.window.handleSldJpleftMou(document,"SldThe");};
+			function handleSldTheJpleftClick(evt) {parent.parent.window.handleSldJpleftClick(document,"SldThe",true,false,false,evt);};
+			function handleSldTheJprightMov() {parent.parent.window.handleSldJprightMov(document,"SldThe");};
+			function handleSldTheJprightMou() {parent.parent.window.handleSldJprightMou(document,"SldThe");};
+			function handleSldTheJprightClick(evt) {parent.parent.window.handleSldJprightClick(document,"SldThe",true,false,false,evt);};
+			function handleSldTheMov() {parent.parent.window.handleSldMov(document,"SldThe");};
+			function handleSldTheMou() {parent.parent.window.handleSldMou(document,"SldThe");};
+			function handleSldTheMdn() {parent.parent.window.handleSldMdn(document,"SldThe");};
+			function handleSldTheMove(evt) {parent.parent.window.handleSldMove(document,"SldThe",true,false,false,evt);};
+			function handleSldTheMup() {parent.parent.window.handleSldMup(document,"SldThe",true);};
+			function handleSldTheValKey(evt) {return parent.parent.window.handleSldValKey(document,"SldThe",true,false,false,evt);};
+			function handleSldTheValChange() {parent.parent.window.handleSldValChange(document,"SldThe",true,false,false);};
+			function handleSldPhiJpleftMov() {parent.parent.window.handleSldJpleftMov(document,"SldPhi");};
+			function handleSldPhiJpleftMou() {parent.parent.window.handleSldJpleftMou(document,"SldPhi");};
+			function handleSldPhiJpleftClick(evt) {parent.parent.window.handleSldJpleftClick(document,"SldPhi",true,false,false,evt);};
+			function handleSldPhiJprightMov() {parent.parent.window.handleSldJprightMov(document,"SldPhi");};
+			function handleSldPhiJprightMou() {parent.parent.window.handleSldJprightMou(document,"SldPhi");};
+			function handleSldPhiJprightClick(evt) {parent.parent.window.handleSldJprightClick(document,"SldPhi",true,false,false,evt);};
+			function handleSldPhiMov() {parent.parent.window.handleSldMov(document,"SldPhi");};
+			function handleSldPhiMou() {parent.parent.window.handleSldMou(document,"SldPhi");};
+			function handleSldPhiMdn() {parent.parent.window.handleSldMdn(document,"SldPhi");};
+			function handleSldPhiMove(evt) {parent.parent.window.handleSldMove(document,"SldPhi",true,false,false,evt);};
+			function handleSldPhiMup() {parent.parent.window.handleSldMup(document,"SldPhi",true);};
+			function handleSldPhiValKey(evt) {return parent.parent.window.handleSldValKey(document,"SldPhi",true,false,false,evt);};
+			function handleSldPhiValChange() {parent.parent.window.handleSldValChange(document,"SldPhi",true,false,false);};
+			<!-- IP custScript - INSERT -->
+		</script>
+		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
+		<!-- IP custStyle - INSERT -->
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table cellspacing="0" border="0" cellpadding="0"><form action="">
+			<colgroup>
+				<col width="5"/>
+				<col width="215"/>
+				<col width="5"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="68"/>
+				<col width="2"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="1"/>
+				<col width="114"/>
+			</colgroup>
+			<tbody id="tbl">
+				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trAph" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptAph" class="cpt">CptAph</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtAph" class="txfnoed" type="text" readonly="readonly" value="TxtAph"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trBta" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptBta" class="cpt">CptBta</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtBta" class="txfnoed" type="text" readonly="readonly" value="TxtBta"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="tr11" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="tr12" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="tr13" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trThe" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptThe" class="cpt">CptThe</span>
+					</td>
+					<td></td>
+					<td id="tdSldThe" colspan="5">
+						<svg class="svg" width="340" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<line class="sldlinact" x1="0" y1="12.5" x2="5" y2="12.5"/>
+							<line class="sldlinact" x1="335" y1="12.5" x2="340" y2="12.5"/>
+							<g id="SldTheJpleft" class="sld" onmouseover="handleSldTheJpleftMov()" onmouseout="handleSldTheJpleftMou()" onclick="handleSldTheJpleftClick(event)">
+								<rect id="SldTheJpleftr" class="sldr" x="5" y="2" width="165" height="18"/>
+								<line id="SldTheJpleftl" class="sldl" x1="5" y1="12.5" x2="167.5" y2="12.5"/>
+							</g>
+							<g id="SldTheJpright" class="sld" onmouseover="handleSldTheJprightMov()" onmouseout="handleSldTheJprightMou()" onclick="handleSldTheJprightClick(event)">
+								<rect id="SldTheJprightr" class="sldr" x="170" y="2" width="165" height="18"/>
+								<line id="SldTheJprightl" class="sldl" x1="172.5" y1="12.5" x2="335" y2="12.5"/>
+							</g>
+							<g id="SldThe" class="sld" transform="translate(170 0)" onmouseover="handleSldTheMov()" onmouseout="handleSldTheMou()" onmousedown="handleSldTheMdn()">
+								<rect id="SldTheR" class="sldr" x="-3" y="2" width="6" height="21"/>
+								<g id="SldTheBar" class="sldl">
+									<line x1="-2" y1="2" x2="-2" y2="23"/>
+									<line x1="2" y1="2" x2="2" y2="23"/>
+								</g>
+							</g>
+						</svg>
+					</td>
+					<td></td>
+					<td colspan="2" align="left">
+						<input id="SldTheVal" class="txfxs" type="text" value="SldTheVal" onchange="handleSldTheValChange()" onkeypress="return handleSldTheValKey(event)"/>
+					</td>
+				</tr>
+				<tr id="trPhi" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptPhi" class="cpt">CptPhi</span>
+					</td>
+					<td></td>
+					<td id="tdSldPhi" colspan="5">
+						<svg class="svg" width="340" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<line class="sldlinact" x1="0" y1="12.5" x2="5" y2="12.5"/>
+							<line class="sldlinact" x1="335" y1="12.5" x2="340" y2="12.5"/>
+							<g id="SldPhiJpleft" class="sld" onmouseover="handleSldPhiJpleftMov()" onmouseout="handleSldPhiJpleftMou()" onclick="handleSldPhiJpleftClick(event)">
+								<rect id="SldPhiJpleftr" class="sldr" x="5" y="2" width="165" height="18"/>
+								<line id="SldPhiJpleftl" class="sldl" x1="5" y1="12.5" x2="167.5" y2="12.5"/>
+							</g>
+							<g id="SldPhiJpright" class="sld" onmouseover="handleSldPhiJprightMov()" onmouseout="handleSldPhiJprightMou()" onclick="handleSldPhiJprightClick(event)">
+								<rect id="SldPhiJprightr" class="sldr" x="170" y="2" width="165" height="18"/>
+								<line id="SldPhiJprightl" class="sldl" x1="172.5" y1="12.5" x2="335" y2="12.5"/>
+							</g>
+							<g id="SldPhi" class="sld" transform="translate(170 0)" onmouseover="handleSldPhiMov()" onmouseout="handleSldPhiMou()" onmousedown="handleSldPhiMdn()">
+								<rect id="SldPhiR" class="sldr" x="-3" y="2" width="6" height="21"/>
+								<g id="SldPhiBar" class="sldl">
+									<line x1="-2" y1="2" x2="-2" y2="23"/>
+									<line x1="2" y1="2" x2="2" y2="23"/>
+								</g>
+							</g>
+						</svg>
+					</td>
+					<td></td>
+					<td colspan="2" align="left">
+						<input id="SldPhiVal" class="txfxs" type="text" value="SldPhiVal" onchange="handleSldPhiValChange()" onkeypress="return handleSldPhiValKey(event)"/>
+					</td>
+				</tr>
+				<tr><td colspan="11" height="4"></td></tr>
+			</tbody>
+		</form></table>
+	</body>
+</html>
+

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<title>Acquis_bcont</title>
+		<script>
+			function handlePupVtyChange() {parent.parent.window.handlePupChange(document,"PupVty","");};
+			function handleTxfVlpKey(evt) {return parent.parent.window.handleTxfKey(document,"TxfVlp","",evt);};
+			function handleTxfVlpChange() {parent.parent.window.handleTxfChange(document,"TxfVlp","");};
+			function handleTxfVrpKey(evt) {return parent.parent.window.handleTxfKey(document,"TxfVrp","",evt);};
+			function handleTxfVrpChange() {parent.parent.window.handleTxfChange(document,"TxfVrp","");};
+			<!-- IP custScript - INSERT -->
+		</script>
+		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
+		<!-- IP custStyle - INSERT -->
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table cellspacing="0" border="0" cellpadding="0"><form action="">
+			<colgroup>
+				<col width="5"/>
+				<col width="215"/>
+				<col width="5"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="68"/>
+				<col width="2"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="1"/>
+				<col width="114"/>
+			</colgroup>
+			<tbody id="tbl">
+				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trIwi" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<span id="HdgIwi" class="cpt">HdgIwi</span>&#160;&#160;
+					</td>
+				</tr>
+				<tr id="trIsn" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptIsn" class="cpt">CptIsn</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtIsn" class="txfnoed" type="text" readonly="readonly" value="TxtIsn"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trIps" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptIps" class="cpt">CptIps</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtIps" class="txfnoed" type="text" readonly="readonly" value="TxtIps"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trIfl" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptIfl" class="cpt">CptIfl</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtIfl" class="txfnoed" type="text" readonly="readonly" value="TxtIfl"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trIfn" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptIfn" class="cpt">CptIfn</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtIfn" class="txfnoed" type="text" readonly="readonly" value="TxtIfn"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="tr11" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="tr12" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="tr13" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trVis" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<span id="HdgVis" class="cpt">HdgVis</span>&#160;&#160;
+					</td>
+				</tr>
+				<tr id="trVty" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVty" class="cpt">CptVty</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<select id="PupVty" class="pup" size="1" onchange="handlePupVtyChange()"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trVlp" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVlp" class="cpt">CptVlp</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxfVlp" class="txf" type="text" value="TxfVlp" onchange="handleTxfVlpChange()" onkeypress="return handleTxfVlpKey(event)"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trVrp" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVrp" class="cpt">CptVrp</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxfVrp" class="txf" type="text" value="TxfVrp" onchange="handleTxfVrpChange()" onkeypress="return handleTxfVrpKey(event)"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trVps" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVps" class="cpt">CptVps</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtVps" class="txfnoed" type="text" readonly="readonly" value="TxtVps"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trVfl" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVfl" class="cpt">CptVfl</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtVfl" class="txfnoed" type="text" readonly="readonly" value="TxtVfl"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trVfn" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVfn" class="cpt">CptVfn</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<input id="TxtVfn" class="txfnoed" type="text" readonly="readonly" value="TxtVfn"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr><td colspan="11" height="4"></td></tr>
+			</tbody>
+		</form></table>
+	</body>
+</html>
+

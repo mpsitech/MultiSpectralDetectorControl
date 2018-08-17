@@ -1,0 +1,173 @@
+- ImeIAVKeylistKey.srefKlsIxMsdcVKeylist	sref	Avail	Implied
+- KlstMsdcKAcqfeat	adxl		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	accelerometer	
+	- dech	Beschleunigungssensor	
+- KlstMsdcKAcqfeat	lwir		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	LWIR camera	
+	- dech	LWIR Kamera	
+- KlstMsdcKAcqfeat	visl		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	VIS-L camera	
+	- dech	VIS-L Kamera	
+- KlstMsdcKAcqfeat	visr		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	VIS-R camera	
+	- dech	VIS-R Kamera	
+- KlstMsdcKAMDataParKey	alpha		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	angle alpha [\u00b0]	
+	- dech	Winkel alpha [\u00b0]	
+- KlstMsdcKAMDataParKey	beta		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	angle beta [\u00b0]	
+	- dech	Winkel beta [\u00b0]	
+- KlstMsdcKAMDataParKey	gamma		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	angle gamma [\u00b0]	
+	- dech	Winkel gamma [\u00b0]	
+- KlstMsdcKAMDataParKey	pngif		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	PNG image file	
+	- dech	PNG Bilddatei	
+- KlstMsdcKAMDataParKey	T		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	temperature [K]	
+	- dech	Temperatur [K]	
+- KlstMsdcKAMPersonDetailType	eml		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	e-mail	
+	- dech	E-Mail	
+- KlstMsdcKAMPersonDetailType	fax		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	fax	
+	- dech	Telefax	
+- KlstMsdcKAMPersonDetailType	mbl		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	mobile	
+	- dech	Handy	
+- KlstMsdcKAMPersonDetailType	tel		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	phone	
+	- dech	Telefon	
+- KlstMsdcKMFileContent	frm		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	frame	
+	- dech	Einzelbild	
+- KlstMsdcKMFileMimetype	bmp		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/bmp	
+- KlstMsdcKMFileMimetype	cpp		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/x-c	
+- KlstMsdcKMFileMimetype	css		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/css	
+- KlstMsdcKMFileMimetype	csv		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/comma-separated-values	
+- KlstMsdcKMFileMimetype	doc		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/msword	
+- KlstMsdcKMFileMimetype	docx		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/vnd.openxmlformats-officedocument.wordprocessingml.document	
+- KlstMsdcKMFileMimetype	eps		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/postscript	
+- KlstMsdcKMFileMimetype	gif		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/gif	
+- KlstMsdcKMFileMimetype	h		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/x-h	
+- KlstMsdcKMFileMimetype	hdf		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/x-hdf	
+- KlstMsdcKMFileMimetype	html		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/html	
+- KlstMsdcKMFileMimetype	jpg		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/jpeg	
+- KlstMsdcKMFileMimetype	js		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/javascript	
+- KlstMsdcKMFileMimetype	make		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/x-makefile	
+- KlstMsdcKMFileMimetype	nc		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/x-netcdf	
+- KlstMsdcKMFileMimetype	pdf		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/pdf	
+- KlstMsdcKMFileMimetype	png		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/png	
+- KlstMsdcKMFileMimetype	ppt		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/mspowerpoint	
+- KlstMsdcKMFileMimetype	pptx		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/vnd.openxmlformats-officedocument.presentationml.presentation	
+- KlstMsdcKMFileMimetype	sh		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/x-sh	
+- KlstMsdcKMFileMimetype	sql		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/x-sql	
+- KlstMsdcKMFileMimetype	svg		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/svg+xml	
+- KlstMsdcKMFileMimetype	tex		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/x-tex	
+- KlstMsdcKMFileMimetype	tgz		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/x-gzip	
+- KlstMsdcKMFileMimetype	tif		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	image/tiff	
+- KlstMsdcKMFileMimetype	txt		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/plain	
+- KlstMsdcKMFileMimetype	xls		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/msexcel	
+- KlstMsdcKMFileMimetype	xlsx		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet	
+- KlstMsdcKMFileMimetype	xml		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	text/xml	
+- KlstMsdcKMFileMimetype	zip		
+	- ImeIJAVKeylistKey.srefX1MsdcVLocale	Title	Comment
+	- enus	application/zip	
+- ImeIMUsergroup.sref	Comment
+- msdcusers
+	- ImeIAMUsergroupAccess.srefX1IxMsdcVFeatgroup	x2FeaSrefUix	srefsIxMsdcWAccess
+	- VecMsdcVCard	CrdMsdcUsg	edit;exec;view
+	- VecMsdcVCard	CrdMsdcUsr	edit;exec;view
+	- VecMsdcVCard	CrdMsdcPrs	edit;exec;view
+	- VecMsdcVCard	CrdMsdcScf	edit;exec;view
+	- VecMsdcVCard	CrdMsdcLiv	edit;exec;view
+	- VecMsdcVCard	CrdMsdcPrd	edit;exec;view
+	- VecMsdcVCard	CrdMsdcDat	edit;exec;view
+	- VecMsdcVCard	CrdMsdcFil	edit;exec;view
+	- ImeIMUser.sref	srefIxMsdcVLocale	srefIxMsdcVUserlevel	Password	Comment
+	- msdcuser	enus	adm	asdf1234
+		- ImeIJMUserState.srefIxVState
+		- act
+		- ImeIMPerson.srefIxVSex	Title	Firstname
+		- f	Mrs.	Emily
+			- ImeIJMPersonLastname.Lastname
+			- Johnson
+	- msdcuserdech	dech	adm	asdf1234
+		- ImeIJMUserState.srefIxVState
+		- act
+		- ImeIMPerson.srefIxVSex	Title	Firstname
+		- f	Fr.	Julia
+			- ImeIJMPersonLastname.Lastname
+			- Schmidt

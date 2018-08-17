@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PrefMsdccmbd>
+	<StgMsdccmbd>
+		<Si sref="jobprcn">1</Si>
+		<Si sref="opprcn">1</Si>
+		<Si sref="appsrvport"></Si>
+		<Si sref="https">false</Si>
+		<Si sref="appsrv">true</Si>
+		<Si sref="ddspub">true</Si>
+		<Si sref="uasrv">true</Si>
+		<Si sref="histlength">20</Si>
+	</StgMsdccmbd>
+	<StgMsdcDatabase>
+		<Si sref="srefIxDbsVDbstype"/>
+		<Si sref="dbspath"></Si>
+		<Si sref="dbsname"></Si>
+		<Si sref="username">mpsitech</Si>
+		<Si sref="password">f9w8feeh</Si>
+		<Si sref="ip"></Si>
+		<Si sref="port"></Si>
+	</StgMsdcDatabase>
+	<StgMsdcDdspub>
+		<Si sref="username"></Si>
+		<Si sref="password"></Si>
+	</StgMsdcDdspub>
+	<StgMsdcPath>
+		<Si sref="acvpath"></Si>
+		<Si sref="keypath"></Si>
+		<Si sref="monpath"></Si>
+		<Si sref="tmppath"></Si>
+		<Si sref="webpath"></Si>
+		<Si sref="helpurl"></Si>
+	</StgMsdcPath>
+	<StgMsdcUasrv>
+		<Si sref="profile"></Si>
+		<Si sref="port"></Si>
+		<Si sref="cycle"></Si>
+		<Si sref="maxbrowse"></Si>
+		<Si sref="maxmon"></Si>
+	</StgMsdcUasrv>
+	<StgJobMsdcAcqLwir>
+		<Si sref="width">160</Si>
+		<Si sref="height">120</Si>
+		<Si sref="hpix">12</Si>
+		<Si sref="serno"></Si>
+		<Si sref="a">0.05</Si>
+		<Si sref="b">15000</Si>
+		<Si sref="srefIxMsdcVSqrgrp"/>
+		<Si sref="f">9</Si>
+		<Si sref="fn">1.1</Si>
+		<Si sref="k1">0.0</Si>
+		<Si sref="k2">0.0</Si>
+		<Si sref="p1">0.0</Si>
+		<Si sref="p2">0.0</Si>
+		<Si sref="k3">0.0</Si>
+		<Si sref="k4">0.0</Si>
+		<Si sref="k5">0.0</Si>
+		<Si sref="k6">0.0</Si>
+	</StgJobMsdcAcqLwir>
+	<StgJobMsdcAcqVisl>
+		<Si sref="srefIxMsdcVCamtype"/>
+		<Si sref="width">1280</Si>
+		<Si sref="height">720</Si>
+		<Si sref="hpix">3</Si>
+		<Si sref="path"></Si>
+		<Si sref="serno"></Si>
+		<Si sref="srefIxMsdcVSqrgrp"/>
+		<Si sref="f">3</Si>
+		<Si sref="fn">2</Si>
+		<Si sref="k1">0.0</Si>
+		<Si sref="k2">0.0</Si>
+		<Si sref="p1">0.0</Si>
+		<Si sref="p2">0.0</Si>
+		<Si sref="k3">0.0</Si>
+		<Si sref="k4">0.0</Si>
+		<Si sref="k5">0.0</Si>
+		<Si sref="k6">0.0</Si>
+	</StgJobMsdcAcqVisl>
+	<StgJobMsdcAcqVisr>
+		<Si sref="srefIxMsdcVCamtype"/>
+		<Si sref="width">1280</Si>
+		<Si sref="height">720</Si>
+		<Si sref="hpix">3</Si>
+		<Si sref="path"></Si>
+		<Si sref="serno"></Si>
+		<Si sref="srefIxMsdcVSqrgrp"/>
+		<Si sref="f">3</Si>
+		<Si sref="fn">2</Si>
+		<Si sref="k1">0.0</Si>
+		<Si sref="k2">0.0</Si>
+		<Si sref="p1">0.0</Si>
+		<Si sref="p2">0.0</Si>
+		<Si sref="k3">0.0</Si>
+		<Si sref="k4">0.0</Si>
+		<Si sref="k5">0.0</Si>
+		<Si sref="k6">0.0</Si>
+	</StgJobMsdcAcqVisr>
+	<StgJobMsdcActServo>
+		<Si sref="phimin">-40</Si>
+		<Si sref="phimax">40</Si>
+		<Si sref="thetamin">-40</Si>
+		<Si sref="thetamax">15</Si>
+	</StgJobMsdcActServo>
+	<StgJobMsdcSrcMsdd>
+		<Si sref="path">/dev/zedb</Si>
+		<Si sref="adxlA">0.004</Si>
+		<Si sref="adxlAlpha0">0</Si>
+		<Si sref="adxlBeta0">0</Si>
+		<Si sref="alignMax">80</Si>
+		<Si sref="servoA">8.889</Si>
+		<Si sref="servoTheta0">0</Si>
+		<Si sref="servoPhi0">0</Si>
+	</StgJobMsdcSrcMsdd>
+	<StgJobMsdcSrcTrigger>
+		<Si sref="dt">0.25</Si>
+	</StgJobMsdcSrcTrigger>
+</PrefMsdccmbd>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:msdc="http://www.mpsitech.com/msdc">
+	<head>
+		<title>Source</title>
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<src xmlns="http://www.mpsitech.com/msdc">
+			<Cont>
+				<Ci sref="numFPupLoginLocale">1</Ci>
+				<Ci sref="numFLstSuccessSuspsess">1</Ci>
+				<Ci sref="TxfLoginUsername">test</Ci>
+				<Ci sref="TxfLoginPassword">test</Ci>
+			</Cont>
+			<Stat>
+				<Si sref="LstSuccessSuspsessNumFirstdisp">1</Si>
+			</Stat>
+			<FeedFPupLoginLocale.enus>
+				<Fi num="1">
+					<sref>enus</sref>
+					<tit1>English (United States)</tit1>
+				</Fi>
+				<Fi num="2">
+					<sref>dech</sref>
+					<tit1>German (Switzerland)</tit1>
+				</Fi>
+			</FeedFPupLoginLocale.enus>
+			<FeedFPupLoginLocale.dech>
+				<Fi num="1">
+					<sref>enus</sref>
+					<tit1>Englisch (Vereinigte Staaten)</tit1>
+				</Fi>
+				<Fi num="2">
+					<sref>dech</sref>
+					<tit1>Deutsch (Schweiz)</tit1>
+				</Fi>
+			</FeedFPupLoginLocale.dech>
+			<Tag.enus>
+				<Ti sref="ButFailureBack">Back</Ti>
+				<Ti sref="ButLoginLogin">Log in</Ti>
+				<Ti sref="ButLoginReset">Reset</Ti>
+				<Ti sref="ButLogoutLogin">Login screen</Ti>
+				<Ti sref="ButSuccessBack">Back</Ti>
+				<Ti sref="ButSuccessNewsess">Start new session</Ti>
+				<Ti sref="ButSuccessSuspsessResume">Resume</Ti>
+				<Ti sref="CptFailure">Error</Ti>
+				<Ti sref="CptFailureMessage">Login failed.</Ti>
+				<Ti sref="CptLogin">Login</Ti>
+				<Ti sref="CptLoginPassword">Password</Ti>
+				<Ti sref="CptLoginUsername">User name</Ti>
+				<Ti sref="CptLogout">Logout</Ti>
+				<Ti sref="CptLogoutMessage">Your session has been terminated.</Ti>
+				<Ti sref="CptSuccess">Login successful</Ti>
+				<Ti sref="CptSuccessSuspsess">Suspended sessions</Ti>
+			</Tag.enus>
+			<Tag.dech>
+				<Ti sref="ButFailureBack">Zur\u00fcck</Ti>
+				<Ti sref="ButLoginLogin">Anmelden</Ti>
+				<Ti sref="ButLoginReset">Zur\u00fccksetzen</Ti>
+				<Ti sref="ButLogoutLogin">Anmeldefenster</Ti>
+				<Ti sref="ButSuccessBack">Zur\u00fcck</Ti>
+				<Ti sref="ButSuccessNewsess">Neue Sitzung starten</Ti>
+				<Ti sref="ButSuccessSuspsessResume">Fortsetzen</Ti>
+				<Ti sref="CptFailure">Fehler</Ti>
+				<Ti sref="CptFailureMessage">Anmeldung fehlgeschlagen.</Ti>
+				<Ti sref="CptLogin">Anmeldung</Ti>
+				<Ti sref="CptLoginPassword">Passwort</Ti>
+				<Ti sref="CptLoginUsername">Benutzername</Ti>
+				<Ti sref="CptLogout">Abmeldung</Ti>
+				<Ti sref="CptLogoutMessage">Ihre Sitzung wurde beendet.</Ti>
+				<Ti sref="CptSuccess">Anmeldung erfolgreich</Ti>
+				<Ti sref="CptSuccessSuspsess">Unterbrochene Sitzungen</Ti>
+			</Tag.dech>
+			<FeedFEnsSps/>
+			<FeedFEnsSec/>
+		</src>
+	</body>
+</html>
+

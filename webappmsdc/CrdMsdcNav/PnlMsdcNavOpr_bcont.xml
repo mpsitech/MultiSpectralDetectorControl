@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<title>Opr_bcont</title>
+		<script>
+			function handleButLivNewcrdClick() {parent.parent.window.handleButCrdopenClick("ButLivNewcrd");};
+			function handleButPrdExpandClick() {parent.parent.window.handleButExpandClick("LstPrd");};
+			function handleButPrdCollapseClick() {parent.parent.window.handleButCollapseClick("LstPrd");};
+			function handleButPrdViewClick() {parent.parent.window.handleButCrdopenClick("ButPrdView");};
+			function handleButPrdNewcrdClick() {parent.parent.window.handleButCrdopenClick("ButPrdNewcrd");};
+			function handleButDatExpandClick() {parent.parent.window.handleButExpandClick("LstDat");};
+			function handleButDatCollapseClick() {parent.parent.window.handleButCollapseClick("LstDat");};
+			function handleButDatViewClick() {parent.parent.window.handleButCrdopenClick("ButDatView");};
+			function handleButDatNewcrdClick() {parent.parent.window.handleButCrdopenClick("ButDatNewcrd");};
+			function handleButFilExpandClick() {parent.parent.window.handleButExpandClick("LstFil");};
+			function handleButFilCollapseClick() {parent.parent.window.handleButCollapseClick("LstFil");};
+			function handleButFilViewClick() {parent.parent.window.handleButCrdopenClick("ButFilView");};
+			function handleButFilNewcrdClick() {parent.parent.window.handleButCrdopenClick("ButFilNewcrd");};
+			<!-- IP custScript - INSERT -->
+		</script>
+		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
+		<!-- IP custStyle - INSERT -->
+	</head>
+	<body marginwidth="0" marginheight="0">
+		<table cellspacing="0" border="0" cellpadding="0"><form action="">
+			<colgroup>
+				<col width="5"/>
+				<col width="215"/>
+				<col width="5"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="68"/>
+				<col width="2"/>
+				<col width="138"/>
+				<col width="2"/>
+				<col width="1"/>
+				<col width="114"/>
+			</colgroup>
+			<tbody id="tbl">
+				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trLiv" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptLiv" class="cpt">CptLiv</span>
+					</td>
+					<td></td>
+					<td id="dynLiv" colspan="8" align="left">
+					</td>
+				</tr>
+				<tr id="trPrd" class="show">
+					<td height="25"></td>
+					<td id="ldynPrd" align="right">
+					</td>
+					<td></td>
+					<td id="dynPrd" rowspan="1" colspan="5">
+					</td>
+					<td></td>
+					<td id="rdynPrd" colspan="2" align="left">
+					</td>
+				</tr>
+				<tr id="trPrd2" class="hide">
+					<td colspan="3" height="67"></td>
+					<td colspan="3"></td>
+				</tr>
+				<tr id="trDat" class="show">
+					<td height="25"></td>
+					<td id="ldynDat" align="right">
+					</td>
+					<td></td>
+					<td id="dynDat" rowspan="1" colspan="5">
+					</td>
+					<td></td>
+					<td id="rdynDat" colspan="2" align="left">
+					</td>
+				</tr>
+				<tr id="trDat2" class="hide">
+					<td colspan="3" height="67"></td>
+					<td colspan="3"></td>
+				</tr>
+				<tr id="trFil" class="show">
+					<td height="25"></td>
+					<td id="ldynFil" align="right">
+					</td>
+					<td></td>
+					<td id="dynFil" rowspan="1" colspan="5">
+					</td>
+					<td></td>
+					<td id="rdynFil" colspan="2" align="left">
+					</td>
+				</tr>
+				<tr id="trFil2" class="hide">
+					<td colspan="3" height="67"></td>
+					<td colspan="3"></td>
+				</tr>
+				<tr><td colspan="11" height="4"></td></tr>
+			</tbody>
+		</form></table>
+	</body>
+</html>
+
