@@ -2,8 +2,8 @@
   * \file PnlMsdcScfSource.js
   * web client functionality for panel PnlMsdcScfSource
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 // IP cust --- INSERT
@@ -69,6 +69,7 @@ function initBD(bNotD) {
 	initCpt(contcontdoc, "CptFsa", retrieveTi(srcdoc, "TagMsdcScfSource", "CptFsa"));
 	initCpt(contcontdoc, "CptFt0", retrieveTi(srcdoc, "TagMsdcScfSource", "CptFt0"));
 	initCpt(contcontdoc, "CptFp0", retrieveTi(srcdoc, "TagMsdcScfSource", "CptFp0"));
+	initCpt(contcontdoc, "CptTrp", retrieveTi(srcdoc, "TagMsdcScfSource", "CptTrp"));
 	// IP initBD --- END
 
 	refreshBD(bNotD);
@@ -114,6 +115,8 @@ function refreshBD(bNotD) {
 	refreshSld(contcontdoc, "SldFt0", true, false, parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldFt0Min")), parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldFt0Max")), parseFloat(retrieveCi(srcdoc, "ContIacMsdcScfSource", "SldFt0")), true, false);
 
 	refreshSld(contcontdoc, "SldFp0", true, false, parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldFp0Min")), parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldFp0Max")), parseFloat(retrieveCi(srcdoc, "ContIacMsdcScfSource", "SldFp0")), true, false);
+
+	refreshSld(contcontdoc, "SldTrp", true, false, parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldTrpMin")), parseFloat(retrieveSi(srcdoc, "StatShrMsdcScfSource", "SldTrpMax")), parseFloat(retrieveCi(srcdoc, "ContIacMsdcScfSource", "SldTrp")), true, false);
 
 	// IP refreshBD --- END
 

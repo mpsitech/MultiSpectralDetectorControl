@@ -2,8 +2,8 @@
   * \file MsdcAccRMUserUniversal.cpp
   * database access for table TblMsdcAccRMUserUniversal (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAccRMUserUniversal.h"
@@ -252,7 +252,10 @@ ubigint TblMsdcAccRMUserUniversal::loadRstByRefs(
  class LiteTblMsdcAccRMUserUniversal
  ******************************************************************************/
 
-LiteTblMsdcAccRMUserUniversal::LiteTblMsdcAccRMUserUniversal() : TblMsdcAccRMUserUniversal(), LiteTable() {
+LiteTblMsdcAccRMUserUniversal::LiteTblMsdcAccRMUserUniversal() :
+			TblMsdcAccRMUserUniversal()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

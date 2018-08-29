@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc API library, release apimsdc_zedboard
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 export set SRCROOT=/home/mpsitech/emb/zedboard/avnet-digilent-zedboard-2017.2/build/tmp/sysroots/plnx_arm/home/root/src
 

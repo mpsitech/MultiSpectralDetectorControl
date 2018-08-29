@@ -2,8 +2,8 @@
   * \file IexMsdcIni.h
   * import/export handler for database DbsMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef IEXMSDCINI_H

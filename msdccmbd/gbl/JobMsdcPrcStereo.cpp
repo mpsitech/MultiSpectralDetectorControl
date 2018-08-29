@@ -2,8 +2,8 @@
   * \file JobMsdcPrcStereo.cpp
   * job handler for job JobMsdcPrcStereo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcPrcStereo::Shrdat
  ******************************************************************************/
 
-JobMsdcPrcStereo::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcPrcStereo", "Shrdat", "JobMsdcPrcStereo::shrdat") {
+JobMsdcPrcStereo::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcPrcStereo", "Shrdat")
+		{
 };
 
 void JobMsdcPrcStereo::Shrdat::init(
@@ -46,7 +48,9 @@ JobMsdcPrcStereo::JobMsdcPrcStereo(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCSTEREO, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCSTEREO, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 

@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdRec_blks.cpp
   * job handler for job PnlMsdcPrdRec (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -36,7 +36,9 @@ string PnlMsdcPrdRec::VecVDo::getSref(
 
 PnlMsdcPrdRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -114,7 +116,9 @@ PnlMsdcPrdRec::StatShr::StatShr(
 			, const ubigint jrefDetail
 			, const ubigint jref1NData
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->jrefDetail = jrefDetail;
 	this->jref1NData = jref1NData;
@@ -124,10 +128,7 @@ PnlMsdcPrdRec::StatShr::StatShr(
 };
 
 void PnlMsdcPrdRec::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -139,8 +140,8 @@ void PnlMsdcPrdRec::StatShr::writeXML(
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
 		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(mScr, scr, descr, jrefDetail));
-		writeStringAttr(wr, itemtag, "sref", "scrJref1NData", Scr::scramble(mScr, scr, descr, jref1NData));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(jrefDetail));
+		writeStringAttr(wr, itemtag, "sref", "scrJref1NData", Scr::scramble(jref1NData));
 		writeBoolAttr(wr, itemtag, "sref", "ButRegularizeActive", ButRegularizeActive);
 	xmlTextWriterEndElement(wr);
 };
@@ -201,7 +202,9 @@ void PnlMsdcPrdRec::Tag::writeXML(
  class PnlMsdcPrdRec::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcPrdRec::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDRECDO) {
+PnlMsdcPrdRec::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDRECDO)
+		{
 	ixVDo = 0;
 };
 
@@ -218,9 +221,7 @@ string PnlMsdcPrdRec::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcPrdRec::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -238,7 +239,7 @@ void PnlMsdcPrdRec::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -258,7 +259,9 @@ PnlMsdcPrdRec::DpchEngData::DpchEngData(
 			, ContInf* continf
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDRECDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDRECDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -295,17 +298,14 @@ void PnlMsdcPrdRec::DpchEngData::merge(
 
 void PnlMsdcPrdRec::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcPrdRecData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);
 };

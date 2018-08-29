@@ -2,8 +2,8 @@
   * \file M2msessMsdc_blks.cpp
   * job handler for job M2msessMsdc (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -19,7 +19,9 @@ M2msessMsdc::StatShr::StatShr(
 			, const ubigint jrefActled
 			, const ubigint jrefActservo
 			, const ubigint jrefPrcstereo
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jrefAcqadxl = jrefAcqadxl;
 	this->jrefAcqlwir = jrefAcqlwir;
 	this->jrefAcqvisl = jrefAcqvisl;
@@ -33,10 +35,7 @@ M2msessMsdc::StatShr::StatShr(
 };
 
 void M2msessMsdc::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -47,14 +46,14 @@ void M2msessMsdc::StatShr::writeXML(
 	else itemtag = "StatitemShrM2msessMsdc";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqadxl", Scr::scramble(mScr, scr, descr, jrefAcqadxl));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqlwir", Scr::scramble(mScr, scr, descr, jrefAcqlwir));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqvisl", Scr::scramble(mScr, scr, descr, jrefAcqvisl));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqvisr", Scr::scramble(mScr, scr, descr, jrefAcqvisr));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefActalign", Scr::scramble(mScr, scr, descr, jrefActalign));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefActled", Scr::scramble(mScr, scr, descr, jrefActled));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefActservo", Scr::scramble(mScr, scr, descr, jrefActservo));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefPrcstereo", Scr::scramble(mScr, scr, descr, jrefPrcstereo));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqadxl", Scr::scramble(jrefAcqadxl));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqlwir", Scr::scramble(jrefAcqlwir));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqvisl", Scr::scramble(jrefAcqvisl));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefAcqvisr", Scr::scramble(jrefAcqvisr));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefActalign", Scr::scramble(jrefActalign));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefActled", Scr::scramble(jrefActled));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefActservo", Scr::scramble(jrefActservo));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefPrcstereo", Scr::scramble(jrefPrcstereo));
 	xmlTextWriterEndElement(wr);
 };
 
@@ -97,7 +96,9 @@ M2msessMsdc::DpchEngData::DpchEngData(
 			const ubigint jref
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, STATSHR};
 	else this->mask = mask;
 
@@ -127,15 +128,12 @@ void M2msessMsdc::DpchEngData::merge(
 
 void M2msessMsdc::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngM2msessMsdcData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
+		if (has(STATSHR)) statshr.writeXML(wr);
 	xmlTextWriterEndElement(wr);
 };
 

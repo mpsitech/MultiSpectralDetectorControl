@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdRec_evals.cpp
   * job handler for job PnlMsdcPrdRec (implementation of availability/activation evaluation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 bool PnlMsdcPrdRec::evalButRegularizeActive(

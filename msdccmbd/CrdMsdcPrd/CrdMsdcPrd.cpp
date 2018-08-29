@@ -2,8 +2,8 @@
   * \file CrdMsdcPrd.cpp
   * job handler for job CrdMsdcPrd (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ CrdMsdcPrd::CrdMsdcPrd(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const ubigint ref
-		) : JobMsdc(xchg, VecMsdcVJob::CRDMSDCPRD, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::CRDMSDCPRD, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

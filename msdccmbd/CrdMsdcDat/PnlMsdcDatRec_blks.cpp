@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRec_blks.cpp
   * job handler for job PnlMsdcDatRec (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -36,7 +36,9 @@ string PnlMsdcDatRec::VecVDo::getSref(
 
 PnlMsdcDatRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -117,7 +119,9 @@ PnlMsdcDatRec::StatShr::StatShr(
 			, const ubigint jrefAPar
 			, const ubigint jrefRef1NFile
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->jrefDetail = jrefDetail;
 	this->jrefAPar = jrefAPar;
@@ -128,10 +132,7 @@ PnlMsdcDatRec::StatShr::StatShr(
 };
 
 void PnlMsdcDatRec::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -143,9 +144,9 @@ void PnlMsdcDatRec::StatShr::writeXML(
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
 		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(mScr, scr, descr, jrefDetail));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefAPar", Scr::scramble(mScr, scr, descr, jrefAPar));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefRef1NFile", Scr::scramble(mScr, scr, descr, jrefRef1NFile));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(jrefDetail));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefAPar", Scr::scramble(jrefAPar));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefRef1NFile", Scr::scramble(jrefRef1NFile));
 		writeBoolAttr(wr, itemtag, "sref", "ButRegularizeActive", ButRegularizeActive);
 	xmlTextWriterEndElement(wr);
 };
@@ -207,7 +208,9 @@ void PnlMsdcDatRec::Tag::writeXML(
  class PnlMsdcDatRec::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcDatRec::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATRECDO) {
+PnlMsdcDatRec::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATRECDO)
+		{
 	ixVDo = 0;
 };
 
@@ -224,9 +227,7 @@ string PnlMsdcDatRec::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcDatRec::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -244,7 +245,7 @@ void PnlMsdcDatRec::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -264,7 +265,9 @@ PnlMsdcDatRec::DpchEngData::DpchEngData(
 			, ContInf* continf
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATRECDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATRECDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -301,17 +304,14 @@ void PnlMsdcDatRec::DpchEngData::merge(
 
 void PnlMsdcDatRec::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcDatRecData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);
 };

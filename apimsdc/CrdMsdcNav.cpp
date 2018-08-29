@@ -2,8 +2,8 @@
   * \file CrdMsdcNav.cpp
   * API code for job CrdMsdcNav (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -92,7 +92,9 @@ CrdMsdcNav::ContInf::ContInf(
 			, const string& MtxSesSes1
 			, const string& MtxSesSes2
 			, const string& MtxSesSes3
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 	this->MrlAppHlp = MrlAppHlp;
 	this->MtxSesSes1 = MtxSesSes1;
@@ -170,7 +172,9 @@ CrdMsdcNav::StatApp::StatApp(
 			, const bool initdonePre
 			, const bool initdoneAdmin
 			, const bool initdoneOpr
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVReqitmode = ixMsdcVReqitmode;
 	this->latency = latency;
 	this->shortMenu = shortMenu;
@@ -275,7 +279,9 @@ CrdMsdcNav::StatShr::StatShr(
 			, const bool MitCrdFilAvail
 			, const bool MspApp2Avail
 			, const bool MitAppLoiAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->scrJrefDlgloaini = scrJrefDlgloaini;
 	this->scrJrefHeadbar = scrJrefHeadbar;
 	this->scrJrefPre = scrJrefPre;
@@ -406,7 +412,9 @@ CrdMsdcNav::Tag::Tag(
 			, const string& MitCrdDat
 			, const string& MitCrdFil
 			, const string& MitAppLoi
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MitAppAbt = MitAppAbt;
 	this->MrlAppHlp = MrlAppHlp;
 	this->MitSesSps = MitSesSps;
@@ -467,7 +475,9 @@ CrdMsdcNav::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -500,7 +510,9 @@ void CrdMsdcNav::DpchAppDo::writeXML(
  class CrdMsdcNav::DpchEngData
  ******************************************************************************/
 
-CrdMsdcNav::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVDATA) {
+CrdMsdcNav::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVDATA)
+		{
 	feedFSge.tag = "FeedFSge";
 };
 

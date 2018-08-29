@@ -2,8 +2,8 @@
   * \file MsdcQDatRef1NFile.h
   * Dbs and XML wrapper for table TblMsdcQDatRef1NFile (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef MSDCQDATREF1NFILE_H

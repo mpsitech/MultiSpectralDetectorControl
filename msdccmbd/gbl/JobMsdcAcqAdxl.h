@@ -2,8 +2,8 @@
   * \file JobMsdcAcqAdxl.h
   * job handler for job JobMsdcAcqAdxl (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef JOBMSDCACQADXL_H
@@ -114,7 +114,6 @@ public:
 
 	void handleRequest(DbsMsdc* dbsmsdc, ReqMsdc* req);
 
-	void handleTimer(DbsMsdc* dbsmsdc, const string& sref);
 	void handleCall(DbsMsdc* dbsmsdc, Call* call);
 
 	bool handleCallMsdcTrig(DbsMsdc* dbsmsdc, const ubigint jrefTrig, const int intvalInv);

@@ -2,8 +2,8 @@
   * \file PnlMsdcUsr1NSession.cpp
   * job handler for job PnlMsdcUsr1NSession (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ PnlMsdcUsr1NSession::PnlMsdcUsr1NSession(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSR1NSESSION, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSR1NSESSION, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

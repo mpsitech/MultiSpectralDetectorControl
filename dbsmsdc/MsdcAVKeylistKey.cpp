@@ -2,8 +2,8 @@
   * \file MsdcAVKeylistKey.cpp
   * database access for table TblMsdcAVKeylistKey (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAVKeylistKey.h"
@@ -314,7 +314,10 @@ ubigint TblMsdcAVKeylistKey::loadRstByRefs(
  class LiteTblMsdcAVKeylistKey
  ******************************************************************************/
 
-LiteTblMsdcAVKeylistKey::LiteTblMsdcAVKeylistKey() : TblMsdcAVKeylistKey(), LiteTable() {
+LiteTblMsdcAVKeylistKey::LiteTblMsdcAVKeylistKey() :
+			TblMsdcAVKeylistKey()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

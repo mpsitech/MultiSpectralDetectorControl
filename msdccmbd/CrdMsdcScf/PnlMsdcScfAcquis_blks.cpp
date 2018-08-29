@@ -2,8 +2,8 @@
   * \file PnlMsdcScfAcquis_blks.cpp
   * job handler for job PnlMsdcScfAcquis (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -36,7 +36,9 @@ PnlMsdcScfAcquis::ContIac::ContIac(
 			const uint numFPupVty
 			, const string& TxfVlp
 			, const string& TxfVrp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFPupVty = numFPupVty;
 	this->TxfVlp = TxfVlp;
 	this->TxfVrp = TxfVrp;
@@ -126,7 +128,9 @@ PnlMsdcScfAcquis::ContInf::ContInf(
 			, const string& TxtVps
 			, const string& TxtVfl
 			, const string& TxtVfn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 	this->TxtIsn = TxtIsn;
 	this->TxtIps = TxtIps;
@@ -267,7 +271,9 @@ void PnlMsdcScfAcquis::Tag::writeXML(
  class PnlMsdcScfAcquis::DpchAppData
  ******************************************************************************/
 
-PnlMsdcScfAcquis::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDATA) {
+PnlMsdcScfAcquis::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDATA)
+		{
 };
 
 string PnlMsdcScfAcquis::DpchAppData::getSrefsMask() {
@@ -283,9 +289,7 @@ string PnlMsdcScfAcquis::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcScfAcquis::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -302,7 +306,7 @@ void PnlMsdcScfAcquis::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -315,7 +319,9 @@ void PnlMsdcScfAcquis::DpchAppData::readXML(
  class PnlMsdcScfAcquis::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcScfAcquis::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDO) {
+PnlMsdcScfAcquis::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDO)
+		{
 	ixVDo = 0;
 };
 
@@ -332,9 +338,7 @@ string PnlMsdcScfAcquis::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcScfAcquis::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -352,7 +356,7 @@ void PnlMsdcScfAcquis::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -373,7 +377,9 @@ PnlMsdcScfAcquis::DpchEngData::DpchEngData(
 			, ContInf* continf
 			, Feed* feedFPupVty
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFACQUISDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFACQUISDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFPUPVTY, STATAPP, TAG};
 	else this->mask = mask;
 
@@ -413,14 +419,11 @@ void PnlMsdcScfAcquis::DpchEngData::merge(
 
 void PnlMsdcScfAcquis::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcScfAcquisData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFPUPVTY)) feedFPupVty.writeXML(wr);

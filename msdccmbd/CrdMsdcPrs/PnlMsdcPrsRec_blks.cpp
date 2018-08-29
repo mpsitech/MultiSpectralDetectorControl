@@ -2,8 +2,8 @@
   * \file PnlMsdcPrsRec_blks.cpp
   * job handler for job PnlMsdcPrsRec (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -36,7 +36,9 @@ string PnlMsdcPrsRec::VecVDo::getSref(
 
 PnlMsdcPrsRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -111,7 +113,9 @@ PnlMsdcPrsRec::StatShr::StatShr(
 			const uint ixMsdcVExpstate
 			, const ubigint jrefDetail
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->jrefDetail = jrefDetail;
 	this->ButRegularizeActive = ButRegularizeActive;
@@ -120,10 +124,7 @@ PnlMsdcPrsRec::StatShr::StatShr(
 };
 
 void PnlMsdcPrsRec::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -135,7 +136,7 @@ void PnlMsdcPrsRec::StatShr::writeXML(
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
 		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(mScr, scr, descr, jrefDetail));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefDetail", Scr::scramble(jrefDetail));
 		writeBoolAttr(wr, itemtag, "sref", "ButRegularizeActive", ButRegularizeActive);
 	xmlTextWriterEndElement(wr);
 };
@@ -195,7 +196,9 @@ void PnlMsdcPrsRec::Tag::writeXML(
  class PnlMsdcPrsRec::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcPrsRec::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRSRECDO) {
+PnlMsdcPrsRec::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRSRECDO)
+		{
 	ixVDo = 0;
 };
 
@@ -212,9 +215,7 @@ string PnlMsdcPrsRec::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcPrsRec::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -232,7 +233,7 @@ void PnlMsdcPrsRec::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -252,7 +253,9 @@ PnlMsdcPrsRec::DpchEngData::DpchEngData(
 			, ContInf* continf
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSRECDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSRECDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -289,17 +292,14 @@ void PnlMsdcPrsRec::DpchEngData::merge(
 
 void PnlMsdcPrsRec::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcPrsRecData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);
 };

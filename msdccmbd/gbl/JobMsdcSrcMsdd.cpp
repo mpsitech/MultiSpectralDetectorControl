@@ -2,8 +2,8 @@
   * \file JobMsdcSrcMsdd.cpp
   * job handler for job JobMsdcSrcMsdd (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -39,43 +39,44 @@ JobMsdcSrcMsdd::Shrdat::Lwirdata::Lwirdata(
  class JobMsdcSrcMsdd::Shrdat
  ******************************************************************************/
 
-JobMsdcSrcMsdd::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcSrcMsdd", "Shrdat", "JobMsdcSrcMsdd::shrdat") {
+JobMsdcSrcMsdd::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcSrcMsdd", "Shrdat")
+		{
 };
 
 void JobMsdcSrcMsdd::Shrdat::init(
 			XchgMsdc* xchg
 			, DbsMsdc* dbsmsdc
 		) {
-		// IP Shrdat.init --- IBEGIN
-		try {
+	// IP Shrdat.init --- IBEGIN
+	try {
 #ifdef FPGA_ZEDB
-			fpga.init(stg.path);
+		fpga.init(stg.path);
 #endif
 #ifdef FPGA_BSS3
-			fpga.init(stg.path, 5000000);
+		fpga.init(stg.path, 5000000);
 #endif
-			fpga.rxtxdump = false;
-			fpga.reset();
+		fpga.rxtxdump = false;
+		fpga.reset();
 
-		} catch (DbeException e) {
-			cout << e.err << endl;
-		};
+	} catch (DbeException e) {
+		cout << e.err << endl;
+	};
 
-		excdump = false;
+	excdump = false;
 
-		t0 = Msdc::getNow();
-		tkst0 = 0;
+	t0 = Msdc::getNow();
+	tkst0 = 0;
 
-		lwir = 0;
-		Mutex::init(&mLwir, true, "mLwir", "JobMsdcSrcMsdd::Shrdat", "init");
-		// IP Shrdat.init --- IEND
+	lwir = 0;
+
+	mLwir = Mutex("mLwir", "JobMsdcSrcMsdd::Shrdat", "init");
+	// IP Shrdat.init --- IEND
 };
 
 void JobMsdcSrcMsdd::Shrdat::term() {
 	// IP Shrdat.term --- IBEGIN
 	fpga.term();
-
-	Mutex::destroy(&mLwir, true, "mLwir", "JobMsdcSrcMsdd::Shrdat", "term");
 	// IP Shrdat.term --- IEND
 };
 
@@ -89,7 +90,9 @@ JobMsdcSrcMsdd::JobMsdcSrcMsdd(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCSRCMSDD, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCSRCMSDD, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 
@@ -259,7 +262,7 @@ bool JobMsdcSrcMsdd::startLwir(
 	if (getMastNotSlv()) {
 		lockAccess("startLwir");
 
-		if (Mutex::trylock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "startLwir") == 0) {
+		if (shrdat.mLwir.trylock("JobMsdcSrcMsdd", "startLwir")) {
 			success = (shrdat.lwir == 0);
 
 			if (success) {
@@ -273,7 +276,7 @@ bool JobMsdcSrcMsdd::startLwir(
 				pthread_create(&shrdat.lwir, &attr, &runLwir, (void*) xchg);
 			};
 
-			Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "startLwir");
+			shrdat.mLwir.unlock("JobMsdcSrcMsdd", "startLwir");
 		};
 
 		unlockAccess("startLwir");
@@ -297,9 +300,9 @@ void JobMsdcSrcMsdd::stopLwir() {
 		pthread_t oldLwir = shrdat.lwir; // original will be set 0 in the process
 
 		if (oldLwir != 0) {
-			Mutex::lock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "stopLwir");
+			shrdat.mLwir.lock("JobMsdcSrcMsdd", "stopLwir");
 			shrdat.lwirdata.cancel = true;
-			Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "stopLwir");
+			shrdat.mLwir.unlock("JobMsdcSrcMsdd", "stopLwir");
 
 			pthread_join(oldLwir, NULL);
 		};
@@ -541,7 +544,7 @@ void* JobMsdcSrcMsdd::runLwir(
 	const size_t sizeBuf = 2*160*120;
 	unsigned char* buf;
 
-	unsigned char* trg;
+	unsigned char* auxbuf = new unsigned char[sizeBuf+2];
 
 	utinyint tixVBufstate;
 
@@ -552,13 +555,15 @@ void* JobMsdcSrcMsdd::runLwir(
 
 	timespec deltat;
 
+	unsigned char c;
+
 	// thread settings
 	pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, 0);
 	pthread_cleanup_push(&cleanupLwir, arg);
 
 	try {
 		// - prepare
-		Mutex::lock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[1]");
+		shrdat.mLwir.lock("JobMsdcSrcMsdd", "runLwir[1]");
 
 		try {
 			lwiracq_setRng(true);
@@ -566,12 +571,12 @@ void* JobMsdcSrcMsdd::runLwir(
 		} catch (DbeException e) {
 			shrdat.lwirdata.cancel = true;
 			shrdat.lwirdata.callback(shrdat.lwirdata.argCallback);
-			Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[1]");
+			shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[1]");
 
 			throw;
 		};
 
-		Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[2]");
+		shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[2]");
 
 		// - loop
 		while (true) {
@@ -580,21 +585,21 @@ void* JobMsdcSrcMsdd::runLwir(
 			lwiracq_getInfo(tixVBufstate, _tkst, _min, _max);
 
 			if ((tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) || (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF)) {
-				Mutex::lock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[2]");
+				shrdat.mLwir.lock("JobMsdcSrcMsdd", "runLwir[2]");
 
 				try {
-					buf = NULL;
+					buf = shrdat.lwirdata.buf;
+					if (!buf) buf = auxbuf;
 
-					/// TODO: avoid malloc
 					if (tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) shrdat.fpga.readAbufFromLwiracq(sizeBuf, buf, datalen);
 					else if (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF) shrdat.fpga.readBbufFromLwiracq(sizeBuf, buf, datalen);
 
 					if (shrdat.lwirdata.buf) {
-						if (bigendian()) memcpy(shrdat.lwirdata.buf, buf, sizeBuf);
-						else {
+						if (!bigendian()) {
 							for (unsigned int i=0;i<sizeBuf;i+=2) {
-								shrdat.lwirdata.buf[i] = buf[i+1];
-								shrdat.lwirdata.buf[i+1] = buf[i];
+								c = buf[i];
+								buf[i] = buf[i+1];
+								buf[i+1] = c;
 							};
 						};
 
@@ -606,15 +611,13 @@ void* JobMsdcSrcMsdd::runLwir(
 						shrdat.lwirdata.callback(shrdat.lwirdata.argCallback);
 					};
 
-					if (buf) delete[] buf;
-
 				} catch (DbeException e) {
-					Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[3]");
+					shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[3]");
 
 					continue;
 				};
 
-				Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "runLwir[4]");
+				shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[4]");
 
 				// sleep for 1/9Hz - 11ms = 100ms
 				deltat = {.tv_sec = 0, .tv_nsec = 100000000};
@@ -630,6 +633,8 @@ void* JobMsdcSrcMsdd::runLwir(
 		if (shrdat.excdump) cout << e.err << endl;
 	};
 
+	delete[] auxbuf;
+
 	pthread_cleanup_pop(0);
 
 	shrdat.lwir = 0;
@@ -640,9 +645,9 @@ void* JobMsdcSrcMsdd::runLwir(
 void JobMsdcSrcMsdd::cleanupLwir(
 			void* arg
 		) {
-	Mutex::lock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "cleanupLwir");
+	shrdat.mLwir.lock("JobMsdcSrcMsdd", "cleanupLwir");
 	shrdat.lwir = 0;
-	Mutex::unlock(&shrdat.mLwir, "mLwir", "JobMsdcSrcMsdd", "cleanupLwir");
+	shrdat.mLwir.unlock("JobMsdcSrcMsdd", "cleanupLwir");
 };
 
 // DevMsdd methods used internally

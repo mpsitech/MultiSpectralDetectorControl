@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrHeadbar.cpp
   * job handler for job PnlMsdcUsrHeadbar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -25,7 +25,9 @@ PnlMsdcUsrHeadbar::PnlMsdcUsrHeadbar(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSRHEADBAR, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSRHEADBAR, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

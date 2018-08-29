@@ -2,8 +2,8 @@
   * \file PnlMsdcNavOpr.cpp
   * API code for job PnlMsdcNavOpr (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -54,7 +54,9 @@ PnlMsdcNavOpr::ContIac::ContIac(
 			const uint numFLstPrd
 			, const uint numFLstDat
 			, const uint numFLstFil
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFLstPrd = numFLstPrd;
 	this->numFLstDat = numFLstDat;
 	this->numFLstFil = numFLstFil;
@@ -143,7 +145,9 @@ PnlMsdcNavOpr::StatApp::StatApp(
 			, const uint LstPrdNumFirstdisp
 			, const uint LstDatNumFirstdisp
 			, const uint LstFilNumFirstdisp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->LstPrdAlt = LstPrdAlt;
 	this->LstDatAlt = LstDatAlt;
@@ -233,7 +237,9 @@ PnlMsdcNavOpr::StatShr::StatShr(
 			, const bool LstFilAvail
 			, const bool ButFilViewActive
 			, const bool ButFilNewcrdActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButLivNewcrdAvail = ButLivNewcrdAvail;
 	this->LstPrdAvail = LstPrdAvail;
 	this->ButPrdViewActive = ButPrdViewActive;
@@ -320,7 +326,9 @@ PnlMsdcNavOpr::Tag::Tag(
 			, const string& CptPrd
 			, const string& CptDat
 			, const string& CptFil
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptLiv = CptLiv;
 	this->CptPrd = CptPrd;
@@ -365,7 +373,9 @@ PnlMsdcNavOpr::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -402,7 +412,9 @@ PnlMsdcNavOpr::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -435,7 +447,9 @@ void PnlMsdcNavOpr::DpchAppDo::writeXML(
  class PnlMsdcNavOpr::DpchEngData
  ******************************************************************************/
 
-PnlMsdcNavOpr::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVOPRDATA) {
+PnlMsdcNavOpr::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVOPRDATA)
+		{
 	feedFLstDat.tag = "FeedFLstDat";
 	feedFLstFil.tag = "FeedFLstFil";
 	feedFLstPrd.tag = "FeedFLstPrd";

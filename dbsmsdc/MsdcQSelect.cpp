@@ -2,8 +2,8 @@
   * \file MsdcQSelect.cpp
   * Dbs and XML wrapper for table TblMsdcQSelect (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQSelect.h"
@@ -218,7 +218,10 @@ ubigint TblMsdcQSelect::loadRstByJref(
  class LiteTblMsdcQSelect
  ******************************************************************************/
 
-LiteTblMsdcQSelect::LiteTblMsdcQSelect() : TblMsdcQSelect(), LiteTable() {
+LiteTblMsdcQSelect::LiteTblMsdcQSelect() :
+			TblMsdcQSelect()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

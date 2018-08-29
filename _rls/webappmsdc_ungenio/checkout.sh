@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc web-based UI, release webappmsdc_ungenio
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 export set WEBROOT=/Users/mpsitech/web
 

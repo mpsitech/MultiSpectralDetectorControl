@@ -2,8 +2,8 @@
   * \file PnlMsdcPrsHeadbar.cpp
   * API code for job PnlMsdcPrsHeadbar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -21,7 +21,9 @@ PnlMsdcPrsHeadbar::StgInf::StgInf(
 			, const uint MenAppWidth
 			, const uint MenCrdCptwidth
 			, const uint MenCrdWidth
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenAppCptwidth = MenAppCptwidth;
 	this->MenAppWidth = MenAppWidth;
 	this->MenCrdCptwidth = MenCrdCptwidth;
@@ -90,7 +92,9 @@ set<uint> PnlMsdcPrsHeadbar::StgInf::diff(
 PnlMsdcPrsHeadbar::Tag::Tag(
 			const string& MenApp
 			, const string& MenCrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenApp = MenApp;
 	this->MenCrd = MenCrd;
 
@@ -125,7 +129,9 @@ bool PnlMsdcPrsHeadbar::Tag::readXML(
  class PnlMsdcPrsHeadbar::DpchEngData
  ******************************************************************************/
 
-PnlMsdcPrsHeadbar::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSHEADBARDATA) {
+PnlMsdcPrsHeadbar::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSHEADBARDATA)
+		{
 };
 
 string PnlMsdcPrsHeadbar::DpchEngData::getSrefsMask() {

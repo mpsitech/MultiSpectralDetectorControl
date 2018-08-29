@@ -2,8 +2,8 @@
 	* \file MsdccmbdUasrv.cpp
 	* OPC UA server based on Matrikon FLEX OPC UA SDK for Msdc combined daemon (implementation)
 	* \author Alexander Wirthmueller
-	* \date created: 15 Aug 2018
-	* \date modified: 15 Aug 2018
+	* \date created: 29 Aug 2018
+	* \date modified: 29 Aug 2018
 	*/
 
 #include "Msdccmbd.h"
@@ -14,7 +14,9 @@
  class MsdccmbdUasrv::Session
  ******************************************************************************/
 
-MsdccmbdUasrv::Session::Session() : IUserPermissions_t() {
+MsdccmbdUasrv::Session::Session() :
+			IUserPermissions_t()
+		{
 	jrefM2msess = 0;
 };
 
@@ -45,9 +47,9 @@ void MsdccmbdUasrv::Session::Initialise(
 
 	xchg->addReq(req);
 
-	Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv::Session", "Session");
-	if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdUasrv::Session", "Session");
-	Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv::Session", "Session");
+	req->cReady.lockMutex("MsdccmbdUasrv::Session", "Session[1]");
+	if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdUasrv::Session", "Session[1]");
+	req->cReady.unlockMutex("MsdccmbdUasrv::Session", "Session[1]");
 
 	if (req->dpcheng) if (req->dpcheng->ixMsdcVDpch == VecMsdcVDpch::DPCHENGMSDCCONFIRM) if (((DpchEngMsdcConfirm*) (req->dpcheng))->accepted) jrefM2msess = req->dpcheng->jref;
 
@@ -64,9 +66,9 @@ void MsdccmbdUasrv::Session::Initialise(
 
 		xchg->addReq(req);
 
-		Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv::Session", "Session");
-		if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdUasrv::Session", "Session");
-		Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv::Session", "Session");
+		req->cReady.lockMutex("MsdccmbdUasrv::Session", "Session[2]");
+		if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdUasrv::Session", "Session[2]");
+		req->cReady.unlockMutex("MsdccmbdUasrv::Session", "Session[2]");
 
 		if (req->dpcheng) if (req->dpcheng->ixMsdcVDpch == VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA) if (req->dpcheng->has(M2msessMsdc::DpchEngData::STATSHR)) statshr = ((M2msessMsdc::DpchEngData*) (req->dpcheng))->statshr;
 
@@ -761,7 +763,7 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 		*dataValue->StatusCode() = OpcUa_Good;
 
 		if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQADXLVAR) && (srefIxVVar == "alphaBeta")) {
-			JobMsdcAcqAdxl::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqAdxl::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -778,10 +780,10 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = beta;
 			};
 
-			JobMsdcAcqAdxl::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqAdxl::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRVAR) && (srefIxVVar == "seqnoTGray16")) {
-			JobMsdcAcqLwir::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqLwir::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -804,10 +806,10 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = gray16;
 			};
 
-			JobMsdcAcqLwir::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqLwir::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLVAR) && (srefIxVVar == "seqnoTRgbx8Gray8")) {
-			JobMsdcAcqVisl::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqVisl::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -836,10 +838,10 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = gray8;
 			};
 
-			JobMsdcAcqVisl::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqVisl::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRVAR) && (srefIxVVar == "seqnoTRgbx8Gray8")) {
-			JobMsdcAcqVisr::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqVisr::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -868,10 +870,10 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = gray8;
 			};
 
-			JobMsdcAcqVisr::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcAcqVisr::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTLEDVAR) && (srefIxVVar == "floodSpot")) {
-			JobMsdcActLed::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcActLed::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -888,10 +890,10 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = spot;
 			};
 
-			JobMsdcActLed::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcActLed::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTSERVOVAR) && (srefIxVVar == "thetaPhi")) {
-			JobMsdcActServo::shrdat.lockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcActServo::shrdat.rlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 
 			if (setSourceTimestamp) {
 				dataValue->SourceTimestamp() = new SafeRefCount_t<DateTime_t>();
@@ -908,7 +910,7 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 				dataValue->Value() = phi;
 			};
 
-			JobMsdcActServo::shrdat.unlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
+			JobMsdcActServo::shrdat.runlockAccess("MsdccmbdUasrv::ValueAttributeReaderWriter", "ReadValueAttribute");
 		};
 	};
 
@@ -948,20 +950,18 @@ void* MsdccmbdUasrv::run(
 	while (true) {
 		uaserver->Poll();
 
-		Mutex::lock(&(xchg->mcUasrv), "xchg->mcUasrv", "MsdccmbdUasrv", "run");
+		xchg->cUasrv.lockMutex("MsdccmbdUasrv", "run");
 		if (xchg->uasrvcall) {
 			auto it = ixVFeatgroups.find(xchg->uasrvcall->jref);
 			if (it != ixVFeatgroups.end()) timestamps[featix_t(it->second, xchg->uasrvcall->argInv.sref)] = UASDK_datetime();
 
 			xchg->uasrvcall = NULL;
 
-			Mutex::unlock(&(xchg->mcUasrv), "xchg->mcUasrv", "MsdccmbdUasrv", "run[1]");
+			xchg->cUasrv.unlockMutex("MsdccmbdUasrv", "run[1]");
 
-			Cond::signal(&(xchg->cUasrv), &(xchg->mcUasrv), "xchg->cUasrv", "xchg->mcUasrv", "MsdccmbdUasrv", "run");
+			xchg->cUasrv.signal("MsdccmbdUasrv", "run");
 
-		} else {
-			Mutex::unlock(&(xchg->mcUasrv), "xchg->mcUasrv", "MsdccmbdUasrv", "run[2]");
-		};
+		} else xchg->cUasrv.unlockMutex("MsdccmbdUasrv", "run[2]");
 	};
 
 	pthread_cleanup_pop(0);
@@ -974,7 +974,7 @@ void MsdccmbdUasrv::cleanup(
 		) {
 	XchgMsdccmbd* xchg = (XchgMsdccmbd*) arg;
 
-	Mutex::unlock(&(xchg->mcUasrv), "xchg->mcUasrv", "MsdccmbdUasrv", "cleanup");
+	xchg->cUasrv.unlockMutex("MsdccmbdUasrv", "cleanup");
 
 	if (uaserver.is_set()) {
 		uaserver->Stop();
@@ -1537,9 +1537,9 @@ void MsdccmbdUasrv::runMethod(
 
 	xchg->addReq(req);
 
-	Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv", "runMethod");
-	if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdUasrv", "runMethod");
-	Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdUasrv", "runMethod");
+	req->cReady.lockMutex("MsdccmbdUasrv", "runMethod");
+	if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdUasrv", "runMethod");
+	req->cReady.unlockMutex("MsdccmbdUasrv", "runMethod");
 
 	delete req;
 };

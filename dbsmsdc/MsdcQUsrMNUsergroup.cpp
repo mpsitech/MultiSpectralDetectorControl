@@ -2,8 +2,8 @@
   * \file MsdcQUsrMNUsergroup.cpp
   * Dbs and XML wrapper for table TblMsdcQUsrMNUsergroup (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQUsrMNUsergroup.h"
@@ -240,7 +240,10 @@ ubigint TblMsdcQUsrMNUsergroup::loadRstByJref(
  class LiteTblMsdcQUsrMNUsergroup
  ******************************************************************************/
 
-LiteTblMsdcQUsrMNUsergroup::LiteTblMsdcQUsrMNUsergroup() : TblMsdcQUsrMNUsergroup(), LiteTable() {
+LiteTblMsdcQUsrMNUsergroup::LiteTblMsdcQUsrMNUsergroup() :
+			TblMsdcQUsrMNUsergroup()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

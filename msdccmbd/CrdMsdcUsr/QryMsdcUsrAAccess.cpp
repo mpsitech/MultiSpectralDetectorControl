@@ -2,8 +2,8 @@
   * \file QryMsdcUsrAAccess.cpp
   * job handler for job QryMsdcUsrAAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -25,7 +25,9 @@ QryMsdcUsrAAccess::QryMsdcUsrAAccess(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::QRYMSDCUSRAACCESS, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::QRYMSDCUSRAACCESS, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

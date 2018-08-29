@@ -2,8 +2,8 @@
   * \file JobMsdcPrcSpotfind.cpp
   * job handler for job JobMsdcPrcSpotfind (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcPrcSpotfind::Shrdat
  ******************************************************************************/
 
-JobMsdcPrcSpotfind::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcPrcSpotfind", "Shrdat", "JobMsdcPrcSpotfind::shrdat") {
+JobMsdcPrcSpotfind::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcPrcSpotfind", "Shrdat")
+		{
 };
 
 void JobMsdcPrcSpotfind::Shrdat::init(
@@ -46,7 +48,9 @@ JobMsdcPrcSpotfind::JobMsdcPrcSpotfind(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCSPOTFIND, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCSPOTFIND, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 

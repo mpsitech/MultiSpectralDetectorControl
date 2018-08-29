@@ -2,8 +2,8 @@
   * \file SessMsdc.cpp
   * job handler for job SessMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ SessMsdc::SessMsdc(
 			, const ubigint jrefSup
 			, const ubigint refMsdcMUser
 			, const string& ip
-		) : JobMsdc(xchg, VecMsdcVJob::SESSMSDC, jrefSup) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::SESSMSDC, jrefSup)
+		{
 
 	jref = xchg->addJob(this);
 
@@ -837,14 +839,14 @@ void SessMsdc::handleDpchAppMsdcInit(
 	// resume session
 	xchg->removePreset(VecMsdcVPreset::PREMSDCSUSPSESS, jref);
 
-	for (auto it=crdusgs.begin();it!=crdusgs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcUsg");
-	for (auto it=crdusrs.begin();it!=crdusrs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcUsr");
-	for (auto it=crdprss.begin();it!=crdprss.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcPrs");
-	for (auto it=crdscfs.begin();it!=crdscfs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcScf");
-	for (auto it=crdlivs.begin();it!=crdlivs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcLiv");
-	for (auto it=crdprds.begin();it!=crdprds.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcPrd");
-	for (auto it=crddats.begin();it!=crddats.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcDat");
-	for (auto it=crdfils.begin();it!=crdfils.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, (*it)->jref), "CrdMsdcFil");
+	for (auto it=crdusgs.begin();it!=crdusgs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcUsg");
+	for (auto it=crdusrs.begin();it!=crdusrs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcUsr");
+	for (auto it=crdprss.begin();it!=crdprss.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcPrs");
+	for (auto it=crdscfs.begin();it!=crdscfs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcScf");
+	for (auto it=crdlivs.begin();it!=crdlivs.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcLiv");
+	for (auto it=crdprds.begin();it!=crdprds.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcPrd");
+	for (auto it=crddats.begin();it!=crddats.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcDat");
+	for (auto it=crdfils.begin();it!=crdfils.end();it++) feedFEnsSec.appendIxSrefTitles(0, Scr::scramble((*it)->jref), "CrdMsdcFil");
 
 	*dpcheng = new DpchEngData(jref, &feedFEnsSec, &statshr, {DpchEngData::ALL});
 };

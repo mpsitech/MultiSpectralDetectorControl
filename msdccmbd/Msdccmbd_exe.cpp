@@ -2,8 +2,8 @@
   * \file Msdccmbd_exe.cpp
   * Msdc combined daemon main (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdccmbd.h"
@@ -344,12 +344,12 @@ void showSubjobs(
 		// ops
 		cout << setgray;
 
-		Mutex::lock(&(job->mOps), "job(" + to_string(job->jref) + ")->mOps", "", "showSubjobs");
+		job->mOps.lock("", "showSubjobs");
 
 		for (auto it=job->ops.begin();it!=job->ops.end();it++)
 					cout << "\t\t" << id << VecMsdcVDpch::getSref((*it)->ixVDpch).substr(4+3) << " (" << to_string((*it)->oref) << "): " << (*it)->squawk << endl;
 
-		Mutex::unlock(&(job->mOps), "job(" + to_string(job->jref) + ")->mOps", "", "showSubjobs");
+		job->mOps.unlock("", "showSubjobs");
 
 		cout << reset;
 	};
@@ -426,8 +426,7 @@ int main(
 	bool clearAll = false;
 	bool startMon = false;
 
-	pthread_mutex_t mcDummy;
-	pthread_cond_t cDummy;
+	Cond cDummy("cDummy", "", "main");
 
 	string cmd;
 
@@ -490,17 +489,13 @@ int main(
 		xchg = msdccmbd->xchg;
 
 		// welcome message
-		cout << "Welcome to MultispectralDetectorControl 0.1.45!" << endl;
+		cout << "Welcome to MultispectralDetectorControl 0.1.49!" << endl;
 
 		if (nocp) {
 			// wait on a dummy condition
-			Mutex::init(&mcDummy, false, "mcDummy", "", "main");
-			Cond::init(&cDummy, "cDummy", "", "main");
-			Mutex::lock(&mcDummy, "mcDummy", "", "main");
-			Cond::wait(&cDummy, &mcDummy, "cDummy", "", "main");
-			Mutex::unlock(&mcDummy, "mcDummy", "", "main");
-			Mutex::destroy(&mcDummy, false, "mcDummy", "", "main");
-			Cond::destroy(&cDummy, "cDummy", "", "main");
+			cDummy.lockMutex("", "main");
+			cDummy.wait("", "main");
+			cDummy.unlockMutex("", "main");
 
 		} else {
 			// main command loop
@@ -597,9 +592,9 @@ int main(
 
 						while (req->ixVState != ReqMsdc::VecVState::REPLY) {
 							// wait for job processor to finish or to time out
-							Mutex::lock(&(req->mcReady), "req->mcReady", "", "main");
-							Cond::timedwait(&(req->cReady), &(req->mcReady), 1000000, "req->cReady", "", "main");
-							Mutex::unlock(&(req->mcReady), "req->mcReady", "", "main");
+							req->cReady.lockMutex("", "main");
+							req->cReady.timedwait(1000000, "", "main");
+							req->cReady.unlockMutex("", "main");
 
 							if (req->ixVState == ReqMsdc::VecVState::WAITPRC) {
 								cout << "\twaiting for processing" << endl;

@@ -2,8 +2,8 @@
   * \file MsdcAVControlPar.cpp
   * database access for table TblMsdcAVControlPar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAVControlPar.h"
@@ -265,7 +265,10 @@ ubigint TblMsdcAVControlPar::loadRstByRefs(
  class LiteTblMsdcAVControlPar
  ******************************************************************************/
 
-LiteTblMsdcAVControlPar::LiteTblMsdcAVControlPar() : TblMsdcAVControlPar(), LiteTable() {
+LiteTblMsdcAVControlPar::LiteTblMsdcAVControlPar() :
+			TblMsdcAVControlPar()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

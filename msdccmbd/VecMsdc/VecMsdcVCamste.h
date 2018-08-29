@@ -2,8 +2,8 @@
   * \file VecMsdcVCamste.h
   * vector VecMsdcVCamste (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef VECMSDCVCAMSTE_H

@@ -2,15 +2,17 @@
   * \file RootMsdc_blks.cpp
   * job handler for job RootMsdc (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
  class RootMsdc::DpchAppLogin
  ******************************************************************************/
 
-RootMsdc::DpchAppLogin::DpchAppLogin() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPROOTMSDCLOGIN) {
+RootMsdc::DpchAppLogin::DpchAppLogin() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPROOTMSDCLOGIN)
+		{
 	m2mNotReg = false;
 	chksuspsess = false;
 };
@@ -31,9 +33,7 @@ string RootMsdc::DpchAppLogin::getSrefsMask() {
 };
 
 void RootMsdc::DpchAppLogin::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -50,7 +50,7 @@ void RootMsdc::DpchAppLogin::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "username", "", username)) add(USERNAME);
@@ -69,7 +69,9 @@ RootMsdc::DpchEngData::DpchEngData(
 			const ubigint jref
 			, Feed* feedFEnsSps
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGROOTMSDCDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGROOTMSDCDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, FEEDFENSSPS};
 	else this->mask = mask;
 
@@ -99,14 +101,11 @@ void RootMsdc::DpchEngData::merge(
 
 void RootMsdc::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngRootMsdcData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(FEEDFENSSPS)) feedFEnsSps.writeXML(wr);
 	xmlTextWriterEndElement(wr);
 };

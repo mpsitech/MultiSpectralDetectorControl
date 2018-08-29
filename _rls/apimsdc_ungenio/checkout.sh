@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc API library, release apimsdc_ungenio
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 export set SRCROOT=/Users/mpsitech/src
 

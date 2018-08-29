@@ -2,8 +2,8 @@
   * \file PnlMsdcLivTrack.cpp
   * API code for job PnlMsdcLivTrack (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -40,7 +40,9 @@ string PnlMsdcLivTrack::VecVDo::getSref(
 
 PnlMsdcLivTrack::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -99,7 +101,9 @@ set<uint> PnlMsdcLivTrack::ContInf::diff(
 
 PnlMsdcLivTrack::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -163,7 +167,9 @@ set<uint> PnlMsdcLivTrack::StatApp::diff(
 
 PnlMsdcLivTrack::Tag::Tag(
 			const string& Cpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 
 	mask = {CPT};
@@ -200,7 +206,9 @@ PnlMsdcLivTrack::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -233,7 +241,9 @@ void PnlMsdcLivTrack::DpchAppDo::writeXML(
  class PnlMsdcLivTrack::DpchEngData
  ******************************************************************************/
 
-PnlMsdcLivTrack::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVTRACKDATA) {
+PnlMsdcLivTrack::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVTRACKDATA)
+		{
 };
 
 string PnlMsdcLivTrack::DpchEngData::getSrefsMask() {

@@ -2,8 +2,8 @@
   * \file PnlMsdcPrsRec.cpp
   * API code for job PnlMsdcPrsRec (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -42,7 +42,9 @@ string PnlMsdcPrsRec::VecVDo::getSref(
 
 PnlMsdcPrsRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -101,7 +103,9 @@ set<uint> PnlMsdcPrsRec::ContInf::diff(
 
 PnlMsdcPrsRec::StatApp::StatApp(
 			const bool initdoneDetail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->initdoneDetail = initdoneDetail;
 
 	mask = {INITDONEDETAIL};
@@ -162,7 +166,9 @@ PnlMsdcPrsRec::StatShr::StatShr(
 			const uint ixMsdcVExpstate
 			, const string& scrJrefDetail
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->scrJrefDetail = scrJrefDetail;
 	this->ButRegularizeActive = ButRegularizeActive;
@@ -232,7 +238,9 @@ set<uint> PnlMsdcPrsRec::StatShr::diff(
 
 PnlMsdcPrsRec::Tag::Tag(
 			const string& Cpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 
 	mask = {CPT};
@@ -269,7 +277,9 @@ PnlMsdcPrsRec::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRSRECDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRSRECDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -302,7 +312,9 @@ void PnlMsdcPrsRec::DpchAppDo::writeXML(
  class PnlMsdcPrsRec::DpchEngData
  ******************************************************************************/
 
-PnlMsdcPrsRec::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSRECDATA) {
+PnlMsdcPrsRec::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRSRECDATA)
+		{
 };
 
 string PnlMsdcPrsRec::DpchEngData::getSrefsMask() {

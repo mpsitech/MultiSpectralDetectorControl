@@ -2,8 +2,8 @@
   * \file PnlMsdcFilList.cpp
   * API code for job PnlMsdcFilList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -50,7 +50,9 @@ string PnlMsdcFilList::VecVDo::getSref(
 
 PnlMsdcFilList::ContIac::ContIac(
 			const uint numFTos
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFTos = numFTos;
 
 	mask = {NUMFTOS};
@@ -128,7 +130,9 @@ PnlMsdcFilList::ContInf::ContInf(
 			, const string& TxtPre
 			, const bool ButFilterOn
 			, const uint numFCsiQst
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtFor = TxtFor;
 	this->TxtPre = TxtPre;
 	this->ButFilterOn = ButFilterOn;
@@ -197,7 +201,9 @@ set<uint> PnlMsdcFilList::ContInf::diff(
 PnlMsdcFilList::StatShr::StatShr(
 			const uint ixMsdcVExpstate
 			, const bool ButDeleteActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->ButDeleteActive = ButDeleteActive;
 
@@ -269,7 +275,9 @@ PnlMsdcFilList::StgIac::StgIac(
 			, const uint TcoCntWidth
 			, const uint TcoMimWidth
 			, const uint TcoSizWidth
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TcoFnmWidth = TcoFnmWidth;
 	this->TcoRetWidth = TcoRetWidth;
 	this->TcoReuWidth = TcoReuWidth;
@@ -374,7 +382,9 @@ PnlMsdcFilList::Tag::Tag(
 			, const string& TcoCnt
 			, const string& TcoMim
 			, const string& TcoSiz
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->TxtFor = TxtFor;
 	this->Trs = Trs;
@@ -433,7 +443,9 @@ PnlMsdcFilList::DpchAppData::DpchAppData(
 			, StgIac* stgiac
 			, QryMsdcFilList::StgIac* stgiacqry
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILLISTDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILLISTDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC, STGIAC, STGIACQRY};
 	else this->mask = mask;
 
@@ -476,7 +488,9 @@ PnlMsdcFilList::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILLISTDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILLISTDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -509,7 +523,9 @@ void PnlMsdcFilList::DpchAppDo::writeXML(
  class PnlMsdcFilList::DpchEngData
  ******************************************************************************/
 
-PnlMsdcFilList::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILLISTDATA) {
+PnlMsdcFilList::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILLISTDATA)
+		{
 	feedFCsiQst.tag = "FeedFCsiQst";
 	feedFTos.tag = "FeedFTos";
 };

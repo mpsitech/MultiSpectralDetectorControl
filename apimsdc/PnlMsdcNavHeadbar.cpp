@@ -2,8 +2,8 @@
   * \file PnlMsdcNavHeadbar.cpp
   * API code for job PnlMsdcNavHeadbar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -18,7 +18,9 @@
 
 PnlMsdcNavHeadbar::StatShr::StatShr(
 			const bool MenCrdAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenCrdAvail = MenCrdAvail;
 
 	mask = {MENCRDAVAIL};
@@ -82,7 +84,9 @@ PnlMsdcNavHeadbar::StgInf::StgInf(
 			, const uint MenSesWidth
 			, const uint MenCrdCptwidth
 			, const uint MenCrdWidth
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenAppCptwidth = MenAppCptwidth;
 	this->MenAppWidth = MenAppWidth;
 	this->MenSesCptwidth = MenSesCptwidth;
@@ -158,7 +162,9 @@ PnlMsdcNavHeadbar::Tag::Tag(
 			const string& MenApp
 			, const string& MenSes
 			, const string& MenCrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenApp = MenApp;
 	this->MenSes = MenSes;
 	this->MenCrd = MenCrd;
@@ -195,7 +201,9 @@ bool PnlMsdcNavHeadbar::Tag::readXML(
  class PnlMsdcNavHeadbar::DpchEngData
  ******************************************************************************/
 
-PnlMsdcNavHeadbar::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVHEADBARDATA) {
+PnlMsdcNavHeadbar::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVHEADBARDATA)
+		{
 };
 
 string PnlMsdcNavHeadbar::DpchEngData::getSrefsMask() {

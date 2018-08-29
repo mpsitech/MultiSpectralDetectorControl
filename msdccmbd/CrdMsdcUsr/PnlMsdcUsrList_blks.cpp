@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrList_blks.cpp
   * job handler for job PnlMsdcUsrList (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -44,7 +44,9 @@ string PnlMsdcUsrList::VecVDo::getSref(
 
 PnlMsdcUsrList::ContIac::ContIac(
 			const uint numFTos
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFTos = numFTos;
 
 	mask = {NUMFTOS};
@@ -120,7 +122,9 @@ set<uint> PnlMsdcUsrList::ContIac::diff(
 PnlMsdcUsrList::ContInf::ContInf(
 			const bool ButFilterOn
 			, const uint numFCsiQst
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButFilterOn = ButFilterOn;
 	this->numFCsiQst = numFCsiQst;
 
@@ -176,7 +180,9 @@ set<uint> PnlMsdcUsrList::ContInf::diff(
 PnlMsdcUsrList::StatShr::StatShr(
 			const uint ixMsdcVExpstate
 			, const bool ButDeleteActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->ButDeleteActive = ButDeleteActive;
 
@@ -236,7 +242,9 @@ PnlMsdcUsrList::StgIac::StgIac(
 			, const uint TcoSteWidth
 			, const uint TcoLclWidth
 			, const uint TcoUlvWidth
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TcoPrsWidth = TcoPrsWidth;
 	this->TcoSrfWidth = TcoSrfWidth;
 	this->TcoUsgWidth = TcoUsgWidth;
@@ -368,7 +376,9 @@ void PnlMsdcUsrList::Tag::writeXML(
  class PnlMsdcUsrList::DpchAppData
  ******************************************************************************/
 
-PnlMsdcUsrList::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRLISTDATA) {
+PnlMsdcUsrList::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRLISTDATA)
+		{
 };
 
 string PnlMsdcUsrList::DpchAppData::getSrefsMask() {
@@ -386,9 +396,7 @@ string PnlMsdcUsrList::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcUsrList::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -405,7 +413,7 @@ void PnlMsdcUsrList::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -422,7 +430,9 @@ void PnlMsdcUsrList::DpchAppData::readXML(
  class PnlMsdcUsrList::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcUsrList::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRLISTDO) {
+PnlMsdcUsrList::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRLISTDO)
+		{
 	ixVDo = 0;
 };
 
@@ -439,9 +449,7 @@ string PnlMsdcUsrList::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcUsrList::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -459,7 +467,7 @@ void PnlMsdcUsrList::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -486,7 +494,9 @@ PnlMsdcUsrList::DpchEngData::DpchEngData(
 			, QryMsdcUsrList::StatShr* statshrqry
 			, QryMsdcUsrList::StgIac* stgiacqry
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRLISTDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRLISTDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFCSIQST, FEEDFTOS, STATSHR, STGIAC, TAG, RST, STATAPPQRY, STATSHRQRY, STGIACQRY};
 	else this->mask = mask;
 
@@ -544,14 +554,11 @@ void PnlMsdcUsrList::DpchEngData::merge(
 
 void PnlMsdcUsrList::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcUsrListData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFCSIQST)) feedFCsiQst.writeXML(wr);

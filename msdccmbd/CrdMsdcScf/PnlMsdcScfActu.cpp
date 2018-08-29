@@ -2,8 +2,8 @@
   * \file PnlMsdcScfActu.cpp
   * job handler for job PnlMsdcScfActu (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -25,7 +25,9 @@ PnlMsdcScfActu::PnlMsdcScfActu(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCSCFACTU, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCSCFACTU, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

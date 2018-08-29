@@ -2,8 +2,8 @@
   * \file JobMsdcAcqLwir.cpp
   * job handler for job JobMsdcAcqLwir (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcAcqLwir::Shrdat
  ******************************************************************************/
 
-JobMsdcAcqLwir::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcAcqLwir", "Shrdat", "JobMsdcAcqLwir::shrdat") {
+JobMsdcAcqLwir::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcAcqLwir", "Shrdat")
+		{
 };
 
 void JobMsdcAcqLwir::Shrdat::init(
@@ -70,7 +72,9 @@ JobMsdcAcqLwir::JobMsdcAcqLwir(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQLWIR, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQLWIR, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 
@@ -121,7 +125,7 @@ void JobMsdcAcqLwir::MsddCallback(
 	ExtcallMsdc* extcall = (ExtcallMsdc*) arg;
 	XchgMsdc* xchg = extcall->xchg;
 
-	shrdat.lockAccess("JobMsdcAcqLwir", "MsddCallback");
+	shrdat.wlockAccess("JobMsdcAcqLwir", "MsddCallback");
 
 	// renew extcall as present one will be deleted
 	shrdat.extcall = new ExtcallMsdc(xchg, new Call(VecMsdcVCall::CALLMSDCBUFRDY, extcall->call->jref, Arg()));
@@ -157,7 +161,7 @@ void JobMsdcAcqLwir::MsddCallback(
 
 	XchgMsdc::runExtcall(extcall);
 
-	shrdat.unlockAccess("JobMsdcAcqLwir", "MsddCallback");
+	shrdat.wunlockAccess("JobMsdcAcqLwir", "MsddCallback");
 };
 
 // exact copy from Msdc.cpp but inline
@@ -257,10 +261,10 @@ void JobMsdcAcqLwir::leaveSgeIdle(
 		shrdat.fill1Not0 = false;
 		shrdat.read1Not0 = false;
 
-		// reset / initialize buffers
+		// reset / initialize buffers (2 extra bytes for CRC to allow bufxf from FPGA without copy)
 		if (!shrdat.gray0) {
-			shrdat.gray0 = new unsigned short[stg.width*stg.height]; memset(shrdat.gray0, 127, 2*stg.width*stg.height);
-			shrdat.gray1 = new unsigned short[stg.width*stg.height]; memset(shrdat.gray1, 127, 2*stg.width*stg.height);
+			shrdat.gray0 = new unsigned short[stg.width*stg.height+1]; memset(shrdat.gray0, 127, 2*stg.width*stg.height);
+			shrdat.gray1 = new unsigned short[stg.width*stg.height+1]; memset(shrdat.gray1, 127, 2*stg.width*stg.height);
 			shrdat.gray.init(16, 1*stg.width*stg.height*2);
 		};
 
@@ -337,7 +341,7 @@ uint JobMsdcAcqLwir::enterSgeAcq(
 
 		_g = (usmallint*) ibit->data;
 
-		shrdat.lockAccess(jref, "enterSgeAcq");
+		shrdat.wlockAccess(jref, "enterSgeAcq");
 
 		// apply orientation transform (r0, r2, s0, s2 are allowed)
 		if (shrdat.read1Not0) {
@@ -365,7 +369,7 @@ uint JobMsdcAcqLwir::enterSgeAcq(
 
 		shrdat.read1Not0 = !shrdat.read1Not0;
 
-		shrdat.unlockAccess(jref, "enterSgeAcq");
+		shrdat.wunlockAccess(jref, "enterSgeAcq");
 
 		// spread the news ; BAD: nobody is listening to this!
 		xchg->triggerRefCall(dbsmsdc, VecMsdcVCall::CALLMSDCIBITRDY, jref, bref);
@@ -656,14 +660,14 @@ bool JobMsdcAcqLwir::handleCallMsdcBufrdy(
 
 		} else {
 			// drop frame
-			shrdat.lockAccess(jref, "handleCallMsdcBufrdy");
+			shrdat.wlockAccess(jref, "handleCallMsdcBufrdy");
 
 			if (shrdat.read1Not0 && shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray1;
 			else if (!shrdat.read1Not0 && !shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray0;
 
 			shrdat.read1Not0 = !shrdat.read1Not0;
 
-			shrdat.unlockAccess(jref, "handleCallMsdcBufrdy");
+			shrdat.wunlockAccess(jref, "handleCallMsdcBufrdy");
 		};
 	};
 	// IP handleCallMsdcBufrdy --- IEND

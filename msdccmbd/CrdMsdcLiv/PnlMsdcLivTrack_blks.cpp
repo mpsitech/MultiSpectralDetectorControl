@@ -2,8 +2,8 @@
   * \file PnlMsdcLivTrack_blks.cpp
   * job handler for job PnlMsdcLivTrack (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -34,7 +34,9 @@ string PnlMsdcLivTrack::VecVDo::getSref(
 
 PnlMsdcLivTrack::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -130,7 +132,9 @@ void PnlMsdcLivTrack::Tag::writeXML(
  class PnlMsdcLivTrack::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcLivTrack::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO) {
+PnlMsdcLivTrack::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO)
+		{
 	ixVDo = 0;
 };
 
@@ -147,9 +151,7 @@ string PnlMsdcLivTrack::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcLivTrack::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -167,7 +169,7 @@ void PnlMsdcLivTrack::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -186,7 +188,9 @@ PnlMsdcLivTrack::DpchEngData::DpchEngData(
 			const ubigint jref
 			, ContInf* continf
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVTRACKDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVTRACKDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATAPP, TAG};
 	else this->mask = mask;
 
@@ -220,14 +224,11 @@ void PnlMsdcLivTrack::DpchEngData::merge(
 
 void PnlMsdcLivTrack::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcLivTrackData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);

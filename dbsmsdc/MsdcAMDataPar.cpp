@@ -2,8 +2,8 @@
   * \file MsdcAMDataPar.cpp
   * database access for table TblMsdcAMDataPar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAMDataPar.h"
@@ -259,7 +259,10 @@ ubigint TblMsdcAMDataPar::loadRstByRefs(
  class LiteTblMsdcAMDataPar
  ******************************************************************************/
 
-LiteTblMsdcAMDataPar::LiteTblMsdcAMDataPar() : TblMsdcAMDataPar(), LiteTable() {
+LiteTblMsdcAMDataPar::LiteTblMsdcAMDataPar() :
+			TblMsdcAMDataPar()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

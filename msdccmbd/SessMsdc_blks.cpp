@@ -2,8 +2,8 @@
   * \file SessMsdc_blks.cpp
   * job handler for job SessMsdc (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -12,17 +12,16 @@
 
 SessMsdc::StatShr::StatShr(
 			const ubigint jrefCrdnav
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jrefCrdnav = jrefCrdnav;
 
 	mask = {JREFCRDNAV};
 };
 
 void SessMsdc::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -33,7 +32,7 @@ void SessMsdc::StatShr::writeXML(
 	else itemtag = "StatitemShrSessMsdc";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "scrJrefCrdnav", Scr::scramble(mScr, scr, descr, jrefCrdnav));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefCrdnav", Scr::scramble(jrefCrdnav));
 	xmlTextWriterEndElement(wr);
 };
 
@@ -70,7 +69,9 @@ SessMsdc::DpchEngData::DpchEngData(
 			, Feed* feedFEnsSec
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGSESSMSDCDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGSESSMSDCDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, FEEDFENSSEC, STATSHR};
 	else this->mask = mask;
 
@@ -103,16 +104,13 @@ void SessMsdc::DpchEngData::merge(
 
 void SessMsdc::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngSessMsdcData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(FEEDFENSSEC)) feedFEnsSec.writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 	xmlTextWriterEndElement(wr);
 };
 

@@ -2,8 +2,8 @@
   * \file MsdcMUser.cpp
   * database access for table TblMsdcMUser (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcMUser.h"
@@ -332,7 +332,10 @@ ubigint TblMsdcMUser::loadRstByRefs(
  class LiteTblMsdcMUser
  ******************************************************************************/
 
-LiteTblMsdcMUser::LiteTblMsdcMUser() : TblMsdcMUser(), LiteTable() {
+LiteTblMsdcMUser::LiteTblMsdcMUser() :
+			TblMsdcMUser()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

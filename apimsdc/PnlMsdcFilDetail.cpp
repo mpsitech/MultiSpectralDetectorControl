@@ -2,8 +2,8 @@
   * \file PnlMsdcFilDetail.cpp
   * API code for job PnlMsdcFilDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -62,7 +62,9 @@ PnlMsdcFilDetail::ContIac::ContIac(
 			, const string& TxfMim
 			, const string& TxfSiz
 			, const string& TxfCmt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfFnm = TxfFnm;
 	this->numFLstClu = numFLstClu;
 	this->numFPupRet = numFPupRet;
@@ -178,7 +180,9 @@ set<uint> PnlMsdcFilDetail::ContIac::diff(
 PnlMsdcFilDetail::ContInf::ContInf(
 			const string& TxtClu
 			, const string& TxtReu
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtClu = TxtClu;
 	this->TxtReu = TxtReu;
 
@@ -244,7 +248,9 @@ PnlMsdcFilDetail::StatApp::StatApp(
 			, const bool PupCntAlt
 			, const bool PupMimAlt
 			, const uint LstCluNumFirstdisp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->LstCluAlt = LstCluAlt;
 	this->PupCntAlt = PupCntAlt;
@@ -339,7 +345,9 @@ PnlMsdcFilDetail::StatShr::StatShr(
 			, const bool ButMimEditAvail
 			, const bool TxfSizActive
 			, const bool TxfCmtActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfCntValid = TxfCntValid;
 	this->TxfMimValid = TxfMimValid;
 	this->ButSaveAvail = ButSaveAvail;
@@ -464,7 +472,9 @@ PnlMsdcFilDetail::Tag::Tag(
 			, const string& CptMim
 			, const string& CptSiz
 			, const string& CptCmt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptFnm = CptFnm;
 	this->CptClu = CptClu;
@@ -519,7 +529,9 @@ PnlMsdcFilDetail::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDETAILDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDETAILDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -556,7 +568,9 @@ PnlMsdcFilDetail::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDETAILDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDETAILDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -589,7 +603,9 @@ void PnlMsdcFilDetail::DpchAppDo::writeXML(
  class PnlMsdcFilDetail::DpchEngData
  ******************************************************************************/
 
-PnlMsdcFilDetail::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILDETAILDATA) {
+PnlMsdcFilDetail::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILDETAILDATA)
+		{
 	feedFLstClu.tag = "FeedFLstClu";
 	feedFPupCnt.tag = "FeedFPupCnt";
 	feedFPupMim.tag = "FeedFPupMim";

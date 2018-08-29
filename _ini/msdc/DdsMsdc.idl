@@ -2,8 +2,8 @@
   * \file Msdc.idl
   * Msdc DDS publisher interface description for RTI Code Generator
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 typedef char tinyint;
@@ -14,28 +14,7 @@ typedef long int;
 typedef unsigned long uint;
 typedef long long bigint;
 typedef unsigned long long ubigint;
-typedef sequence<octet> utinyintvec;
-typedef sequence<unsigned short> usmallintvec;
-typedef sequence<long> intvec;
-typedef sequence<unsigned long> uintvec;
-typedef sequence<unsigned long long> ubigintvec;
-typedef sequence<float> floatvec;
-typedef sequence<double> doublevec;
-
-struct DdsFloatmat {
-	sequence<float> vec;
-	uint M;
-	uint N;
-};
-
-struct DdsDoublemat {
-	sequence<double> vec;
-	uint M;
-	uint N;
-};
-
-typedef sequence<string> stringvec;
-typedef string vecsref;
+typedef string<50> vecsref;
 
 module DdsJobMsdcAcqAdxl {
 	struct alphaBeta {
@@ -46,7 +25,7 @@ module DdsJobMsdcAcqAdxl {
 
 module DdsJobMsdcAcqLwir {
 	struct setOutput_req {
-		vecsref ixMsdcVSqrgrp;
+		vecsref srefIxMsdcVSqrgrp;
 	};
 
 	struct setOutput_reply {
@@ -72,7 +51,7 @@ module DdsJobMsdcAcqLwir {
 	struct seqnoTGray16 {
 		uint seqno;
 		double t;
-		usmallintvec gray16;
+		sequence<unsigned short, 19200> gray16;
 	};
 };
 
@@ -86,8 +65,8 @@ module DdsJobMsdcAcqVisl {
 	};
 
 	struct setOutput_req {
-		vecsref ixMsdcVCamres;
-		vecsref ixMsdcVSqrgrp;
+		vecsref srefIxMsdcVCamres;
+		vecsref srefIxMsdcVSqrgrp;
 		boolean grayscale;
 	};
 
@@ -122,8 +101,8 @@ module DdsJobMsdcAcqVisl {
 	struct seqnoTRgbx8Gray8 {
 		uint seqno;
 		double t;
-		utinyintvec rgbx8;
-		utinyintvec gray8;
+		sequence<octet, 4915200> rgbx8;
+		sequence<octet, 1228800> gray8;
 	};
 };
 
@@ -137,8 +116,8 @@ module DdsJobMsdcAcqVisr {
 	};
 
 	struct setOutput_req {
-		vecsref ixMsdcVCamres;
-		vecsref ixMsdcVSqrgrp;
+		vecsref srefIxMsdcVCamres;
+		vecsref srefIxMsdcVSqrgrp;
 		boolean grayscale;
 	};
 
@@ -173,16 +152,16 @@ module DdsJobMsdcAcqVisr {
 	struct seqnoTRgbx8Gray8 {
 		uint seqno;
 		double t;
-		utinyintvec rgbx8;
-		utinyintvec gray8;
+		sequence<octet, 4915200> rgbx8;
+		sequence<octet, 1228800> gray8;
 	};
 };
 
 module DdsJobMsdcActAlign {
 	struct setWave_req {
-		vecsref ixVFunction;
+		vecsref srefIxVFunction;
 		utinyint N;
-		floatvec seq;
+		sequence<float, 32> seq;
 	};
 
 	struct setWave_reply {

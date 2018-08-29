@@ -2,8 +2,8 @@
   * \file PnlMsdcNavHeadbar_blks.cpp
   * job handler for job PnlMsdcNavHeadbar (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -12,7 +12,9 @@
 
 PnlMsdcNavHeadbar::StatShr::StatShr(
 			const bool MenCrdAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MenCrdAvail = MenCrdAvail;
 
 	mask = {MENCRDAVAIL};
@@ -128,7 +130,9 @@ PnlMsdcNavHeadbar::DpchEngData::DpchEngData(
 			const ubigint jref
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVHEADBARDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVHEADBARDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, STATSHR, STGINF, TAG};
 	else this->mask = mask;
 
@@ -162,14 +166,11 @@ void PnlMsdcNavHeadbar::DpchEngData::merge(
 
 void PnlMsdcNavHeadbar::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcNavHeadbarData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(STGINF)) StgInf::writeXML(ixMsdcVLocale, wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);

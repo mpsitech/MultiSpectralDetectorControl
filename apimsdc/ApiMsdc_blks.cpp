@@ -2,8 +2,8 @@
   * \file ApiMsdc_blks.cpp
   * Msdc API library global data blocks (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -30,7 +30,9 @@ ContInfMsdcAlert::ContInfMsdcAlert(
 			, const string& TxtMsg10
 			, const string& TxtMsg11
 			, const string& TxtMsg12
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtCpt = TxtCpt;
 	this->TxtMsg1 = TxtMsg1;
 	this->TxtMsg2 = TxtMsg2;
@@ -145,7 +147,9 @@ DpchMsdc::~DpchMsdc() {
 DpchAppMsdc::DpchAppMsdc(
 			const uint ixMsdcVDpch
 			, const string& scrJref
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 	this->scrJref = scrJref;
 
 	mask = {SCRJREF};
@@ -186,7 +190,9 @@ DpchAppMsdcAlert::DpchAppMsdcAlert(
 			const string& scrJref
 			, const uint numFMcb
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCALERT, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCALERT, scrJref)
+		{
 	this->numFMcb = numFMcb;
 
 	if (find(mask, ALL)) this->mask = {SCRJREF, NUMFMCB};
@@ -230,7 +236,9 @@ void DpchAppMsdcAlert::writeXML(
 
 DpchAppMsdcInit::DpchAppMsdcInit(
 			const string& scrJref
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCINIT, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCINIT, scrJref)
+		{
 };
 
 /******************************************************************************
@@ -239,7 +247,9 @@ DpchAppMsdcInit::DpchAppMsdcInit(
 
 DpchAppMsdcResume::DpchAppMsdcResume(
 			const string& scrJref
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCRESUME, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCRESUME, scrJref)
+		{
 };
 
 /******************************************************************************
@@ -248,7 +258,9 @@ DpchAppMsdcResume::DpchAppMsdcResume(
 
 DpchEngMsdc::DpchEngMsdc(
 			const uint ixMsdcVDpch
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 };
 
 DpchEngMsdc::~DpchEngMsdc() {
@@ -290,14 +302,18 @@ void DpchEngMsdc::readXML(
  class DpchEngMsdcAck
  ******************************************************************************/
 
-DpchEngMsdcAck::DpchEngMsdcAck() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCACK) {
+DpchEngMsdcAck::DpchEngMsdcAck() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCACK)
+		{
 };
 
 /******************************************************************************
  class DpchEngMsdcAlert
  ******************************************************************************/
 
-DpchEngMsdcAlert::DpchEngMsdcAlert() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCALERT) {
+DpchEngMsdcAlert::DpchEngMsdcAlert() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCALERT)
+		{
 };
 
 bool DpchEngMsdcAlert::all(
@@ -351,7 +367,9 @@ void DpchEngMsdcAlert::readXML(
  class DpchEngMsdcConfirm
  ******************************************************************************/
 
-DpchEngMsdcConfirm::DpchEngMsdcConfirm() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCCONFIRM) {
+DpchEngMsdcConfirm::DpchEngMsdcConfirm() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCCONFIRM)
+		{
 	accepted = false;
 };
 
@@ -404,6 +422,8 @@ void DpchEngMsdcConfirm::readXML(
  class DpchEngMsdcSuspend
  ******************************************************************************/
 
-DpchEngMsdcSuspend::DpchEngMsdcSuspend() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSUSPEND) {
+DpchEngMsdcSuspend::DpchEngMsdcSuspend() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSUSPEND)
+		{
 };
 

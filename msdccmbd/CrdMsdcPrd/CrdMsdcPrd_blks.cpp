@@ -2,8 +2,8 @@
   * \file CrdMsdcPrd_blks.cpp
   * job handler for job CrdMsdcPrd (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -70,7 +70,9 @@ CrdMsdcPrd::ContInf::ContInf(
 			const uint numFSge
 			, const string& MrlAppHlp
 			, const string& MtxCrdPrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 	this->MrlAppHlp = MrlAppHlp;
 	this->MtxCrdPrd = MtxCrdPrd;
@@ -163,7 +165,9 @@ CrdMsdcPrd::StatShr::StatShr(
 			const ubigint jrefHeadbar
 			, const ubigint jrefList
 			, const ubigint jrefRec
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jrefHeadbar = jrefHeadbar;
 	this->jrefList = jrefList;
 	this->jrefRec = jrefRec;
@@ -172,10 +176,7 @@ CrdMsdcPrd::StatShr::StatShr(
 };
 
 void CrdMsdcPrd::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -186,9 +187,9 @@ void CrdMsdcPrd::StatShr::writeXML(
 	else itemtag = "StatitemShrMsdcPrd";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "scrJrefHeadbar", Scr::scramble(mScr, scr, descr, jrefHeadbar));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefList", Scr::scramble(mScr, scr, descr, jrefList));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefRec", Scr::scramble(mScr, scr, descr, jrefRec));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefHeadbar", Scr::scramble(jrefHeadbar));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefList", Scr::scramble(jrefList));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefRec", Scr::scramble(jrefRec));
 	xmlTextWriterEndElement(wr);
 };
 
@@ -247,7 +248,9 @@ void CrdMsdcPrd::Tag::writeXML(
  class CrdMsdcPrd::DpchAppDo
  ******************************************************************************/
 
-CrdMsdcPrd::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDO) {
+CrdMsdcPrd::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDO)
+		{
 	ixVDo = 0;
 };
 
@@ -264,9 +267,7 @@ string CrdMsdcPrd::DpchAppDo::getSrefsMask() {
 };
 
 void CrdMsdcPrd::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -284,7 +285,7 @@ void CrdMsdcPrd::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -305,7 +306,9 @@ CrdMsdcPrd::DpchEngData::DpchEngData(
 			, Feed* feedFSge
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, FEEDFSGE, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -345,18 +348,15 @@ void CrdMsdcPrd::DpchEngData::merge(
 
 void CrdMsdcPrd::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcPrdData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFSGE)) feedFSge.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);
 };

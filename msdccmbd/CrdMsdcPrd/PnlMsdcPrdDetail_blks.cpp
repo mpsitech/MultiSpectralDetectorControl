@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdDetail_blks.cpp
   * job handler for job PnlMsdcPrdDetail (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -35,7 +35,9 @@ string PnlMsdcPrdDetail::VecVDo::getSref(
 PnlMsdcPrdDetail::ContIac::ContIac(
 			const string& TxfSta
 			, const string& TxfSto
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfSta = TxfSta;
 	this->TxfSto = TxfSto;
 
@@ -138,7 +140,9 @@ PnlMsdcPrdDetail::StatShr::StatShr(
 			, const bool ButSaveActive
 			, const bool TxfStaActive
 			, const bool TxfStoActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButSaveAvail = ButSaveAvail;
 	this->ButSaveActive = ButSaveActive;
 	this->TxfStaActive = TxfStaActive;
@@ -225,7 +229,9 @@ void PnlMsdcPrdDetail::Tag::writeXML(
  class PnlMsdcPrdDetail::DpchAppData
  ******************************************************************************/
 
-PnlMsdcPrdDetail::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDATA) {
+PnlMsdcPrdDetail::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDATA)
+		{
 };
 
 string PnlMsdcPrdDetail::DpchAppData::getSrefsMask() {
@@ -241,9 +247,7 @@ string PnlMsdcPrdDetail::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcPrdDetail::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -260,7 +264,7 @@ void PnlMsdcPrdDetail::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -273,7 +277,9 @@ void PnlMsdcPrdDetail::DpchAppData::readXML(
  class PnlMsdcPrdDetail::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcPrdDetail::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDO) {
+PnlMsdcPrdDetail::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDO)
+		{
 	ixVDo = 0;
 };
 
@@ -290,9 +296,7 @@ string PnlMsdcPrdDetail::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcPrdDetail::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -310,7 +314,7 @@ void PnlMsdcPrdDetail::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -330,7 +334,9 @@ PnlMsdcPrdDetail::DpchEngData::DpchEngData(
 			, ContIac* contiac
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDETAILDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDETAILDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -367,14 +373,11 @@ void PnlMsdcPrdDetail::DpchEngData::merge(
 
 void PnlMsdcPrdDetail::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcPrdDetailData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
 		if (has(STATSHR)) statshr.writeXML(wr);

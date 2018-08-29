@@ -2,8 +2,8 @@
   * \file JobMsdcAcqVisr.cpp
   * API code for job JobMsdcAcqVisr (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -118,7 +118,9 @@ JobMsdcAcqVisr::Stg::Stg(
 			, const double k4
 			, const double k5
 			, const double k6
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVCamtype = ixMsdcVCamtype;
 	this->width = width;
 	this->height = height;

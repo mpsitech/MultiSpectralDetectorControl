@@ -2,8 +2,8 @@
   * \file JobMsdcSrcTrigger.cpp
   * API code for job JobMsdcSrcTrigger (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -42,7 +42,9 @@ string JobMsdcSrcTrigger::VecVSge::getSref(
 
 JobMsdcSrcTrigger::Stg::Stg(
 			const float dt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->dt = dt;
 
 	mask = {DT};

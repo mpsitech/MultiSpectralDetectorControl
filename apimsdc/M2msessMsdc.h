@@ -2,8 +2,8 @@
   * \file M2msessMsdc.h
   * API code for job M2msessMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef M2MSESSMSDC_H

@@ -2,8 +2,8 @@
   * \file MsdcRMUsergroupUniversal.cpp
   * database access for table TblMsdcRMUsergroupUniversal (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcRMUsergroupUniversal.h"
@@ -252,7 +252,10 @@ ubigint TblMsdcRMUsergroupUniversal::loadRstByRefs(
  class LiteTblMsdcRMUsergroupUniversal
  ******************************************************************************/
 
-LiteTblMsdcRMUsergroupUniversal::LiteTblMsdcRMUsergroupUniversal() : TblMsdcRMUsergroupUniversal(), LiteTable() {
+LiteTblMsdcRMUsergroupUniversal::LiteTblMsdcRMUsergroupUniversal() :
+			TblMsdcRMUsergroupUniversal()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

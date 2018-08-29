@@ -2,8 +2,8 @@
   * \file PnlMsdcScfSource.cpp
   * API code for job PnlMsdcScfSource (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -48,7 +48,9 @@ PnlMsdcScfSource::ContIac::ContIac(
 			, const double SldFt0
 			, const double SldFp0
 			, const double SldTrp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfFpp = TxfFpp;
 	this->SldFxa = SldFxa;
 	this->SldFa0 = SldFa0;
@@ -155,7 +157,9 @@ set<uint> PnlMsdcScfSource::ContIac::diff(
 
 PnlMsdcScfSource::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -214,7 +218,9 @@ set<uint> PnlMsdcScfSource::ContInf::diff(
 
 PnlMsdcScfSource::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -294,7 +300,9 @@ PnlMsdcScfSource::StatShr::StatShr(
 			, const double SldTrpMin
 			, const double SldTrpMax
 			, const double SldTrpRast
-		) : Block() {
+		) :
+			Block()
+		{
 	this->SldFxaMin = SldFxaMin;
 	this->SldFxaMax = SldFxaMax;
 	this->SldFa0Min = SldFa0Min;
@@ -411,7 +419,9 @@ PnlMsdcScfSource::Tag::Tag(
 			, const string& CptFt0
 			, const string& CptFp0
 			, const string& CptTrp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->HdgFpg = HdgFpg;
 	this->CptFpp = CptFpp;
@@ -468,7 +478,9 @@ PnlMsdcScfSource::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -505,7 +517,9 @@ PnlMsdcScfSource::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -538,7 +552,9 @@ void PnlMsdcScfSource::DpchAppDo::writeXML(
  class PnlMsdcScfSource::DpchEngData
  ******************************************************************************/
 
-PnlMsdcScfSource::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFSOURCEDATA) {
+PnlMsdcScfSource::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFSOURCEDATA)
+		{
 };
 
 string PnlMsdcScfSource::DpchEngData::getSrefsMask() {

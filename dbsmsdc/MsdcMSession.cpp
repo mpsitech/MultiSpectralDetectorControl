@@ -2,8 +2,8 @@
   * \file MsdcMSession.cpp
   * database access for table TblMsdcMSession (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcMSession.h"
@@ -259,7 +259,10 @@ ubigint TblMsdcMSession::loadRstByRefs(
  class LiteTblMsdcMSession
  ******************************************************************************/
 
-LiteTblMsdcMSession::LiteTblMsdcMSession() : TblMsdcMSession(), LiteTable() {
+LiteTblMsdcMSession::LiteTblMsdcMSession() :
+			TblMsdcMSession()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

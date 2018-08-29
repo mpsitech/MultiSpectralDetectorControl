@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdDetail.cpp
   * API code for job PnlMsdcPrdDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -41,7 +41,9 @@ string PnlMsdcPrdDetail::VecVDo::getSref(
 PnlMsdcPrdDetail::ContIac::ContIac(
 			const string& TxfSta
 			, const string& TxfSto
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfSta = TxfSta;
 	this->TxfSto = TxfSto;
 
@@ -120,7 +122,9 @@ set<uint> PnlMsdcPrdDetail::ContIac::diff(
 
 PnlMsdcPrdDetail::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -187,7 +191,9 @@ PnlMsdcPrdDetail::StatShr::StatShr(
 			, const bool ButSaveActive
 			, const bool TxfStaActive
 			, const bool TxfStoActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButSaveAvail = ButSaveAvail;
 	this->ButSaveActive = ButSaveActive;
 	this->TxfStaActive = TxfStaActive;
@@ -257,7 +263,9 @@ PnlMsdcPrdDetail::Tag::Tag(
 			const string& Cpt
 			, const string& CptSta
 			, const string& CptSto
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptSta = CptSta;
 	this->CptSto = CptSto;
@@ -298,7 +306,9 @@ PnlMsdcPrdDetail::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -335,7 +345,9 @@ PnlMsdcPrdDetail::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -368,7 +380,9 @@ void PnlMsdcPrdDetail::DpchAppDo::writeXML(
  class PnlMsdcPrdDetail::DpchEngData
  ******************************************************************************/
 
-PnlMsdcPrdDetail::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDETAILDATA) {
+PnlMsdcPrdDetail::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDDETAILDATA)
+		{
 };
 
 string PnlMsdcPrdDetail::DpchEngData::getSrefsMask() {

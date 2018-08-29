@@ -2,8 +2,8 @@
   * \file JobMsdcPrcTrack.cpp
   * job handler for job JobMsdcPrcTrack (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcPrcTrack::Shrdat
  ******************************************************************************/
 
-JobMsdcPrcTrack::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcPrcTrack", "Shrdat", "JobMsdcPrcTrack::shrdat") {
+JobMsdcPrcTrack::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcPrcTrack", "Shrdat")
+		{
 };
 
 void JobMsdcPrcTrack::Shrdat::init(
@@ -46,7 +48,9 @@ JobMsdcPrcTrack::JobMsdcPrcTrack(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCTRACK, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCPRCTRACK, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 

@@ -2,8 +2,8 @@
   * \file QryMsdcUsrList.cpp
   * API code for job QryMsdcUsrList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -49,7 +49,9 @@ QryMsdcUsrList::StatApp::StatApp(
 			, const uint jnumFirstdisp
 			, const uint ncol
 			, const uint ndisp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->firstcol = firstcol;
 	this->jnumFirstdisp = jnumFirstdisp;
 	this->ncol = ncol;
@@ -119,7 +121,9 @@ QryMsdcUsrList::StatShr::StatShr(
 			const uint ntot
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ntot = ntot;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;
@@ -186,7 +190,9 @@ QryMsdcUsrList::StgIac::StgIac(
 			const uint jnum
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jnum = jnum;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;

@@ -2,8 +2,8 @@
   * \file PnlMsdcDatDetail_blks.cpp
   * job handler for job PnlMsdcDatDetail (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -42,7 +42,9 @@ PnlMsdcDatDetail::ContIac::ContIac(
 			, const string& TxfSta
 			, const string& TxfSto
 			, const string& TxfCmt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFPupAft = numFPupAft;
 	this->TxfAft = TxfAft;
 	this->TxfSta = TxfSta;
@@ -133,7 +135,9 @@ set<uint> PnlMsdcDatDetail::ContIac::diff(
 
 PnlMsdcDatDetail::ContInf::ContInf(
 			const string& TxtPrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtPrd = TxtPrd;
 
 	mask = {TXTPRD};
@@ -218,7 +222,9 @@ PnlMsdcDatDetail::StatShr::StatShr(
 			, const bool TxfStaActive
 			, const bool TxfStoActive
 			, const bool TxfCmtActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfAftValid = TxfAftValid;
 	this->ButSaveAvail = ButSaveAvail;
 	this->ButSaveActive = ButSaveActive;
@@ -332,7 +338,9 @@ void PnlMsdcDatDetail::Tag::writeXML(
  class PnlMsdcDatDetail::DpchAppData
  ******************************************************************************/
 
-PnlMsdcDatDetail::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDETAILDATA) {
+PnlMsdcDatDetail::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDETAILDATA)
+		{
 };
 
 string PnlMsdcDatDetail::DpchAppData::getSrefsMask() {
@@ -348,9 +356,7 @@ string PnlMsdcDatDetail::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcDatDetail::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -367,7 +373,7 @@ void PnlMsdcDatDetail::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -380,7 +386,9 @@ void PnlMsdcDatDetail::DpchAppData::readXML(
  class PnlMsdcDatDetail::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcDatDetail::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDETAILDO) {
+PnlMsdcDatDetail::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDETAILDO)
+		{
 	ixVDo = 0;
 };
 
@@ -397,9 +405,7 @@ string PnlMsdcDatDetail::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcDatDetail::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -417,7 +423,7 @@ void PnlMsdcDatDetail::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -439,7 +445,9 @@ PnlMsdcDatDetail::DpchEngData::DpchEngData(
 			, Feed* feedFPupAft
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATDETAILDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATDETAILDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFPUPAFT, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -482,14 +490,11 @@ void PnlMsdcDatDetail::DpchEngData::merge(
 
 void PnlMsdcDatDetail::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcDatDetailData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFPUPAFT)) feedFPupAft.writeXML(wr);

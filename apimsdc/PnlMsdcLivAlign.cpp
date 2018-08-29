@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.cpp
   * API code for job PnlMsdcLivAlign (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -41,7 +41,9 @@ string PnlMsdcLivAlign::VecVDo::getSref(
 PnlMsdcLivAlign::ContIac::ContIac(
 			const double SldThe
 			, const double SldPhi
-		) : Block() {
+		) :
+			Block()
+		{
 	this->SldThe = SldThe;
 	this->SldPhi = SldPhi;
 
@@ -122,7 +124,9 @@ PnlMsdcLivAlign::ContInf::ContInf(
 			const bool ButMasterOn
 			, const string& TxtAph
 			, const string& TxtBta
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 	this->TxtAph = TxtAph;
 	this->TxtBta = TxtBta;
@@ -187,7 +191,9 @@ set<uint> PnlMsdcLivAlign::ContInf::diff(
 
 PnlMsdcLivAlign::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -256,7 +262,9 @@ PnlMsdcLivAlign::StatShr::StatShr(
 			, const bool SldPhiActive
 			, const double SldPhiMin
 			, const double SldPhiMax
-		) : Block() {
+		) :
+			Block()
+		{
 	this->SldTheActive = SldTheActive;
 	this->SldTheMin = SldTheMin;
 	this->SldTheMax = SldTheMax;
@@ -334,7 +342,9 @@ PnlMsdcLivAlign::Tag::Tag(
 			, const string& CptBta
 			, const string& CptThe
 			, const string& CptPhi
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptAph = CptAph;
 	this->CptBta = CptBta;
@@ -379,7 +389,9 @@ PnlMsdcLivAlign::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -416,7 +428,9 @@ PnlMsdcLivAlign::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -449,7 +463,9 @@ void PnlMsdcLivAlign::DpchAppDo::writeXML(
  class PnlMsdcLivAlign::DpchEngData
  ******************************************************************************/
 
-PnlMsdcLivAlign::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVALIGNDATA) {
+PnlMsdcLivAlign::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVALIGNDATA)
+		{
 };
 
 string PnlMsdcLivAlign::DpchEngData::getSrefsMask() {

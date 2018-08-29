@@ -2,8 +2,8 @@
   * \file MsdcQFilList.cpp
   * Dbs and XML wrapper for table TblMsdcQFilList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQFilList.h"
@@ -276,7 +276,10 @@ ubigint TblMsdcQFilList::loadRstByJref(
  class LiteTblMsdcQFilList
  ******************************************************************************/
 
-LiteTblMsdcQFilList::LiteTblMsdcQFilList() : TblMsdcQFilList(), LiteTable() {
+LiteTblMsdcQFilList::LiteTblMsdcQFilList() :
+			TblMsdcQFilList()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

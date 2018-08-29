@@ -366,6 +366,38 @@
 					<td colspan="10" bgcolor="#7f7f7f"></td>
 				</tr>
 				<tr id="tr13" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trTrp" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptTrp" class="cpt">CptTrp</span>
+					</td>
+					<td></td>
+					<td id="tdSldTrp" colspan="5">
+						<svg class="svg" width="340" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<line class="sldlinact" x1="0" y1="12.5" x2="5" y2="12.5"/>
+							<line class="sldlinact" x1="335" y1="12.5" x2="340" y2="12.5"/>
+							<g id="SldTrpJpleft" class="sld" onmouseover="handleSldTrpJpleftMov()" onmouseout="handleSldTrpJpleftMou()" onclick="handleSldTrpJpleftClick(event)">
+								<rect id="SldTrpJpleftr" class="sldr" x="5" y="2" width="165" height="18"/>
+								<line id="SldTrpJpleftl" class="sldl" x1="5" y1="12.5" x2="167.5" y2="12.5"/>
+							</g>
+							<g id="SldTrpJpright" class="sld" onmouseover="handleSldTrpJprightMov()" onmouseout="handleSldTrpJprightMou()" onclick="handleSldTrpJprightClick(event)">
+								<rect id="SldTrpJprightr" class="sldr" x="170" y="2" width="165" height="18"/>
+								<line id="SldTrpJprightl" class="sldl" x1="172.5" y1="12.5" x2="335" y2="12.5"/>
+							</g>
+							<g id="SldTrp" class="sld" transform="translate(170 0)" onmouseover="handleSldTrpMov()" onmouseout="handleSldTrpMou()" onmousedown="handleSldTrpMdn()">
+								<rect id="SldTrpR" class="sldr" x="-3" y="2" width="6" height="21"/>
+								<g id="SldTrpBar" class="sldl">
+									<line x1="-2" y1="2" x2="-2" y2="23"/>
+									<line x1="2" y1="2" x2="2" y2="23"/>
+								</g>
+							</g>
+						</svg>
+					</td>
+					<td></td>
+					<td colspan="2" align="left">
+						<input id="SldTrpVal" class="txfxs" type="text" value="SldTrpVal" onchange="handleSldTrpValChange()" onkeypress="return handleSldTrpValKey(event)"/>
+					</td>
+				</tr>
 				<tr><td colspan="11" height="4"></td></tr>
 			</tbody>
 		</form></table>

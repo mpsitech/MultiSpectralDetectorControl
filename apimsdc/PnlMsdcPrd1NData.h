@@ -2,8 +2,8 @@
   * \file PnlMsdcPrd1NData.h
   * API code for job PnlMsdcPrd1NData (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef PNLMSDCPRD1NDATA_H

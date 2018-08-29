@@ -2,17 +2,17 @@
   * \file Msdc.h
   * Msdc global functionality (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef MSDC_H
 #define MSDC_H
 
-#define MSDC_VERSION "0.1.45"
+#define MSDC_VERSION "0.1.49"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 45
+#define MSDC_VERSION_SUB 49
 
 // IP incl --- IBEGIN
 #define FPGA_ZEDB
@@ -335,7 +335,7 @@ public:
 	static bool all(const set<uint>& items);
 
 	virtual void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
-	virtual void writeXML(pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+	virtual void writeXML(xmlTextWriter* wr);
 };
 
 /**
@@ -364,7 +364,7 @@ public:
 	utinyint pdone;
 
 public:
-	virtual void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+	virtual void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 	virtual void writeXML(xmlTextWriter* wr);
 };
 

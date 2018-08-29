@@ -2,8 +2,8 @@
   * \file QryMsdcPrd1NData_blks.cpp
   * job handler for job QryMsdcPrd1NData (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -41,7 +41,9 @@ QryMsdcPrd1NData::StatShr::StatShr(
 			const uint ntot
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ntot = ntot;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;
@@ -101,7 +103,9 @@ QryMsdcPrd1NData::StgIac::StgIac(
 			const uint jnum
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jnum = jnum;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;

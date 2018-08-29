@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRec.cpp
   * job handler for job PnlMsdcDatRec (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ PnlMsdcDatRec::PnlMsdcDatRec(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCDATREC, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCDATREC, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

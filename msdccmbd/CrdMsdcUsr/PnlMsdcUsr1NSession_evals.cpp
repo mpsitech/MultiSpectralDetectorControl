@@ -2,8 +2,8 @@
   * \file PnlMsdcUsr1NSession_evals.cpp
   * job handler for job PnlMsdcUsr1NSession (implementation of availability/activation evaluation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 bool PnlMsdcUsr1NSession::evalButDeleteAvail(

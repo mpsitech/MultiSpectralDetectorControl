@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrAAccess.cpp
   * job handler for job PnlMsdcUsrAAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ PnlMsdcUsrAAccess::PnlMsdcUsrAAccess(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSRAACCESS, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCUSRAACCESS, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

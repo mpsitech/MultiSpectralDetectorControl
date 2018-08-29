@@ -2,8 +2,8 @@
   * \file MsdccmbdOpprc.cpp
   * operation processor for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdccmbd.h"
@@ -43,18 +43,18 @@ void* MsdccmbdOpprc::run(
 
 	// main loop: wait for operation invocations
 	while (true) {
-		Mutex::lock(&(xchg->mcOpprcs), "xchg->mcOpprcs", "MsdccmbdOpprc", "run");
+		xchg->cOpprcs.lockMutex("MsdccmbdOpprc", "run");
 		inv = xchg->pullFirstInv();
 
 		while (!inv) {
-			Cond::wait(&(xchg->cOpprcs), &(xchg->mcOpprcs), "xchg->cOpprcs", "MsdccmbdOpprc", "run");
+			xchg->cOpprcs.wait("MsdccmbdOpprc", "run");
 			inv = xchg->pullFirstInv();
 		};
 
-		Mutex::unlock(&(xchg->mcOpprcs), "xchg->mcOpprcs", "MsdccmbdOpprc", "run");
+		xchg->cOpprcs.unlockMutex("MsdccmbdOpprc", "run");
 
 		// re-signal condition to avoid using broadcast
-		Cond::signal(&(xchg->cOpprcs), &(xchg->mcOpprcs), "xchg->cOpprcs", "xchg->mcOpprcs", "MsdccmbdOpprc", "run");
+		xchg->cOpprcs.signal("MsdccmbdOpprc", "run");
 
 		// prepare request
 		req = new ReqMsdc(ReqMsdc::VecVBasetype::RET);
@@ -85,6 +85,6 @@ void MsdccmbdOpprc::cleanup(
 		) {
 	XchgMsdccmbd* xchg = (XchgMsdccmbd*) arg;
 
-	Mutex::unlock(&(xchg->mcOpprcs), "xchg->mcOpprcs", "MsdccmbdOpprc", "cleanup");
+	xchg->cOpprcs.unlockMutex("MsdccmbdOpprc", "cleanup");
 };
 

@@ -2,8 +2,8 @@
   * \file JobMsdcActAlign.cpp
   * job handler for job JobMsdcActAlign (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcActAlign::Shrdat
  ******************************************************************************/
 
-JobMsdcActAlign::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcActAlign", "Shrdat", "JobMsdcActAlign::shrdat") {
+JobMsdcActAlign::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcActAlign", "Shrdat")
+		{
 };
 
 void JobMsdcActAlign::Shrdat::init(
@@ -52,7 +54,9 @@ JobMsdcActAlign::JobMsdcActAlign(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACTALIGN, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACTALIGN, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 

@@ -2,8 +2,8 @@
   * \file CrdMsdcFil_blks.cpp
   * job handler for job CrdMsdcFil (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -72,7 +72,9 @@ CrdMsdcFil::ContInf::ContInf(
 			const uint numFSge
 			, const string& MrlAppHlp
 			, const string& MtxCrdFil
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 	this->MrlAppHlp = MrlAppHlp;
 	this->MtxCrdFil = MtxCrdFil;
@@ -168,7 +170,9 @@ CrdMsdcFil::StatShr::StatShr(
 			, const ubigint jrefRec
 			, const bool MitCrdDldAvail
 			, const bool MitCrdDldActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jrefDlgdownload = jrefDlgdownload;
 	this->jrefHeadbar = jrefHeadbar;
 	this->jrefList = jrefList;
@@ -180,10 +184,7 @@ CrdMsdcFil::StatShr::StatShr(
 };
 
 void CrdMsdcFil::StatShr::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
 		) {
@@ -194,10 +195,10 @@ void CrdMsdcFil::StatShr::writeXML(
 	else itemtag = "StatitemShrMsdcFil";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "scrJrefDlgdownload", Scr::scramble(mScr, scr, descr, jrefDlgdownload));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefHeadbar", Scr::scramble(mScr, scr, descr, jrefHeadbar));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefList", Scr::scramble(mScr, scr, descr, jrefList));
-		writeStringAttr(wr, itemtag, "sref", "scrJrefRec", Scr::scramble(mScr, scr, descr, jrefRec));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefDlgdownload", Scr::scramble(jrefDlgdownload));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefHeadbar", Scr::scramble(jrefHeadbar));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefList", Scr::scramble(jrefList));
+		writeStringAttr(wr, itemtag, "sref", "scrJrefRec", Scr::scramble(jrefRec));
 		writeBoolAttr(wr, itemtag, "sref", "MitCrdDldAvail", MitCrdDldAvail);
 		writeBoolAttr(wr, itemtag, "sref", "MitCrdDldActive", MitCrdDldActive);
 	xmlTextWriterEndElement(wr);
@@ -262,7 +263,9 @@ void CrdMsdcFil::Tag::writeXML(
  class CrdMsdcFil::DpchAppDo
  ******************************************************************************/
 
-CrdMsdcFil::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDO) {
+CrdMsdcFil::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCFILDO)
+		{
 	ixVDo = 0;
 };
 
@@ -279,9 +282,7 @@ string CrdMsdcFil::DpchAppDo::getSrefsMask() {
 };
 
 void CrdMsdcFil::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -299,7 +300,7 @@ void CrdMsdcFil::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -320,7 +321,9 @@ CrdMsdcFil::DpchEngData::DpchEngData(
 			, Feed* feedFSge
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCFILDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, FEEDFSGE, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -360,18 +363,15 @@ void CrdMsdcFil::DpchEngData::merge(
 
 void CrdMsdcFil::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcFilData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFSGE)) feedFSge.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
-		if (has(STATSHR)) statshr.writeXML(mScr, scr, descr, wr);
+		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);
 };

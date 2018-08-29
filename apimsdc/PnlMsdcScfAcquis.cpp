@@ -2,8 +2,8 @@
   * \file PnlMsdcScfAcquis.cpp
   * API code for job PnlMsdcScfAcquis (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -42,7 +42,9 @@ PnlMsdcScfAcquis::ContIac::ContIac(
 			const uint numFPupVty
 			, const string& TxfVlp
 			, const string& TxfVrp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFPupVty = numFPupVty;
 	this->TxfVlp = TxfVlp;
 	this->TxfVrp = TxfVrp;
@@ -132,7 +134,9 @@ PnlMsdcScfAcquis::ContInf::ContInf(
 			, const string& TxtVps
 			, const string& TxtVfl
 			, const string& TxtVfn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 	this->TxtIsn = TxtIsn;
 	this->TxtIps = TxtIps;
@@ -212,7 +216,9 @@ set<uint> PnlMsdcScfAcquis::ContInf::diff(
 
 PnlMsdcScfAcquis::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -288,7 +294,9 @@ PnlMsdcScfAcquis::Tag::Tag(
 			, const string& CptVps
 			, const string& CptVfl
 			, const string& CptVfn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->HdgIwi = HdgIwi;
 	this->CptIsn = CptIsn;
@@ -349,7 +357,9 @@ PnlMsdcScfAcquis::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -386,7 +396,9 @@ PnlMsdcScfAcquis::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -419,7 +431,9 @@ void PnlMsdcScfAcquis::DpchAppDo::writeXML(
  class PnlMsdcScfAcquis::DpchEngData
  ******************************************************************************/
 
-PnlMsdcScfAcquis::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFACQUISDATA) {
+PnlMsdcScfAcquis::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSCFACQUISDATA)
+		{
 	feedFPupVty.tag = "FeedFPupVty";
 };
 

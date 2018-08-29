@@ -2,8 +2,8 @@
   * \file JobMsdcAcqLwir_blks.cpp
   * job handler for job JobMsdcAcqLwir (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -132,7 +132,9 @@ JobMsdcAcqLwir::Stg::Stg(
 			, const double k4
 			, const double k5
 			, const double k6
-		) : Block() {
+		) :
+			Block()
+		{
 	this->width = width;
 	this->height = height;
 	this->hpix = hpix;

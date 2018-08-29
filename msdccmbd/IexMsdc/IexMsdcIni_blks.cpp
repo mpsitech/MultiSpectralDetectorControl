@@ -2,8 +2,8 @@
   * \file IexMsdcIni_blks.cpp
   * import/export handler for database DbsMsdc (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -70,7 +70,9 @@ IexMsdcIni::ImeitemIAVControlPar::ImeitemIAVControlPar(
 IexMsdcIni::ImeitemIAVControlPar::ImeitemIAVControlPar(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIAVControlPar() {
+		) :
+			ImeitemIAVControlPar()
+		{
 	MsdcAVControlPar* rec = NULL;
 
 	this->ref = ref;
@@ -313,7 +315,9 @@ IexMsdcIni::ImeitemIJAVKeylistKey::ImeitemIJAVKeylistKey(
 IexMsdcIni::ImeitemIJAVKeylistKey::ImeitemIJAVKeylistKey(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIJAVKeylistKey() {
+		) :
+			ImeitemIJAVKeylistKey()
+		{
 	MsdcJAVKeylistKey* rec = NULL;
 
 	this->ref = ref;
@@ -559,7 +563,9 @@ IexMsdcIni::ImeitemIAVKeylistKey::ImeitemIAVKeylistKey(
 IexMsdcIni::ImeitemIAVKeylistKey::ImeitemIAVKeylistKey(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIAVKeylistKey() {
+		) :
+			ImeitemIAVKeylistKey()
+		{
 	MsdcAVKeylistKey* rec = NULL;
 
 	this->ref = ref;
@@ -818,7 +824,9 @@ IexMsdcIni::ImeitemIAVValuelistVal::ImeitemIAVValuelistVal(
 IexMsdcIni::ImeitemIAVValuelistVal::ImeitemIAVValuelistVal(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIAVValuelistVal() {
+		) :
+			ImeitemIAVValuelistVal()
+		{
 	MsdcAVValuelistVal* rec = NULL;
 
 	this->ref = ref;
@@ -1068,7 +1076,9 @@ IexMsdcIni::ImeitemIMFile::ImeitemIMFile(
 IexMsdcIni::ImeitemIMFile::ImeitemIMFile(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIMFile() {
+		) :
+			ImeitemIMFile()
+		{
 	MsdcMFile* rec = NULL;
 
 	this->ref = ref;
@@ -1313,7 +1323,9 @@ IexMsdcIni::ImeitemIAMUsergroupAccess::ImeitemIAMUsergroupAccess(
 IexMsdcIni::ImeitemIAMUsergroupAccess::ImeitemIAMUsergroupAccess(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIAMUsergroupAccess() {
+		) :
+			ImeitemIAMUsergroupAccess()
+		{
 	MsdcAMUsergroupAccess* rec = NULL;
 
 	this->ref = ref;
@@ -1561,7 +1573,9 @@ IexMsdcIni::ImeitemIAMUserAccess::ImeitemIAMUserAccess(
 IexMsdcIni::ImeitemIAMUserAccess::ImeitemIAMUserAccess(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIAMUserAccess() {
+		) :
+			ImeitemIAMUserAccess()
+		{
 	MsdcAMUserAccess* rec = NULL;
 
 	this->ref = ref;
@@ -1805,7 +1819,9 @@ IexMsdcIni::ImeitemIJMUserState::ImeitemIJMUserState(
 IexMsdcIni::ImeitemIJMUserState::ImeitemIJMUserState(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIJMUserState() {
+		) :
+			ImeitemIJMUserState()
+		{
 	MsdcJMUserState* rec = NULL;
 
 	this->ref = ref;
@@ -2033,7 +2049,9 @@ IexMsdcIni::ImeitemIJMPersonLastname::ImeitemIJMPersonLastname(
 IexMsdcIni::ImeitemIJMPersonLastname::ImeitemIJMPersonLastname(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIJMPersonLastname() {
+		) :
+			ImeitemIJMPersonLastname()
+		{
 	MsdcJMPersonLastname* rec = NULL;
 
 	this->ref = ref;
@@ -2260,7 +2278,9 @@ IexMsdcIni::ImeitemIMPerson::ImeitemIMPerson(
 IexMsdcIni::ImeitemIMPerson::ImeitemIMPerson(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIMPerson() {
+		) :
+			ImeitemIMPerson()
+		{
 	MsdcMPerson* rec = NULL;
 
 	this->ref = ref;
@@ -2517,7 +2537,9 @@ IexMsdcIni::ImeitemIMUser::ImeitemIMUser(
 IexMsdcIni::ImeitemIMUser::ImeitemIMUser(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIMUser() {
+		) :
+			ImeitemIMUser()
+		{
 	MsdcMUser* rec = NULL;
 
 	this->ref = ref;
@@ -2802,7 +2824,9 @@ IexMsdcIni::ImeitemIMUsergroup::ImeitemIMUsergroup(
 IexMsdcIni::ImeitemIMUsergroup::ImeitemIMUsergroup(
 			DbsMsdc* dbsmsdc
 			, const ubigint ref
-		) : ImeitemIMUsergroup() {
+		) :
+			ImeitemIMUsergroup()
+		{
 	MsdcMUsergroup* rec = NULL;
 
 	this->ref = ref;

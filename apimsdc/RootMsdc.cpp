@@ -2,8 +2,8 @@
   * \file RootMsdc.cpp
   * API code for job RootMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -23,7 +23,9 @@ RootMsdc::DpchAppLogin::DpchAppLogin(
 			, const bool m2mNotReg
 			, const bool chksuspsess
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPROOTMSDCLOGIN, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPROOTMSDCLOGIN, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, USERNAME, PASSWORD, M2MNOTREG, CHKSUSPSESS};
 	else this->mask = mask;
 
@@ -65,7 +67,9 @@ void RootMsdc::DpchAppLogin::writeXML(
  class RootMsdc::DpchEngData
  ******************************************************************************/
 
-RootMsdc::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGROOTMSDCDATA) {
+RootMsdc::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGROOTMSDCDATA)
+		{
 	feedFEnsSps.tag = "FeedFEnsSps";
 };
 

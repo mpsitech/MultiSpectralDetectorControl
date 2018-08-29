@@ -2,8 +2,8 @@
   * \file PnlMsdcUsgRec.cpp
   * API code for job PnlMsdcUsgRec (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -42,7 +42,9 @@ string PnlMsdcUsgRec::VecVDo::getSref(
 
 PnlMsdcUsgRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -103,7 +105,9 @@ PnlMsdcUsgRec::StatApp::StatApp(
 			const bool initdoneDetail
 			, const bool initdoneAAccess
 			, const bool initdoneMNUser
-		) : Block() {
+		) :
+			Block()
+		{
 	this->initdoneDetail = initdoneDetail;
 	this->initdoneAAccess = initdoneAAccess;
 	this->initdoneMNUser = initdoneMNUser;
@@ -172,7 +176,9 @@ PnlMsdcUsgRec::StatShr::StatShr(
 			, const string& scrJrefAAccess
 			, const string& scrJrefMNUser
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->scrJrefDetail = scrJrefDetail;
 	this->scrJrefAAccess = scrJrefAAccess;
@@ -248,7 +254,9 @@ set<uint> PnlMsdcUsgRec::StatShr::diff(
 
 PnlMsdcUsgRec::Tag::Tag(
 			const string& Cpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 
 	mask = {CPT};
@@ -285,7 +293,9 @@ PnlMsdcUsgRec::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGRECDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGRECDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -318,7 +328,9 @@ void PnlMsdcUsgRec::DpchAppDo::writeXML(
  class PnlMsdcUsgRec::DpchEngData
  ******************************************************************************/
 
-PnlMsdcUsgRec::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSGRECDATA) {
+PnlMsdcUsgRec::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSGRECDATA)
+		{
 };
 
 string PnlMsdcUsgRec::DpchEngData::getSrefsMask() {

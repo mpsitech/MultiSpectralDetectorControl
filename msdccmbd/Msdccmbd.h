@@ -2,8 +2,8 @@
   * \file Msdccmbd.h
   * inter-thread exchange object for Msdc combined daemon (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef MSDCCMBD_H
@@ -63,7 +63,7 @@ public:
 	static bool all(const set<uint>& items);
 	virtual string getSrefsMask();
 
-	virtual void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+	virtual void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 };
 
 /**
@@ -85,7 +85,7 @@ public:
 	static bool all(const set<uint>& items);
 	string getSrefsMask();
 
-	void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+	void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 };
 
 /**
@@ -126,7 +126,7 @@ public:
 	virtual string getSrefsMask();
 	virtual void merge(DpchEngMsdc* dpcheng);
 
-	virtual void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+	virtual void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 };
 
 /**
@@ -161,7 +161,7 @@ public:
 	string getSrefsMask();
 	void merge(DpchEngMsdc* dpcheng);
 
-	void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+	void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 };
 
 /**
@@ -187,7 +187,7 @@ public:
 	string getSrefsMask();
 	void merge(DpchEngMsdc* dpcheng);
 
-	void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+	void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 };
 
 /**
@@ -417,8 +417,7 @@ public:
 
 	// specific data for base types CMD, REGULAR, NOTIFY, UPLOAD, DOWNLOAD, METHOD
 	bool retain;
-	pthread_mutex_t mcReady; // also protects compare/set of ixVState to REPLY
-	pthread_cond_t cReady;
+	Cond cReady; // mutex also protects compare/set of ixVState to REPLY
 
 	// specific data for base types WEB, UPLOAD, DOWNLOAD
 	string filename; // full path
@@ -478,7 +477,7 @@ public:
 
 	uint ixMsdcVLocale;
 
-	pthread_mutex_t mAccess;
+	Mutex mAccess;
 
 	bool hot;
 
@@ -487,8 +486,8 @@ public:
 	ReqMsdc* req;
 
 public:
-	int lockAccess(const string& srefObject = "", const string& srefMember = "");
-	int unlockAccess(const string& srefObject = "", const string& srefMember = "");
+	void lockAccess(const string& srefObject = "", const string& srefMember = "");
+	void unlockAccess(const string& srefObject = "", const string& srefMember = "");
 };
 
 /**
@@ -512,7 +511,7 @@ public:
 
 	uint ixMsdcVLocale;
 
-	pthread_mutex_t mAccess;
+	Mutex mAccess;
 
 	bool muteRefresh;
 
@@ -524,7 +523,7 @@ public:
 
 	vector<DpchInvMsdc*> invs;
 
-	pthread_mutex_t mOps;
+	Mutex mOps;
 	list<Op*> ops;
 	string opsqkLast;
 
@@ -544,11 +543,13 @@ public:
 	virtual void handleRequest(DbsMsdc* dbsmsdc, ReqMsdc* req);
 	virtual void handleCall(DbsMsdc* dbsmsdc, Call* call);
 
-	int lockAccess(const string& srefObject, const string& srefMember);
-	int trylockAccess(const string& srefObject, const string& srefMember);
-	int unlockAccess(const string& srefObject, const string& srefMember);
-	int lockAccess(const string& srefMember);
-	int unlockAccess(const string& srefMember);
+	void lockAccess(const string& srefObject, const string& srefMember);
+	bool trylockAccess(const string& srefObject, const string& srefMember);
+	void unlockAccess(const string& srefObject, const string& srefMember);
+
+	void lockAccess(const string& srefMember);
+	bool trylockAccess(const string& srefMember);
+	void unlockAccess(const string& srefMember);
 
 	void setStage(DbsMsdc* dbsmsdc, const uint _ixVSge);
 
@@ -605,24 +606,28 @@ public:
 class ShrdatMsdc {
 
 public:
-	ShrdatMsdc(const string& srefSupclass, const string& srefObject, const string& srefMutexsup);
+	ShrdatMsdc(const string& srefSupclass, const string& srefObject);
 	~ShrdatMsdc();
 
 public:
 	string srefSupclass;
 	string srefObject;
-	string srefMutexsup;
 
-	pthread_mutex_t mAccess;
+	Rwmutex rwmAccess;
 
 public:
 	virtual void init(XchgMsdc* xchg, DbsMsdc* dbsmsdc);
 	virtual void term();
 
-	int lockAccess(const string& srefObject, const string& srefMember);
-	int unlockAccess(const string& srefObject, const string& srefMember);
-	int lockAccess(const ubigint jref, const string& srefMember);
-	int unlockAccess(const ubigint jref, const string& srefMember);
+	void rlockAccess(const string& srefObject, const string& srefMember);
+	void runlockAccess(const string& srefObject, const string& srefMember);
+	void rlockAccess(const ubigint jref, const string& srefMember);
+	void runlockAccess(const ubigint jref, const string& srefMember);
+
+	void wlockAccess(const string& srefObject, const string& srefMember);
+	void wunlockAccess(const string& srefObject, const string& srefMember);
+	void wlockAccess(const ubigint jref, const string& srefMember);
+	void wunlockAccess(const ubigint jref, const string& srefMember);
 };
 
 /**
@@ -642,7 +647,7 @@ public:
 
 	Stcch* stcch;
 
-	pthread_mutex_t mAccess;
+	Mutex mAccess;
 
 public:
 	void handleCall(DbsMsdc* dbsmsdc, Call* call);
@@ -651,8 +656,8 @@ public:
 	void begin();
 	void commit();
 
-	int lockAccess(const string& srefObject = "", const string& srefMember = "");
-	int unlockAccess(const string& srefObject = "", const string& srefMember = "");
+	void lockAccess(const string& srefObject = "", const string& srefMember = "");
+	void unlockAccess(const string& srefObject = "", const string& srefMember = "");
 };
 
 /**
@@ -769,84 +774,71 @@ public:
 	// job receiving commands
 	ubigint jrefCmd;
 
-	// scrambled ref codes
-	pthread_mutex_t mScr;
-	map<ubigint,string> scr;
-	map<string,ubigint> descr;
-
 	// monitor object
 	TxtMon mon;
 
 	// log file
-	pthread_mutex_t mLogfile;
+	Mutex mLogfile;
 
 	// condition for job processors
-	pthread_mutex_t mcJobprcs;
-	pthread_cond_t cJobprcs;
+	Cond cJobprcs;
 
 	// condition for op processors
-	pthread_mutex_t mcOpprcs;
-	pthread_cond_t cOpprcs;
+	Cond cOpprcs;
 
 	// condition for DDS publisher
-	pthread_mutex_t mcDdspub;
-	pthread_cond_t cDdspub;
+	Cond cDdspub;
 
 	// condition for OPC UA server
-	pthread_mutex_t mcUasrv;
-	pthread_cond_t cUasrv;
+	Cond cUasrv;
 
 	// request list
-	pthread_mutex_t mReqs;
+	Mutex mReqs;
 	list<ReqMsdc*> reqs;
 
 	// operation invocation list
-	Refseq* orefseq;
-	pthread_mutex_t mInvs;
+	Refseq orefseq;
+	Mutex mInvs;
 	list<DpchInvMsdc*> invs;
 
 	// presetting list
-	pthread_mutex_t mPresets;
+	Rwmutex rwmPresets;
 	multimap<presetref_t,Preset*> presets;
 
 	// stub manager list
-	pthread_mutex_t mStmgrs;
+	Rwmutex rwmStmgrs;
 	map<ubigint,StmgrMsdc*> stmgrs;
 
 	// call listener list
-	pthread_mutex_t mClstns;
+	Rwmutex rwmClstns;
 	multimap<clstnref_t,Clstn*> clstns;
 	multimap<clstnref2_t,clstnref_t> cref2sClstns;
 
 	// dispatch collector list
-	pthread_mutex_t mDcols;
+	Rwmutex rwmDcols;
 	map<ubigint,DcolMsdc*> dcols;
 
 	// job list
-	Refseq* jrefseq;
-	pthread_mutex_t mJobs;
+	Refseq jrefseq;
+	Rwmutex rwmJobs;
 	map<ubigint,JobMsdc*> jobs;
 
 	// master-slave job information
-	pthread_mutex_t mMsjobinfos;
+	Rwmutex rwmMsjobinfos;
 	map<uint,Msjobinfo*> msjobinfos;
 
 	// DDS publisher call
-	pthread_mutex_t mDdspubcall;
+	Mutex mDdspubcall;
 	Call* ddspubcall;
 
 	// OPC UA server call
-	pthread_mutex_t mUasrvcall;
+	Mutex mUasrvcall;
 	Call* uasrvcall;
 
 	// sequence for wakeup references
-	Refseq* wrefseq;
+	Refseq wrefseq;
 
 public:
-	// scrambled ref methods
-	string scramble(const ubigint ref);
-	ubigint descramble(const string& scrRef);
-
 	// monitor object methods
 	void startMon();
 	void stopMon();

@@ -2,8 +2,8 @@
   * \file Msdc.cpp
   * Msdc global functionality (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdc.h"
@@ -1553,7 +1553,9 @@ ContInfMsdcAlert::ContInfMsdcAlert(
 			, const string& TxtMsg10
 			, const string& TxtMsg11
 			, const string& TxtMsg12
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtCpt = TxtCpt;
 	this->TxtMsg1 = TxtMsg1;
 	this->TxtMsg2 = TxtMsg2;
@@ -1664,7 +1666,9 @@ DpchInvMsdc::DpchInvMsdc(
 			const uint ixMsdcVDpch
 			, const ubigint oref
 			, const ubigint jref
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 	this->oref = oref;
 	this->jref = jref;
 };
@@ -1693,15 +1697,12 @@ void DpchInvMsdc::readXML(
 };
 
 void DpchInvMsdc::writeXML(
-			pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
-			, xmlTextWriter* wr
+			xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchRetMsdc");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		writeString(wr, "scrOref", Scr::scramble(mScr, scr, descr, oref));
-		writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		writeString(wr, "scrOref", Scr::scramble(oref));
+		writeString(wr, "scrJref", Scr::scramble(jref));
 	xmlTextWriterEndElement(wr);
 };
 
@@ -1715,7 +1716,9 @@ DpchRetMsdc::DpchRetMsdc(
 			, const string& scrJref
 			, const utinyint ixOpVOpres
 			, const utinyint pdone
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 	this->scrOref = scrOref;
 	this->scrJref = scrJref;
 	this->ixOpVOpres = ixOpVOpres;
@@ -1726,9 +1729,7 @@ DpchRetMsdc::~DpchRetMsdc() {
 };
 
 void DpchRetMsdc::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -1745,11 +1746,11 @@ void DpchRetMsdc::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrOref", "", scrOref)) {
-			oref = Scr::descramble(mScr, descr, scrOref);
+			oref = Scr::descramble(scrOref);
 			add(OREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxOpVOpres", "", srefIxOpVOpres)) {

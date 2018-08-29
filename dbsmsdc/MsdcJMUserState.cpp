@@ -2,8 +2,8 @@
   * \file MsdcJMUserState.cpp
   * database access for table TblMsdcJMUserState (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcJMUserState.h"
@@ -263,7 +263,10 @@ ubigint TblMsdcJMUserState::loadRstByRefs(
  class LiteTblMsdcJMUserState
  ******************************************************************************/
 
-LiteTblMsdcJMUserState::LiteTblMsdcJMUserState() : TblMsdcJMUserState(), LiteTable() {
+LiteTblMsdcJMUserState::LiteTblMsdcJMUserState() :
+			TblMsdcJMUserState()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

@@ -2,8 +2,8 @@
   * \file M2msessMsdc.cpp
   * job handler for job M2msessMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ M2msessMsdc::M2msessMsdc(
 			, const ubigint jrefSup
 			, const ubigint refMsdcMUser
 			, const string& ip
-		) : JobMsdc(xchg, VecMsdcVJob::M2MSESSMSDC, jrefSup) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::M2MSESSMSDC, jrefSup)
+		{
 
 	jref = xchg->addJob(this);
 

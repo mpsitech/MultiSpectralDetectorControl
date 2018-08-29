@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc Java API library, release japimsdc_ungenio
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 export set JAVAROOT=/Users/mpsitech/srcjava
 

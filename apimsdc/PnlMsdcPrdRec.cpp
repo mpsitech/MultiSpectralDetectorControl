@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdRec.cpp
   * API code for job PnlMsdcPrdRec (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -42,7 +42,9 @@ string PnlMsdcPrdRec::VecVDo::getSref(
 
 PnlMsdcPrdRec::ContInf::ContInf(
 			const string& TxtRef
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtRef = TxtRef;
 
 	mask = {TXTREF};
@@ -102,7 +104,9 @@ set<uint> PnlMsdcPrdRec::ContInf::diff(
 PnlMsdcPrdRec::StatApp::StatApp(
 			const bool initdoneDetail
 			, const bool initdone1NData
-		) : Block() {
+		) :
+			Block()
+		{
 	this->initdoneDetail = initdoneDetail;
 	this->initdone1NData = initdone1NData;
 
@@ -167,7 +171,9 @@ PnlMsdcPrdRec::StatShr::StatShr(
 			, const string& scrJrefDetail
 			, const string& scrJref1NData
 			, const bool ButRegularizeActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->scrJrefDetail = scrJrefDetail;
 	this->scrJref1NData = scrJref1NData;
@@ -240,7 +246,9 @@ set<uint> PnlMsdcPrdRec::StatShr::diff(
 
 PnlMsdcPrdRec::Tag::Tag(
 			const string& Cpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 
 	mask = {CPT};
@@ -277,7 +285,9 @@ PnlMsdcPrdRec::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDRECDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCPRDRECDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -310,7 +320,9 @@ void PnlMsdcPrdRec::DpchAppDo::writeXML(
  class PnlMsdcPrdRec::DpchEngData
  ******************************************************************************/
 
-PnlMsdcPrdRec::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDRECDATA) {
+PnlMsdcPrdRec::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCPRDRECDATA)
+		{
 };
 
 string PnlMsdcPrdRec::DpchEngData::getSrefsMask() {

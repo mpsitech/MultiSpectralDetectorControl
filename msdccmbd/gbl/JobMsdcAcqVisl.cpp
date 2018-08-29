@@ -2,8 +2,8 @@
   * \file JobMsdcAcqVisl.cpp
   * job handler for job JobMsdcAcqVisl (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcAcqVisl::Shrdat
  ******************************************************************************/
 
-JobMsdcAcqVisl::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcAcqVisl", "Shrdat", "JobMsdcAcqVisl::shrdat") {
+JobMsdcAcqVisl::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcAcqVisl", "Shrdat")
+		{
 };
 
 void JobMsdcAcqVisl::Shrdat::init(
@@ -72,7 +74,9 @@ JobMsdcAcqVisl::JobMsdcAcqVisl(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQVISL, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQVISL, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 

@@ -2,8 +2,8 @@
   * \file MsdcMPerson.cpp
   * database access for table TblMsdcMPerson (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcMPerson.h"
@@ -281,7 +281,10 @@ ubigint TblMsdcMPerson::loadRstByRefs(
  class LiteTblMsdcMPerson
  ******************************************************************************/
 
-LiteTblMsdcMPerson::LiteTblMsdcMPerson() : TblMsdcMPerson(), LiteTable() {
+LiteTblMsdcMPerson::LiteTblMsdcMPerson() :
+			TblMsdcMPerson()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

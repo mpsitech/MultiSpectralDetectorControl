@@ -2,8 +2,8 @@
   * \file MsdcAVValuelistVal.cpp
   * database access for table TblMsdcAVValuelistVal (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAVValuelistVal.h"
@@ -252,7 +252,10 @@ ubigint TblMsdcAVValuelistVal::loadRstByRefs(
  class LiteTblMsdcAVValuelistVal
  ******************************************************************************/
 
-LiteTblMsdcAVValuelistVal::LiteTblMsdcAVValuelistVal() : TblMsdcAVValuelistVal(), LiteTable() {
+LiteTblMsdcAVValuelistVal::LiteTblMsdcAVValuelistVal() :
+			TblMsdcAVValuelistVal()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

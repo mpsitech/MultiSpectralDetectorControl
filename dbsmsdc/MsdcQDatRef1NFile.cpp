@@ -2,8 +2,8 @@
   * \file MsdcQDatRef1NFile.cpp
   * Dbs and XML wrapper for table TblMsdcQDatRef1NFile (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQDatRef1NFile.h"
@@ -220,7 +220,10 @@ ubigint TblMsdcQDatRef1NFile::loadRstByJref(
  class LiteTblMsdcQDatRef1NFile
  ******************************************************************************/
 
-LiteTblMsdcQDatRef1NFile::LiteTblMsdcQDatRef1NFile() : TblMsdcQDatRef1NFile(), LiteTable() {
+LiteTblMsdcQDatRef1NFile::LiteTblMsdcQDatRef1NFile() :
+			TblMsdcQDatRef1NFile()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

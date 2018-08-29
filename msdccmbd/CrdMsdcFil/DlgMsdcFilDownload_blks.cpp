@@ -2,8 +2,8 @@
   * \file DlgMsdcFilDownload_blks.cpp
   * job handler for job DlgMsdcFilDownload (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -34,7 +34,9 @@ string DlgMsdcFilDownload::VecVDo::getSref(
 
 DlgMsdcFilDownload::ContInf::ContInf(
 			const string& Dld
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Dld = Dld;
 
 	mask = {DLD};
@@ -132,7 +134,9 @@ void DlgMsdcFilDownload::Tag::writeXML(
  class DlgMsdcFilDownload::DpchAppDo
  ******************************************************************************/
 
-DlgMsdcFilDownload::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCFILDOWNLOADDO) {
+DlgMsdcFilDownload::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCFILDOWNLOADDO)
+		{
 	ixVDo = 0;
 };
 
@@ -149,9 +153,7 @@ string DlgMsdcFilDownload::DpchAppDo::getSrefsMask() {
 };
 
 void DlgMsdcFilDownload::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -169,7 +171,7 @@ void DlgMsdcFilDownload::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -188,7 +190,9 @@ DlgMsdcFilDownload::DpchEngData::DpchEngData(
 			const ubigint jref
 			, ContInf* continf
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCFILDOWNLOADDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCFILDOWNLOADDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATAPP, TAG};
 	else this->mask = mask;
 
@@ -222,14 +226,11 @@ void DlgMsdcFilDownload::DpchEngData::merge(
 
 void DlgMsdcFilDownload::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngDlgMsdcFilDownloadData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);

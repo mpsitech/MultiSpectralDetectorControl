@@ -2,8 +2,8 @@
   * \file SessMsdc.cpp
   * API code for job SessMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -18,7 +18,9 @@
 
 SessMsdc::StatShr::StatShr(
 			const string& scrJrefCrdnav
-		) : Block() {
+		) :
+			Block()
+		{
 	this->scrJrefCrdnav = scrJrefCrdnav;
 
 	mask = {SCRJREFCRDNAV};
@@ -75,7 +77,9 @@ set<uint> SessMsdc::StatShr::diff(
  class SessMsdc::DpchEngData
  ******************************************************************************/
 
-SessMsdc::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGSESSMSDCDATA) {
+SessMsdc::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGSESSMSDCDATA)
+		{
 	feedFEnsSec.tag = "FeedFEnsSec";
 };
 

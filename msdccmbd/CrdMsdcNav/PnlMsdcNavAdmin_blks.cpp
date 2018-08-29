@@ -2,8 +2,8 @@
   * \file PnlMsdcNavAdmin_blks.cpp
   * job handler for job PnlMsdcNavAdmin (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -48,7 +48,9 @@ PnlMsdcNavAdmin::ContIac::ContIac(
 			const uint numFLstUsg
 			, const uint numFLstUsr
 			, const uint numFLstPrs
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFLstUsg = numFLstUsg;
 	this->numFLstUsr = numFLstUsr;
 	this->numFLstPrs = numFLstPrs;
@@ -170,7 +172,9 @@ PnlMsdcNavAdmin::StatShr::StatShr(
 			, const bool LstPrsAvail
 			, const bool ButPrsViewActive
 			, const bool ButScfNewcrdAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->LstUsgAvail = LstUsgAvail;
 	this->ButUsgViewActive = ButUsgViewActive;
 	this->LstUsrAvail = LstUsrAvail;
@@ -271,7 +275,9 @@ void PnlMsdcNavAdmin::Tag::writeXML(
  class PnlMsdcNavAdmin::DpchAppData
  ******************************************************************************/
 
-PnlMsdcNavAdmin::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVADMINDATA) {
+PnlMsdcNavAdmin::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVADMINDATA)
+		{
 };
 
 string PnlMsdcNavAdmin::DpchAppData::getSrefsMask() {
@@ -287,9 +293,7 @@ string PnlMsdcNavAdmin::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcNavAdmin::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -306,7 +310,7 @@ void PnlMsdcNavAdmin::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -319,7 +323,9 @@ void PnlMsdcNavAdmin::DpchAppData::readXML(
  class PnlMsdcNavAdmin::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcNavAdmin::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVADMINDO) {
+PnlMsdcNavAdmin::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVADMINDO)
+		{
 	ixVDo = 0;
 };
 
@@ -336,9 +342,7 @@ string PnlMsdcNavAdmin::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcNavAdmin::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -356,7 +360,7 @@ void PnlMsdcNavAdmin::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -379,7 +383,9 @@ PnlMsdcNavAdmin::DpchEngData::DpchEngData(
 			, Feed* feedFLstUsr
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVADMINDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVADMINDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, FEEDFLSTPRS, FEEDFLSTUSG, FEEDFLSTUSR, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -425,14 +431,11 @@ void PnlMsdcNavAdmin::DpchEngData::merge(
 
 void PnlMsdcNavAdmin::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcNavAdminData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(FEEDFLSTPRS)) feedFLstPrs.writeXML(wr);
 		if (has(FEEDFLSTUSG)) feedFLstUsg.writeXML(wr);

@@ -2,8 +2,8 @@
   * \file QryMsdcUsgList.cpp
   * job handler for job QryMsdcUsgList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -25,7 +25,9 @@ QryMsdcUsgList::QryMsdcUsgList(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::QRYMSDCUSGLIST, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::QRYMSDCUSGLIST, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

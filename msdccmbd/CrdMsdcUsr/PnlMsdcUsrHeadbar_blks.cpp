@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrHeadbar_blks.cpp
   * job handler for job PnlMsdcUsrHeadbar (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -71,7 +71,9 @@ void PnlMsdcUsrHeadbar::Tag::writeXML(
 PnlMsdcUsrHeadbar::DpchEngData::DpchEngData(
 			const ubigint jref
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRHEADBARDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRHEADBARDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, STGINF, TAG};
 	else this->mask = mask;
 
@@ -102,14 +104,11 @@ void PnlMsdcUsrHeadbar::DpchEngData::merge(
 
 void PnlMsdcUsrHeadbar::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcUsrHeadbarData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(STGINF)) StgInf::writeXML(ixMsdcVLocale, wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);

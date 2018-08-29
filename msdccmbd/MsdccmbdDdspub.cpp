@@ -2,8 +2,8 @@
 	* \file MsdccmbdDdspub.cpp
 	* DDS publisher based on rti DDS Connext for Msdc combined daemon (implementation)
 	* \author Alexander Wirthmueller
-	* \date created: 15 Aug 2018
-	* \date modified: 15 Aug 2018
+	* \date created: 29 Aug 2018
+	* \date modified: 29 Aug 2018
 	*/
 
 #include "Msdccmbd.h"
@@ -26,7 +26,7 @@ namespace rti {
 				if (!request.info().valid()) continue;
 
 				MsdccmbdDdspub::runMethod(MsdccmbdDdspub::statshr.jrefAcqlwir, VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD, "setOutput",
-							{&request.data().ixMsdcVSqrgrp()},
+							{&request.data().srefIxMsdcVSqrgrp()},
 							{&reply.success()});
 
 				replier.send_reply(reply, request.info());
@@ -94,7 +94,7 @@ namespace rti {
 				if (!request.info().valid()) continue;
 
 				MsdccmbdDdspub::runMethod(MsdccmbdDdspub::statshr.jrefAcqvisl, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "setOutput",
-							{&request.data().ixMsdcVCamres(), &request.data().ixMsdcVSqrgrp(), &request.data().grayscale()},
+							{&request.data().srefIxMsdcVCamres(), &request.data().srefIxMsdcVSqrgrp(), &request.data().grayscale()},
 							{&reply.success()});
 
 				replier.send_reply(reply, request.info());
@@ -179,7 +179,7 @@ namespace rti {
 				if (!request.info().valid()) continue;
 
 				MsdccmbdDdspub::runMethod(MsdccmbdDdspub::statshr.jrefAcqvisr, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "setOutput",
-							{&request.data().ixMsdcVCamres(), &request.data().ixMsdcVSqrgrp(), &request.data().grayscale()},
+							{&request.data().srefIxMsdcVCamres(), &request.data().srefIxMsdcVSqrgrp(), &request.data().grayscale()},
 							{&reply.success()});
 
 				replier.send_reply(reply, request.info());
@@ -247,7 +247,7 @@ namespace rti {
 				if (!request.info().valid()) continue;
 
 				MsdccmbdDdspub::runMethod(MsdccmbdDdspub::statshr.jrefActalign, VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD, "setWave",
-							{&request.data().ixVFunction(), &request.data().N(), &request.data().seq()},
+							{&request.data().srefIxVFunction(), &request.data().N(), &request.data().seq()},
 							{&reply.success()});
 
 				replier.send_reply(reply, request.info());
@@ -517,9 +517,9 @@ void* MsdccmbdDdspub::run(
 
 	xchg->addReq(req);
 
-	Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "run");
-	if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdDdspub", "run");
-	Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "run");
+	req->cReady.lockMutex("MsdccmbdDdspub", "run[1]");
+	if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdDdspub", "run[1]");
+	req->cReady.unlockMutex("MsdccmbdDdspub", "run[1]");
 
 	if (req->dpcheng) if (req->dpcheng->ixMsdcVDpch == VecMsdcVDpch::DPCHENGMSDCCONFIRM) if (((DpchEngMsdcConfirm*) (req->dpcheng))->accepted) jrefM2msess = req->dpcheng->jref;
 
@@ -536,9 +536,9 @@ void* MsdccmbdDdspub::run(
 
 		xchg->addReq(req);
 
-		Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "run");
-		if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdDdspub", "run");
-		Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "run");
+		req->cReady.lockMutex("MsdccmbdDdspub", "run[2]");
+		if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdDdspub", "run[2]");
+		req->cReady.unlockMutex("MsdccmbdDdspub", "run[2]");
 
 		if (req->dpcheng) if (req->dpcheng->ixMsdcVDpch == VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA) if (req->dpcheng->has(M2msessMsdc::DpchEngData::STATSHR)) statshr = ((M2msessMsdc::DpchEngData*) (req->dpcheng))->statshr;
 
@@ -680,7 +680,7 @@ void* MsdccmbdDdspub::run(
 		if ((ixAcc & VecMsdcWAccess::VIEW) == VecMsdcWAccess::VIEW) {
 			dataWriters.JobMsdcAcqLwir_seqnoTGray16 = new DdsJobMsdcAcqLwir::seqnoTGray16();
 			dataWriters.topicJobMsdcAcqLwir_seqnoTGray16 = new dds::topic::Topic<DdsJobMsdcAcqLwir::seqnoTGray16>(participant, "JobMsdcAcqLwir.seqnoTGray16");
-			// dataWriters.writerJobMsdcAcqLwir_seqnoTGray16 = new dds::pub::DataWriter<DdsJobMsdcAcqLwir::seqnoTGray16>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqLwir_seqnoTGray16);
+			dataWriters.writerJobMsdcAcqLwir_seqnoTGray16 = new dds::pub::DataWriter<DdsJobMsdcAcqLwir::seqnoTGray16>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqLwir_seqnoTGray16);
 
 			xchg->addClstnDdspub(statshr.jrefAcqlwir, "seqnoTGray16");
 		};
@@ -690,7 +690,7 @@ void* MsdccmbdDdspub::run(
 		if ((ixAcc & VecMsdcWAccess::VIEW) == VecMsdcWAccess::VIEW) {
 			dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8 = new DdsJobMsdcAcqVisl::seqnoTRgbx8Gray8();
 			dataWriters.topicJobMsdcAcqVisl_seqnoTRgbx8Gray8 = new dds::topic::Topic<DdsJobMsdcAcqVisl::seqnoTRgbx8Gray8>(participant, "JobMsdcAcqVisl.seqnoTRgbx8Gray8");
-			// dataWriters.writerJobMsdcAcqVisl_seqnoTRgbx8Gray8 = new dds::pub::DataWriter<DdsJobMsdcAcqVisl::seqnoTRgbx8Gray8>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqVisl_seqnoTRgbx8Gray8);
+			dataWriters.writerJobMsdcAcqVisl_seqnoTRgbx8Gray8 = new dds::pub::DataWriter<DdsJobMsdcAcqVisl::seqnoTRgbx8Gray8>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqVisl_seqnoTRgbx8Gray8);
 
 			xchg->addClstnDdspub(statshr.jrefAcqvisl, "seqnoTRgbx8Gray8");
 		};
@@ -700,7 +700,7 @@ void* MsdccmbdDdspub::run(
 		if ((ixAcc & VecMsdcWAccess::VIEW) == VecMsdcWAccess::VIEW) {
 			dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8 = new DdsJobMsdcAcqVisr::seqnoTRgbx8Gray8();
 			dataWriters.topicJobMsdcAcqVisr_seqnoTRgbx8Gray8 = new dds::topic::Topic<DdsJobMsdcAcqVisr::seqnoTRgbx8Gray8>(participant, "JobMsdcAcqVisr.seqnoTRgbx8Gray8");
-			// dataWriters.writerJobMsdcAcqVisr_seqnoTRgbx8Gray8 = new dds::pub::DataWriter<DdsJobMsdcAcqVisr::seqnoTRgbx8Gray8>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqVisr_seqnoTRgbx8Gray8);
+			dataWriters.writerJobMsdcAcqVisr_seqnoTRgbx8Gray8 = new dds::pub::DataWriter<DdsJobMsdcAcqVisr::seqnoTRgbx8Gray8>(dds::pub::Publisher(participant), *dataWriters.topicJobMsdcAcqVisr_seqnoTRgbx8Gray8);
 
 			xchg->addClstnDdspub(statshr.jrefAcqvisr, "seqnoTRgbx8Gray8");
 		};
@@ -727,62 +727,63 @@ void* MsdccmbdDdspub::run(
 	};
 
 	while (true) {
-		Mutex::lock(&(xchg->mcDdspub), "xchg->mcDdspub", "MsdccmbdDdspub", "run");
-		if (!(xchg->ddspubcall)) Cond::wait(&(xchg->cDdspub), &(xchg->mcDdspub), "xchg->cDdspub", "MsdccmbdDdspub", "run");
+		xchg->cDdspub.lockMutex("MsdccmbdDdspub", "run");
+		if (!(xchg->ddspubcall)) xchg->cDdspub.wait("MsdccmbdDdspub", "run");
 
 		if ((xchg->ddspubcall->jref == statshr.jrefAcqadxl) && (xchg->ddspubcall->argInv.sref == "alphaBeta")) {
-			JobMsdcAcqAdxl::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqAdxl::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcAcqAdxl_alphaBeta->alpha(JobMsdcAcqAdxl::shrdat.alpha);
 			dataWriters.JobMsdcAcqAdxl_alphaBeta->beta(JobMsdcAcqAdxl::shrdat.beta);
-			JobMsdcAcqAdxl::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqAdxl::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcAcqAdxl_alphaBeta->write(*(dataWriters.JobMsdcAcqAdxl_alphaBeta));
 		} else if ((xchg->ddspubcall->jref == statshr.jrefAcqlwir) && (xchg->ddspubcall->argInv.sref == "seqnoTGray16")) {
-			JobMsdcAcqLwir::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqLwir::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcAcqLwir_seqnoTGray16->seqno(JobMsdcAcqLwir::shrdat.seqno);
 			dataWriters.JobMsdcAcqLwir_seqnoTGray16->t(JobMsdcAcqLwir::shrdat.t);
 			dataWriters.JobMsdcAcqLwir_seqnoTGray16->gray16(JobMsdcAcqLwir::shrdat.gray16);
-			JobMsdcAcqLwir::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqLwir::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcAcqLwir_seqnoTGray16->write(*(dataWriters.JobMsdcAcqLwir_seqnoTGray16));
 		} else if ((xchg->ddspubcall->jref == statshr.jrefAcqvisl) && (xchg->ddspubcall->argInv.sref == "seqnoTRgbx8Gray8")) {
-			JobMsdcAcqVisl::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqVisl::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8->seqno(JobMsdcAcqVisl::shrdat.seqno);
 			dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8->t(JobMsdcAcqVisl::shrdat.t);
 			dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8->rgbx8(JobMsdcAcqVisl::shrdat.rgbx8);
 			dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8->gray8(JobMsdcAcqVisl::shrdat.gray8);
-			JobMsdcAcqVisl::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqVisl::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcAcqVisl_seqnoTRgbx8Gray8->write(*(dataWriters.JobMsdcAcqVisl_seqnoTRgbx8Gray8));
 		} else if ((xchg->ddspubcall->jref == statshr.jrefAcqvisr) && (xchg->ddspubcall->argInv.sref == "seqnoTRgbx8Gray8")) {
-			JobMsdcAcqVisr::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqVisr::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8->seqno(JobMsdcAcqVisr::shrdat.seqno);
 			dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8->t(JobMsdcAcqVisr::shrdat.t);
 			dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8->rgbx8(JobMsdcAcqVisr::shrdat.rgbx8);
 			dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8->gray8(JobMsdcAcqVisr::shrdat.gray8);
-			JobMsdcAcqVisr::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcAcqVisr::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcAcqVisr_seqnoTRgbx8Gray8->write(*(dataWriters.JobMsdcAcqVisr_seqnoTRgbx8Gray8));
 		} else if ((xchg->ddspubcall->jref == statshr.jrefActled) && (xchg->ddspubcall->argInv.sref == "floodSpot")) {
-			JobMsdcActLed::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcActLed::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcActLed_floodSpot->flood(JobMsdcActLed::shrdat.flood);
 			dataWriters.JobMsdcActLed_floodSpot->spot(JobMsdcActLed::shrdat.spot);
-			JobMsdcActLed::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcActLed::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcActLed_floodSpot->write(*(dataWriters.JobMsdcActLed_floodSpot));
 		} else if ((xchg->ddspubcall->jref == statshr.jrefActservo) && (xchg->ddspubcall->argInv.sref == "thetaPhi")) {
-			JobMsdcActServo::shrdat.lockAccess("MsdccmbdDdspub", "run");
+			JobMsdcActServo::shrdat.rlockAccess("MsdccmbdDdspub", "run");
 			dataWriters.JobMsdcActServo_thetaPhi->theta(JobMsdcActServo::shrdat.theta);
 			dataWriters.JobMsdcActServo_thetaPhi->phi(JobMsdcActServo::shrdat.phi);
-			JobMsdcActServo::shrdat.unlockAccess("MsdccmbdDdspub", "run");
+			JobMsdcActServo::shrdat.runlockAccess("MsdccmbdDdspub", "run");
 
 			dataWriters.writerJobMsdcActServo_thetaPhi->write(*(dataWriters.JobMsdcActServo_thetaPhi));
 		};
 
 		xchg->ddspubcall = NULL;
-		Mutex::unlock(&(xchg->mcDdspub), "xchg->mcDdspub", "MsdccmbdDdspub", "run");
 
-		Cond::signal(&(xchg->cDdspub), &(xchg->mcDdspub), "xchg->cDdspub", "xchg->mcDdspub", "MsdccmbdDdspub", "run");
+		xchg->cDdspub.unlockMutex("MsdccmbdDdspub", "run");
+
+		xchg->cDdspub.signal("MsdccmbdDdspub", "run");
 	};
 
 	pthread_cleanup_pop(0);
@@ -795,7 +796,7 @@ void MsdccmbdDdspub::cleanup(
 		) {
 	XchgMsdccmbd* xchg = (XchgMsdccmbd*) arg;
 
-	Mutex::unlock(&(xchg->mcDdspub), "xchg->mcDdspub", "MsdccmbdDdspub", "cleanup");
+	xchg->cDdspub.unlockMutex("MsdccmbdDdspub", "cleanup");
 };
 
 void MsdccmbdDdspub::runMethod(
@@ -815,9 +816,9 @@ void MsdccmbdDdspub::runMethod(
 
 	xchg->addReq(req);
 
-	Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "runMethod");
-	if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdDdspub", "runMethod");
-	Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdDdspub", "runMethod");
+	req->cReady.lockMutex("MsdccmbdDdspub", "runMethod");
+	if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdDdspub", "runMethod");
+	req->cReady.unlockMutex("MsdccmbdDdspub", "runMethod");
 
 	delete req;
 };

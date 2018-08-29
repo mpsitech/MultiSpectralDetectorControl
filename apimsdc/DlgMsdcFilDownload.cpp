@@ -2,8 +2,8 @@
   * \file DlgMsdcFilDownload.cpp
   * API code for job DlgMsdcFilDownload (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -40,7 +40,9 @@ string DlgMsdcFilDownload::VecVDo::getSref(
 
 DlgMsdcFilDownload::ContInf::ContInf(
 			const string& Dld
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Dld = Dld;
 
 	mask = {DLD};
@@ -99,7 +101,9 @@ set<uint> DlgMsdcFilDownload::ContInf::diff(
 
 DlgMsdcFilDownload::StatApp::StatApp(
 			const string& shortMenu
-		) : Block() {
+		) :
+			Block()
+		{
 	this->shortMenu = shortMenu;
 
 	mask = {SHORTMENU};
@@ -160,7 +164,9 @@ DlgMsdcFilDownload::Tag::Tag(
 			const string& Cpt
 			, const string& Dld
 			, const string& ButDne
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->Dld = Dld;
 	this->ButDne = ButDne;
@@ -201,7 +207,9 @@ DlgMsdcFilDownload::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCFILDOWNLOADDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCFILDOWNLOADDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -234,7 +242,9 @@ void DlgMsdcFilDownload::DpchAppDo::writeXML(
  class DlgMsdcFilDownload::DpchEngData
  ******************************************************************************/
 
-DlgMsdcFilDownload::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCFILDOWNLOADDATA) {
+DlgMsdcFilDownload::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCFILDOWNLOADDATA)
+		{
 };
 
 string DlgMsdcFilDownload::DpchEngData::getSrefsMask() {

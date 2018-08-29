@@ -2,8 +2,8 @@
   * \file CrdMsdcDat.cpp
   * API code for job CrdMsdcDat (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -68,7 +68,9 @@ CrdMsdcDat::ContInf::ContInf(
 			const uint numFSge
 			, const string& MrlAppHlp
 			, const string& MtxCrdDat
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 	this->MrlAppHlp = MrlAppHlp;
 	this->MtxCrdDat = MtxCrdDat;
@@ -139,7 +141,9 @@ CrdMsdcDat::StatApp::StatApp(
 			, const bool initdoneHeadbar
 			, const bool initdoneList
 			, const bool initdoneRec
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVReqitmode = ixMsdcVReqitmode;
 	this->latency = latency;
 	this->shortMenu = shortMenu;
@@ -223,7 +227,9 @@ CrdMsdcDat::StatShr::StatShr(
 			const string& scrJrefHeadbar
 			, const string& scrJrefList
 			, const string& scrJrefRec
-		) : Block() {
+		) :
+			Block()
+		{
 	this->scrJrefHeadbar = scrJrefHeadbar;
 	this->scrJrefList = scrJrefList;
 	this->scrJrefRec = scrJrefRec;
@@ -289,7 +295,9 @@ set<uint> CrdMsdcDat::StatShr::diff(
 CrdMsdcDat::Tag::Tag(
 			const string& MitAppAbt
 			, const string& MrlAppHlp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MitAppAbt = MitAppAbt;
 	this->MrlAppHlp = MrlAppHlp;
 
@@ -328,7 +336,9 @@ CrdMsdcDat::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCDATDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -361,7 +371,9 @@ void CrdMsdcDat::DpchAppDo::writeXML(
  class CrdMsdcDat::DpchEngData
  ******************************************************************************/
 
-CrdMsdcDat::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATDATA) {
+CrdMsdcDat::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCDATDATA)
+		{
 	feedFSge.tag = "FeedFSge";
 };
 

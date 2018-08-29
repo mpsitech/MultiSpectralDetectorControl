@@ -2,8 +2,8 @@
   * \file PnlMsdcNavOpr_blks.cpp
   * job handler for job PnlMsdcNavOpr (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -48,7 +48,9 @@ PnlMsdcNavOpr::ContIac::ContIac(
 			const uint numFLstPrd
 			, const uint numFLstDat
 			, const uint numFLstFil
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFLstPrd = numFLstPrd;
 	this->numFLstDat = numFLstDat;
 	this->numFLstFil = numFLstFil;
@@ -172,7 +174,9 @@ PnlMsdcNavOpr::StatShr::StatShr(
 			, const bool LstFilAvail
 			, const bool ButFilViewActive
 			, const bool ButFilNewcrdActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButLivNewcrdAvail = ButLivNewcrdAvail;
 	this->LstPrdAvail = LstPrdAvail;
 	this->ButPrdViewActive = ButPrdViewActive;
@@ -279,7 +283,9 @@ void PnlMsdcNavOpr::Tag::writeXML(
  class PnlMsdcNavOpr::DpchAppData
  ******************************************************************************/
 
-PnlMsdcNavOpr::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDATA) {
+PnlMsdcNavOpr::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDATA)
+		{
 };
 
 string PnlMsdcNavOpr::DpchAppData::getSrefsMask() {
@@ -295,9 +301,7 @@ string PnlMsdcNavOpr::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcNavOpr::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -314,7 +318,7 @@ void PnlMsdcNavOpr::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -327,7 +331,9 @@ void PnlMsdcNavOpr::DpchAppData::readXML(
  class PnlMsdcNavOpr::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcNavOpr::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDO) {
+PnlMsdcNavOpr::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVOPRDO)
+		{
 	ixVDo = 0;
 };
 
@@ -344,9 +350,7 @@ string PnlMsdcNavOpr::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcNavOpr::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -364,7 +368,7 @@ void PnlMsdcNavOpr::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -387,7 +391,9 @@ PnlMsdcNavOpr::DpchEngData::DpchEngData(
 			, Feed* feedFLstPrd
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVOPRDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVOPRDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, FEEDFLSTDAT, FEEDFLSTFIL, FEEDFLSTPRD, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -433,14 +439,11 @@ void PnlMsdcNavOpr::DpchEngData::merge(
 
 void PnlMsdcNavOpr::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcNavOprData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(FEEDFLSTDAT)) feedFLstDat.writeXML(wr);
 		if (has(FEEDFLSTFIL)) feedFLstFil.writeXML(wr);

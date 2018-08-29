@@ -2,8 +2,8 @@
   * \file MsdcAMUsergroupAccess.cpp
   * database access for table TblMsdcAMUsergroupAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcAMUsergroupAccess.h"
@@ -259,7 +259,10 @@ ubigint TblMsdcAMUsergroupAccess::loadRstByRefs(
  class LiteTblMsdcAMUsergroupAccess
  ******************************************************************************/
 
-LiteTblMsdcAMUsergroupAccess::LiteTblMsdcAMUsergroupAccess() : TblMsdcAMUsergroupAccess(), LiteTable() {
+LiteTblMsdcAMUsergroupAccess::LiteTblMsdcAMUsergroupAccess() :
+			TblMsdcAMUsergroupAccess()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.cpp
   * API code for job PnlMsdcLivVideo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -75,7 +75,9 @@ PnlMsdcLivVideo::ContIac::ContIac(
 			, const uint numFPupRes
 			, const double SldExt
 			, const double SldFcs
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFPupSrc = numFPupSrc;
 	this->numFPupRes = numFPupRes;
 	this->SldExt = SldExt;
@@ -162,7 +164,9 @@ set<uint> PnlMsdcLivVideo::ContIac::diff(
 
 PnlMsdcLivVideo::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -221,7 +225,9 @@ set<uint> PnlMsdcLivVideo::ContInf::diff(
 
 PnlMsdcLivVideo::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -296,7 +302,9 @@ PnlMsdcLivVideo::StatShr::StatShr(
 			, const bool SldFcsActive
 			, const double SldFcsMin
 			, const double SldFcsMax
-		) : Block() {
+		) :
+			Block()
+		{
 	this->PupResAvail = PupResAvail;
 	this->ButPlayActive = ButPlayActive;
 	this->ButStopActive = ButStopActive;
@@ -392,7 +400,9 @@ PnlMsdcLivVideo::Tag::Tag(
 			, const string& CptRes
 			, const string& CptExt
 			, const string& CptFcs
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptSrc = CptSrc;
 	this->CptRes = CptRes;
@@ -437,7 +447,9 @@ PnlMsdcLivVideo::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -474,7 +486,9 @@ PnlMsdcLivVideo::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -507,7 +521,9 @@ void PnlMsdcLivVideo::DpchAppDo::writeXML(
  class PnlMsdcLivVideo::DpchEngData
  ******************************************************************************/
 
-PnlMsdcLivVideo::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEODATA) {
+PnlMsdcLivVideo::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEODATA)
+		{
 	feedFPupRes.tag = "FeedFPupRes";
 	feedFPupSrc.tag = "FeedFPupSrc";
 };
@@ -568,7 +584,9 @@ void PnlMsdcLivVideo::DpchEngData::readXML(
  class PnlMsdcLivVideo::DpchEngLive
  ******************************************************************************/
 
-PnlMsdcLivVideo::DpchEngLive::DpchEngLive() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEOLIVE) {
+PnlMsdcLivVideo::DpchEngLive::DpchEngLive() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEOLIVE)
+		{
 };
 
 string PnlMsdcLivVideo::DpchEngLive::getSrefsMask() {

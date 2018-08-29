@@ -2,8 +2,8 @@
   * \file MsdcQUsgAAccess.cpp
   * Dbs and XML wrapper for table TblMsdcQUsgAAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQUsgAAccess.h"
@@ -252,7 +252,10 @@ ubigint TblMsdcQUsgAAccess::loadRstByJref(
  class LiteTblMsdcQUsgAAccess
  ******************************************************************************/
 
-LiteTblMsdcQUsgAAccess::LiteTblMsdcQUsgAAccess() : TblMsdcQUsgAAccess(), LiteTable() {
+LiteTblMsdcQUsgAAccess::LiteTblMsdcQUsgAAccess() :
+			TblMsdcQUsgAAccess()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

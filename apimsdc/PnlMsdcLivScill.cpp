@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.cpp
   * API code for job PnlMsdcLivScill (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -41,7 +41,9 @@ string PnlMsdcLivScill::VecVDo::getSref(
 PnlMsdcLivScill::ContIac::ContIac(
 			const double SldFld
 			, const double SldSpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->SldFld = SldFld;
 	this->SldSpt = SldSpt;
 
@@ -120,7 +122,9 @@ set<uint> PnlMsdcLivScill::ContIac::diff(
 
 PnlMsdcLivScill::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -179,7 +183,9 @@ set<uint> PnlMsdcLivScill::ContInf::diff(
 
 PnlMsdcLivScill::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -248,7 +254,9 @@ PnlMsdcLivScill::StatShr::StatShr(
 			, const bool SldSptActive
 			, const double SldSptMin
 			, const double SldSptMax
-		) : Block() {
+		) :
+			Block()
+		{
 	this->SldFldActive = SldFldActive;
 	this->SldFldMin = SldFldMin;
 	this->SldFldMax = SldFldMax;
@@ -324,7 +332,9 @@ PnlMsdcLivScill::Tag::Tag(
 			const string& Cpt
 			, const string& CptFld
 			, const string& CptSpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptFld = CptFld;
 	this->CptSpt = CptSpt;
@@ -365,7 +375,9 @@ PnlMsdcLivScill::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -402,7 +414,9 @@ PnlMsdcLivScill::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -435,7 +449,9 @@ void PnlMsdcLivScill::DpchAppDo::writeXML(
  class PnlMsdcLivScill::DpchEngData
  ******************************************************************************/
 
-PnlMsdcLivScill::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVSCILLDATA) {
+PnlMsdcLivScill::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVSCILLDATA)
+		{
 };
 
 string PnlMsdcLivScill::DpchEngData::getSrefsMask() {

@@ -2,8 +2,8 @@
   * \file JobMsdcSrcTrigger_blks.cpp
   * job handler for job JobMsdcSrcTrigger (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -44,7 +44,9 @@ void JobMsdcSrcTrigger::VecVSge::fillFeed(
 
 JobMsdcSrcTrigger::Stg::Stg(
 			const float dt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->dt = dt;
 	mask = {DT};
 };

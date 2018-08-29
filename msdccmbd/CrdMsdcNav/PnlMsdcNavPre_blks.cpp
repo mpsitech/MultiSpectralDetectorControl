@@ -2,8 +2,8 @@
   * \file PnlMsdcNavPre_blks.cpp
   * job handler for job PnlMsdcNavPre (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -37,7 +37,9 @@ string PnlMsdcNavPre::VecVDo::getSref(
 PnlMsdcNavPre::ContInf::ContInf(
 			const string& TxtDat
 			, const string& TxtPrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtDat = TxtDat;
 	this->TxtPrd = TxtPrd;
 
@@ -93,7 +95,9 @@ set<uint> PnlMsdcNavPre::ContInf::diff(
 PnlMsdcNavPre::StatShr::StatShr(
 			const bool TxtDatAvail
 			, const bool TxtPrdAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtDatAvail = TxtDatAvail;
 	this->TxtPrdAvail = TxtPrdAvail;
 
@@ -173,7 +177,9 @@ void PnlMsdcNavPre::Tag::writeXML(
  class PnlMsdcNavPre::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcNavPre::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVPREDO) {
+PnlMsdcNavPre::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVPREDO)
+		{
 	ixVDo = 0;
 };
 
@@ -190,9 +196,7 @@ string PnlMsdcNavPre::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcNavPre::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -210,7 +214,7 @@ void PnlMsdcNavPre::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -230,7 +234,9 @@ PnlMsdcNavPre::DpchEngData::DpchEngData(
 			, ContInf* continf
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVPREDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVPREDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -265,14 +271,11 @@ void PnlMsdcNavPre::DpchEngData::merge(
 
 void PnlMsdcNavPre::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcNavPreData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);

@@ -2,8 +2,8 @@
   * \file MsdcRMUserMUsergroup.cpp
   * database access for table TblMsdcRMUserMUsergroup (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcRMUserMUsergroup.h"
@@ -255,7 +255,10 @@ ubigint TblMsdcRMUserMUsergroup::loadRstByRefs(
  class LiteTblMsdcRMUserMUsergroup
  ******************************************************************************/
 
-LiteTblMsdcRMUserMUsergroup::LiteTblMsdcRMUserMUsergroup() : TblMsdcRMUserMUsergroup(), LiteTable() {
+LiteTblMsdcRMUserMUsergroup::LiteTblMsdcRMUserMUsergroup() :
+			TblMsdcRMUserMUsergroup()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

@@ -2,8 +2,8 @@
   * \file ApiMsdc.cpp
   * Msdc API library global functionality (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -21,7 +21,9 @@ StgMsdcapi::StgMsdcapi(
 			, const uint engport
 			, const string username
 			, const string password
-		) : Block() {
+		) :
+			Block()
+		{
 	this->engip = engip;
 	this->engport = engport;
 	this->username = username;

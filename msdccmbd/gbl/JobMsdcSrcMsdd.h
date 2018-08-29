@@ -2,8 +2,8 @@
   * \file JobMsdcSrcMsdd.h
   * job handler for job JobMsdcSrcMsdd (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef JOBMSDCSRCMSDD_H
@@ -127,7 +127,7 @@ public:
 
 		// lwir functionality
 		pthread_t lwir;
-		pthread_mutex_t mLwir;
+		Mutex mLwir;
 
 		Lwirdata lwirdata;
 		// IP Shrdat.custVar --- IEND

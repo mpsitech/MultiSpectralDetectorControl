@@ -2,8 +2,8 @@
   * \file PnlMsdcNavPre.cpp
   * API code for job PnlMsdcNavPre (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -43,7 +43,9 @@ string PnlMsdcNavPre::VecVDo::getSref(
 PnlMsdcNavPre::ContInf::ContInf(
 			const string& TxtDat
 			, const string& TxtPrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtDat = TxtDat;
 	this->TxtPrd = TxtPrd;
 
@@ -106,7 +108,9 @@ set<uint> PnlMsdcNavPre::ContInf::diff(
 PnlMsdcNavPre::StatShr::StatShr(
 			const bool TxtDatAvail
 			, const bool TxtPrdAvail
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtDatAvail = TxtDatAvail;
 	this->TxtPrdAvail = TxtPrdAvail;
 
@@ -169,7 +173,9 @@ set<uint> PnlMsdcNavPre::StatShr::diff(
 PnlMsdcNavPre::Tag::Tag(
 			const string& CptDat
 			, const string& CptPrd
-		) : Block() {
+		) :
+			Block()
+		{
 	this->CptDat = CptDat;
 	this->CptPrd = CptPrd;
 
@@ -208,7 +214,9 @@ PnlMsdcNavPre::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVPREDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCNAVPREDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -241,7 +249,9 @@ void PnlMsdcNavPre::DpchAppDo::writeXML(
  class PnlMsdcNavPre::DpchEngData
  ******************************************************************************/
 
-PnlMsdcNavPre::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVPREDATA) {
+PnlMsdcNavPre::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCNAVPREDATA)
+		{
 };
 
 string PnlMsdcNavPre::DpchEngData::getSrefsMask() {

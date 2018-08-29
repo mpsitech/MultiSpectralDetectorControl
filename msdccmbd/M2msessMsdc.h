@@ -2,8 +2,8 @@
   * \file M2msessMsdc.h
   * job handler for job M2msessMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef M2MSESSMSDC_H
@@ -59,7 +59,7 @@ public:
 		ubigint jrefPrcstereo;
 
 	public:
-		void writeXML(pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr, string difftag = "", bool shorttags = true);
+		void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
 		set<uint> comm(const StatShr* comp);
 		set<uint> diff(const StatShr* comp);
 	};
@@ -84,7 +84,7 @@ public:
 		string getSrefsMask();
 		void merge(DpchEngMsdc* dpcheng);
 
-		void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+		void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 	};
 
 public:

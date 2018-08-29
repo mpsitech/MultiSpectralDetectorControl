@@ -2,8 +2,8 @@
   * \file MsdcQPreselect.cpp
   * Dbs and XML wrapper for table TblMsdcQPreselect (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQPreselect.h"
@@ -214,7 +214,10 @@ ubigint TblMsdcQPreselect::loadRstByJref(
  class LiteTblMsdcQPreselect
  ******************************************************************************/
 
-LiteTblMsdcQPreselect::LiteTblMsdcQPreselect() : TblMsdcQPreselect(), LiteTable() {
+LiteTblMsdcQPreselect::LiteTblMsdcQPreselect() :
+			TblMsdcQPreselect()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

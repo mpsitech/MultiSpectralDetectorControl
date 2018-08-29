@@ -1,8 +1,8 @@
 # file Makefile
 # make file for Msdc API library, release apimsdc_che
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 LIBROOT = /home/mpsitech/lib
 

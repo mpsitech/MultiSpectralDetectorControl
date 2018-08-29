@@ -2,8 +2,8 @@
   * \file DpchAppMsdcResume.java
   * Msdc Java API package resume app dispatch block
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 package apimsdc;

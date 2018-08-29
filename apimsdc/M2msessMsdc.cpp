@@ -2,8 +2,8 @@
   * \file M2msessMsdc.cpp
   * API code for job M2msessMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -25,7 +25,9 @@ M2msessMsdc::StatShr::StatShr(
 			, const string& scrJrefActled
 			, const string& scrJrefActservo
 			, const string& scrJrefPrcstereo
-		) : Block() {
+		) :
+			Block()
+		{
 	this->scrJrefAcqadxl = scrJrefAcqadxl;
 	this->scrJrefAcqlwir = scrJrefAcqlwir;
 	this->scrJrefAcqvisl = scrJrefAcqvisl;
@@ -103,7 +105,9 @@ set<uint> M2msessMsdc::StatShr::diff(
  class M2msessMsdc::DpchEngData
  ******************************************************************************/
 
-M2msessMsdc::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA) {
+M2msessMsdc::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGM2MSESSMSDCDATA)
+		{
 };
 
 string M2msessMsdc::DpchEngData::getSrefsMask() {

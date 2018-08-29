@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrMNUsergroup.cpp
   * API code for job PnlMsdcUsrMNUsergroup (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -46,7 +46,9 @@ string PnlMsdcUsrMNUsergroup::VecVDo::getSref(
 
 PnlMsdcUsrMNUsergroup::ContInf::ContInf(
 			const uint numFCsiQst
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFCsiQst = numFCsiQst;
 
 	mask = {NUMFCSIQST};
@@ -105,7 +107,9 @@ set<uint> PnlMsdcUsrMNUsergroup::ContInf::diff(
 
 PnlMsdcUsrMNUsergroup::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -173,7 +177,9 @@ PnlMsdcUsrMNUsergroup::StatShr::StatShr(
 			, const bool ButAddAvail
 			, const bool ButSubAvail
 			, const bool ButSubActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButViewAvail = ButViewAvail;
 	this->ButViewActive = ButViewActive;
 	this->ButAddAvail = ButAddAvail;
@@ -245,7 +251,9 @@ set<uint> PnlMsdcUsrMNUsergroup::StatShr::diff(
 PnlMsdcUsrMNUsergroup::StgIac::StgIac(
 			const uint TcoMrefWidth
 			, const uint TcoUlvWidth
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TcoMrefWidth = TcoMrefWidth;
 	this->TcoUlvWidth = TcoUlvWidth;
 
@@ -329,7 +337,9 @@ PnlMsdcUsrMNUsergroup::Tag::Tag(
 			, const string& TxtShowing2
 			, const string& TcoMref
 			, const string& TcoUlv
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->Trs = Trs;
 	this->TxtShowing1 = TxtShowing1;
@@ -377,7 +387,9 @@ PnlMsdcUsrMNUsergroup::DpchAppData::DpchAppData(
 			, StgIac* stgiac
 			, QryMsdcUsrMNUsergroup::StgIac* stgiacqry
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, STGIAC, STGIACQRY};
 	else this->mask = mask;
 
@@ -417,7 +429,9 @@ PnlMsdcUsrMNUsergroup::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -450,7 +464,9 @@ void PnlMsdcUsrMNUsergroup::DpchAppDo::writeXML(
  class PnlMsdcUsrMNUsergroup::DpchEngData
  ******************************************************************************/
 
-PnlMsdcUsrMNUsergroup::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRMNUSERGROUPDATA) {
+PnlMsdcUsrMNUsergroup::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSRMNUSERGROUPDATA)
+		{
 	feedFCsiQst.tag = "FeedFCsiQst";
 };
 

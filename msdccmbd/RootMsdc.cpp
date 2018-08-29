@@ -2,8 +2,8 @@
   * \file RootMsdc.cpp
   * job handler for job RootMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -24,7 +24,9 @@ RootMsdc::RootMsdc(
 			XchgMsdc* xchg
 			, DbsMsdc* dbsmsdc
 			, const bool _clearAll
-		) : JobMsdc(xchg, VecMsdcVJob::ROOTMSDC, 0, VecMsdcVLocale::ENUS) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::ROOTMSDC, 0, VecMsdcVLocale::ENUS)
+		{
 
 	jref = xchg->addJob(this);
 
@@ -317,7 +319,7 @@ void RootMsdc::handleDpchAppLogin(
 					if (xchg->getRefPreset(VecMsdcVPreset::PREMSDCOWN, sess->jref) == refUsr) {
 						if (xchg->getBoolvalPreset(VecMsdcVPreset::PREMSDCSUSPSESS, sess->jref)) {
 							xchg->addTxtvalPreset(VecMsdcVPreset::PREMSDCIP, sess->jref, ip);
-							feedFEnsSps.appendIxSrefTitles(0, Scr::scramble(&(xchg->mScr), xchg->scr, xchg->descr, sess->jref), StubMsdc::getStubSesStd(dbsmsdc, xchg->getRefPreset(VecMsdcVPreset::PREMSDCSESS, sess->jref)));
+							feedFEnsSps.appendIxSrefTitles(0, Scr::scramble(sess->jref), StubMsdc::getStubSesStd(dbsmsdc, xchg->getRefPreset(VecMsdcVPreset::PREMSDCSESS, sess->jref)));
 						};
 					};
 				};

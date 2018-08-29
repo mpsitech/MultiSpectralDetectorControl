@@ -2,8 +2,8 @@
   * \file JobMsdcSrcTrigger.cpp
   * job handler for job JobMsdcSrcTrigger (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcSrcTrigger::Shrdat
  ******************************************************************************/
 
-JobMsdcSrcTrigger::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcSrcTrigger", "Shrdat", "JobMsdcSrcTrigger::shrdat") {
+JobMsdcSrcTrigger::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcSrcTrigger", "Shrdat")
+		{
 };
 
 void JobMsdcSrcTrigger::Shrdat::init(
@@ -49,7 +51,9 @@ JobMsdcSrcTrigger::JobMsdcSrcTrigger(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCSRCTRIGGER, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCSRCTRIGGER, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 
@@ -61,7 +65,7 @@ JobMsdcSrcTrigger::JobMsdcSrcTrigger(
 
 	// IP constructor.spec2 --- INSERT
 
-	xchg->addClstn(VecMsdcVCall::CALLMSDCTRIG, jref, Clstn::VecVJobmask::MAST, 0, Arg(), Clstn::VecVJactype::LOCK);
+	xchg->addClstn(VecMsdcVCall::CALLMSDCTRIG, jref, Clstn::VecVJobmask::MAST, 0, Arg(), Clstn::VecVJactype::TRY);
 	xchg->addClstn(VecMsdcVCall::CALLMSDCMASTSGECHG, jref, Clstn::VecVJobmask::MAST, 0, Arg(), Clstn::VecVJactype::LOCK);
 	xchg->addClstn(VecMsdcVCall::CALLMSDCMASTSRDCHG, jref, Clstn::VecVJobmask::SELF, 0, Arg(), Clstn::VecVJactype::LOCK);
 	xchg->addClstn(VecMsdcVCall::CALLMSDCMASTSRDCHG, jref, Clstn::VecVJobmask::SLV, 0, Arg(), Clstn::VecVJactype::LOCK);
@@ -136,13 +140,13 @@ uint JobMsdcSrcTrigger::enterSgeRun(
 	// IP enterSgeRun --- IBEGIN
 	double deltat;
 
-	shrdat.lockAccess(jref, "enterSgeRun");
+	shrdat.rlockAccess(jref, "enterSgeRun");
 
 	deltat = (shrdat.t + stg.dt) - Msdc::getNow();
 	if (deltat < 0.0) deltat = 0.0;
 	else if (deltat > stg.dt) deltat = stg.dt;
 
-	shrdat.unlockAccess(jref, "enterSgeRun");
+	shrdat.runlockAccess(jref, "enterSgeRun");
 
 	wrefLast = xchg->addWakeup(jref, "run", lround(1000000.0*deltat));
 	// IP enterSgeRun --- IEND
@@ -231,14 +235,14 @@ void JobMsdcSrcTrigger::handleTimer(
 		) {
 	if ((ixVSge == VecVSge::RUN) && (sref == "run")) {
 		// IP handleTimer.run --- IBEGIN
-		shrdat.lockAccess(jref, "handleTimer");
+		shrdat.wlockAccess(jref, "handleTimer");
 
 		shrdat.seqno++;
 		shrdat.t = Msdc::getNow();
 
 		xchg->triggerIntvalCall(dbsmsdc, VecMsdcVCall::CALLMSDCTRIG, jref, shrdat.seqno);
 
-		shrdat.unlockAccess(jref, "handleTimer");
+		shrdat.wunlockAccess(jref, "handleTimer");
 
 		wrefLast = xchg->addWakeup(jref, "run", lround(1000000.0*stg.dt));
 		// IP handleTimer.run --- IEND

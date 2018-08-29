@@ -2,8 +2,8 @@
   * \file MsdcJMPersonLastname.cpp
   * database access for table TblMsdcJMPersonLastname (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcJMPersonLastname.h"
@@ -263,7 +263,10 @@ ubigint TblMsdcJMPersonLastname::loadRstByRefs(
  class LiteTblMsdcJMPersonLastname
  ******************************************************************************/
 
-LiteTblMsdcJMPersonLastname::LiteTblMsdcJMPersonLastname() : TblMsdcJMPersonLastname(), LiteTable() {
+LiteTblMsdcJMPersonLastname::LiteTblMsdcJMPersonLastname() :
+			TblMsdcJMPersonLastname()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

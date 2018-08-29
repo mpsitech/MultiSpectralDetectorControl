@@ -2,8 +2,8 @@
   * \file MsdcQUsr1NSession.cpp
   * Dbs and XML wrapper for table TblMsdcQUsr1NSession (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQUsr1NSession.h"
@@ -220,7 +220,10 @@ ubigint TblMsdcQUsr1NSession::loadRstByJref(
  class LiteTblMsdcQUsr1NSession
  ******************************************************************************/
 
-LiteTblMsdcQUsr1NSession::LiteTblMsdcQUsr1NSession() : TblMsdcQUsr1NSession(), LiteTable() {
+LiteTblMsdcQUsr1NSession::LiteTblMsdcQUsr1NSession() :
+			TblMsdcQUsr1NSession()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

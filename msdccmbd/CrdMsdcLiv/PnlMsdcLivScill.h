@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.h
   * job handler for job PnlMsdcLivScill (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef PNLMSDCLIVSCILL_H
@@ -152,7 +152,7 @@ public:
 	public:
 		string getSrefsMask();
 
-		void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+		void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 	};
 
 	/**
@@ -173,7 +173,7 @@ public:
 	public:
 		string getSrefsMask();
 
-		void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+		void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 	};
 
 	/**
@@ -202,7 +202,7 @@ public:
 		string getSrefsMask();
 		void merge(DpchEngMsdc* dpcheng);
 
-		void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+		void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 	};
 
 	bool evalSldFldActive(DbsMsdc* dbsmsdc);

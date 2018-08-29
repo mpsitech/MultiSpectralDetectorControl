@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.cpp
   * job handler for job PnlMsdcLivVideo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -25,7 +25,9 @@ PnlMsdcLivVideo::PnlMsdcLivVideo(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCLIVVIDEO, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCLIVVIDEO, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

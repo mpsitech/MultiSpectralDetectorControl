@@ -2,8 +2,8 @@
   * \file MsdcMFile.cpp
   * database access for table TblMsdcMFile (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcMFile.h"
@@ -309,7 +309,10 @@ ubigint TblMsdcMFile::loadRstByRefs(
  class LiteTblMsdcMFile
  ******************************************************************************/
 
-LiteTblMsdcMFile::LiteTblMsdcMFile() : TblMsdcMFile(), LiteTable() {
+LiteTblMsdcMFile::LiteTblMsdcMFile() :
+			TblMsdcMFile()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;

@@ -2,8 +2,8 @@
   * \file DlgMsdcNavLoaini.cpp
   * API code for job DlgMsdcNavLoaini (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -126,7 +126,9 @@ string DlgMsdcNavLoaini::VecVSge::getSref(
 
 DlgMsdcNavLoaini::ContIac::ContIac(
 			const uint numFDse
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFDse = numFDse;
 
 	mask = {NUMFDSE};
@@ -201,7 +203,9 @@ set<uint> DlgMsdcNavLoaini::ContIac::diff(
 
 DlgMsdcNavLoaini::ContInf::ContInf(
 			const uint numFSge
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 
 	mask = {NUMFSGE};
@@ -260,7 +264,9 @@ set<uint> DlgMsdcNavLoaini::ContInf::diff(
 
 DlgMsdcNavLoaini::ContInfImp::ContInfImp(
 			const string& TxtPrg
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtPrg = TxtPrg;
 
 	mask = {TXTPRG};
@@ -319,7 +325,9 @@ set<uint> DlgMsdcNavLoaini::ContInfImp::diff(
 
 DlgMsdcNavLoaini::ContInfLfi::ContInfLfi(
 			const string& Dld
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Dld = Dld;
 
 	mask = {DLD};
@@ -379,7 +387,9 @@ set<uint> DlgMsdcNavLoaini::ContInfLfi::diff(
 DlgMsdcNavLoaini::StatApp::StatApp(
 			const bool initdone
 			, const string& shortMenu
-		) : Block() {
+		) :
+			Block()
+		{
 	this->initdone = initdone;
 	this->shortMenu = shortMenu;
 
@@ -441,7 +451,9 @@ set<uint> DlgMsdcNavLoaini::StatApp::diff(
 
 DlgMsdcNavLoaini::StatShr::StatShr(
 			const bool ButDneActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButDneActive = ButDneActive;
 
 	mask = {BUTDNEACTIVE};
@@ -500,7 +512,9 @@ set<uint> DlgMsdcNavLoaini::StatShr::diff(
 
 DlgMsdcNavLoaini::StatShrIfi::StatShrIfi(
 			const bool UldActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->UldActive = UldActive;
 
 	mask = {ULDACTIVE};
@@ -560,7 +574,9 @@ set<uint> DlgMsdcNavLoaini::StatShrIfi::diff(
 DlgMsdcNavLoaini::StatShrImp::StatShrImp(
 			const bool ButRunActive
 			, const bool ButStoActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButRunActive = ButRunActive;
 	this->ButStoActive = ButStoActive;
 
@@ -622,7 +638,9 @@ set<uint> DlgMsdcNavLoaini::StatShrImp::diff(
 
 DlgMsdcNavLoaini::StatShrLfi::StatShrLfi(
 			const bool DldActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->DldActive = DldActive;
 
 	mask = {DLDACTIVE};
@@ -682,7 +700,9 @@ set<uint> DlgMsdcNavLoaini::StatShrLfi::diff(
 DlgMsdcNavLoaini::Tag::Tag(
 			const string& Cpt
 			, const string& ButDne
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->ButDne = ButDne;
 
@@ -720,7 +740,9 @@ bool DlgMsdcNavLoaini::Tag::readXML(
 DlgMsdcNavLoaini::TagIfi::TagIfi(
 			const string& Uld
 			, const string& Cpt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Uld = Uld;
 	this->Cpt = Cpt;
 
@@ -759,7 +781,9 @@ DlgMsdcNavLoaini::TagImp::TagImp(
 			const string& CptPrg
 			, const string& ButRun
 			, const string& ButSto
-		) : Block() {
+		) :
+			Block()
+		{
 	this->CptPrg = CptPrg;
 	this->ButRun = ButRun;
 	this->ButSto = ButSto;
@@ -798,7 +822,9 @@ bool DlgMsdcNavLoaini::TagImp::readXML(
 
 DlgMsdcNavLoaini::TagLfi::TagLfi(
 			const string& Dld
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Dld = Dld;
 
 	mask = {DLD};
@@ -835,7 +861,9 @@ DlgMsdcNavLoaini::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -873,7 +901,9 @@ DlgMsdcNavLoaini::DpchAppDo::DpchAppDo(
 			, const uint ixVDo
 			, const uint ixVDoImp
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO, IXVDOIMP};
 	else this->mask = mask;
 
@@ -909,7 +939,9 @@ void DlgMsdcNavLoaini::DpchAppDo::writeXML(
  class DlgMsdcNavLoaini::DpchEngData
  ******************************************************************************/
 
-DlgMsdcNavLoaini::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCNAVLOAINIDATA) {
+DlgMsdcNavLoaini::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCNAVLOAINIDATA)
+		{
 	feedFDse.tag = "FeedFDse";
 	feedFSge.tag = "FeedFSge";
 };

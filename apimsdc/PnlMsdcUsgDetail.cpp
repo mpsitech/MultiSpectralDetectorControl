@@ -2,8 +2,8 @@
   * \file PnlMsdcUsgDetail.cpp
   * API code for job PnlMsdcUsgDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -40,7 +40,9 @@ string PnlMsdcUsgDetail::VecVDo::getSref(
 
 PnlMsdcUsgDetail::ContIac::ContIac(
 			const string& TxfCmt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxfCmt = TxfCmt;
 
 	mask = {TXFCMT};
@@ -115,7 +117,9 @@ set<uint> PnlMsdcUsgDetail::ContIac::diff(
 
 PnlMsdcUsgDetail::ContInf::ContInf(
 			const string& TxtSrf
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtSrf = TxtSrf;
 
 	mask = {TXTSRF};
@@ -174,7 +178,9 @@ set<uint> PnlMsdcUsgDetail::ContInf::diff(
 
 PnlMsdcUsgDetail::StatApp::StatApp(
 			const uint ixMsdcVExpstate
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
 
 	mask = {IXMSDCVEXPSTATE};
@@ -241,7 +247,9 @@ PnlMsdcUsgDetail::StatShr::StatShr(
 			, const bool ButSaveActive
 			, const bool TxtSrfActive
 			, const bool TxfCmtActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButSaveAvail = ButSaveAvail;
 	this->ButSaveActive = ButSaveActive;
 	this->TxtSrfActive = TxtSrfActive;
@@ -311,7 +319,9 @@ PnlMsdcUsgDetail::Tag::Tag(
 			const string& Cpt
 			, const string& CptSrf
 			, const string& CptCmt
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Cpt = Cpt;
 	this->CptSrf = CptSrf;
 	this->CptCmt = CptCmt;
@@ -352,7 +362,9 @@ PnlMsdcUsgDetail::DpchAppData::DpchAppData(
 			const string& scrJref
 			, ContIac* contiac
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDATA, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDATA, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, CONTIAC};
 	else this->mask = mask;
 
@@ -389,7 +401,9 @@ PnlMsdcUsgDetail::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -422,7 +436,9 @@ void PnlMsdcUsgDetail::DpchAppDo::writeXML(
  class PnlMsdcUsgDetail::DpchEngData
  ******************************************************************************/
 
-PnlMsdcUsgDetail::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSGDETAILDATA) {
+PnlMsdcUsgDetail::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCUSGDETAILDATA)
+		{
 };
 
 string PnlMsdcUsgDetail::DpchEngData::getSrefsMask() {

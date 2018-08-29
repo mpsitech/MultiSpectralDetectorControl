@@ -2,8 +2,8 @@
   * \file CrdMsdcLiv.cpp
   * API code for job CrdMsdcLiv (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -67,7 +67,9 @@ string CrdMsdcLiv::VecVSge::getSref(
 CrdMsdcLiv::ContInf::ContInf(
 			const uint numFSge
 			, const string& MrlAppHlp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 	this->MrlAppHlp = MrlAppHlp;
 
@@ -137,7 +139,9 @@ CrdMsdcLiv::StatApp::StatApp(
 			, const bool initdoneScill
 			, const bool initdoneTrack
 			, const bool initdoneHeadbar
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixMsdcVReqitmode = ixMsdcVReqitmode;
 	this->latency = latency;
 	this->shortMenu = shortMenu;
@@ -229,7 +233,9 @@ CrdMsdcLiv::StatShr::StatShr(
 			, const string& scrJrefScill
 			, const string& scrJrefTrack
 			, const string& scrJrefHeadbar
-		) : Block() {
+		) :
+			Block()
+		{
 	this->scrJrefVideo = scrJrefVideo;
 	this->scrJrefAlign = scrJrefAlign;
 	this->scrJrefScill = scrJrefScill;
@@ -301,7 +307,9 @@ set<uint> CrdMsdcLiv::StatShr::diff(
 CrdMsdcLiv::Tag::Tag(
 			const string& MitAppAbt
 			, const string& MrlAppHlp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->MitAppAbt = MitAppAbt;
 	this->MrlAppHlp = MrlAppHlp;
 
@@ -340,7 +348,9 @@ CrdMsdcLiv::DpchAppDo::DpchAppDo(
 			const string& scrJref
 			, const uint ixVDo
 			, const set<uint>& mask
-		) : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVDO, scrJref) {
+		) :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVDO, scrJref)
+		{
 	if (find(mask, ALL)) this->mask = {SCRJREF, IXVDO};
 	else this->mask = mask;
 
@@ -373,7 +383,9 @@ void CrdMsdcLiv::DpchAppDo::writeXML(
  class CrdMsdcLiv::DpchEngData
  ******************************************************************************/
 
-CrdMsdcLiv::DpchEngData::DpchEngData() : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVDATA) {
+CrdMsdcLiv::DpchEngData::DpchEngData() :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVDATA)
+		{
 	feedFSge.tag = "FeedFSge";
 };
 

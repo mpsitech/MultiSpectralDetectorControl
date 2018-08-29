@@ -2,8 +2,8 @@
   * \file MsdccmbdJobprc.cpp
   * job processor for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdccmbd.h"
@@ -45,18 +45,18 @@ void* MsdccmbdJobprc::run(
 
 	// main loop: wait for requests
 	while (true) {
-		Mutex::lock(&(xchg->mcJobprcs), "xchg->mcJobprcs", "MsdccmbdJobprc", "run");
+		xchg->cJobprcs.lockMutex("MsdccmbdJobprc", "run");
 		req = xchg->pullFirstReq();
 
 		while (!req) {
-			Cond::wait(&(xchg->cJobprcs), &(xchg->mcJobprcs), "xchg->cJobprcs", "MsdccmbdJobprc", "run");
+			xchg->cJobprcs.wait("MsdccmbdJobprc", "run");
 			req = xchg->pullFirstReq();
 		};
 
-		Mutex::unlock(&(xchg->mcJobprcs), "xchg->mcJobprcs", "MsdccmbdJobprc", "run");
+		xchg->cJobprcs.unlockMutex("MsdccmbdJobprc", "run");
 
 		// re-signal condition to avoid using broadcast
-		Cond::signal(&(xchg->cJobprcs), &(xchg->mcJobprcs), "xchg->cJobprcs", "xchg->mcJobprcs", "MsdccmbdJobprc", "run");
+		xchg->cJobprcs.signal("MsdccmbdJobprc", "run");
 
 		// --- handle request
 		if (req->ixVBasetype == ReqMsdc::VecVBasetype::CMD) {
@@ -148,7 +148,7 @@ void MsdccmbdJobprc::cleanup(
 		) {
 	XchgMsdccmbd* xchg = (XchgMsdccmbd*) arg;
 
-	Mutex::unlock(&(xchg->mcJobprcs), "xchg->mcJobprcs", "MsdccmbdJobprc", "cleanup");
+	xchg->cJobprcs.unlockMutex("MsdccmbdJobprc", "cleanup");
 };
 
 void MsdccmbdJobprc::accessJob(

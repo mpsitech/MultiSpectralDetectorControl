@@ -2,8 +2,8 @@
   * \file MsdcQUsgList.cpp
   * Dbs and XML wrapper for table TblMsdcQUsgList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcQUsgList.h"
@@ -220,7 +220,10 @@ ubigint TblMsdcQUsgList::loadRstByJref(
  class LiteTblMsdcQUsgList
  ******************************************************************************/
 
-LiteTblMsdcQUsgList::LiteTblMsdcQUsgList() : TblMsdcQUsgList(), LiteTable() {
+LiteTblMsdcQUsgList::LiteTblMsdcQUsgList() :
+			TblMsdcQUsgList()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByQref = NULL;

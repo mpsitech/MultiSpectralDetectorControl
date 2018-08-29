@@ -2,8 +2,8 @@
   * \file CrdMsdcPrd.h
   * job handler for job CrdMsdcPrd (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifndef CRDMSDCPRD_H
@@ -112,7 +112,7 @@ public:
 		ubigint jrefRec;
 
 	public:
-		void writeXML(pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr, string difftag = "", bool shorttags = true);
+		void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
 		set<uint> comm(const StatShr* comp);
 		set<uint> diff(const StatShr* comp);
 	};
@@ -144,7 +144,7 @@ public:
 	public:
 		string getSrefsMask();
 
-		void readXML(pthread_mutex_t* mScr, map<string,ubigint>& descr, xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+		void readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
 	};
 
 	/**
@@ -173,7 +173,7 @@ public:
 		string getSrefsMask();
 		void merge(DpchEngMsdc* dpcheng);
 
-		void writeXML(const uint ixMsdcVLocale, pthread_mutex_t* mScr, map<ubigint,string>& scr, map<string,ubigint>& descr, xmlTextWriter* wr);
+		void writeXML(const uint ixMsdcVLocale, xmlTextWriter* wr);
 	};
 
 public:

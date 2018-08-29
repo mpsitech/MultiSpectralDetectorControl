@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo_blks.cpp
   * job handler for job PnlMsdcLivVideo (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -99,7 +99,9 @@ PnlMsdcLivVideo::ContIac::ContIac(
 			, const uint numFPupRes
 			, const double SldExt
 			, const double SldFcs
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFPupSrc = numFPupSrc;
 	this->numFPupRes = numFPupRes;
 	this->SldExt = SldExt;
@@ -186,7 +188,9 @@ set<uint> PnlMsdcLivVideo::ContIac::diff(
 
 PnlMsdcLivVideo::ContInf::ContInf(
 			const bool ButMasterOn
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButMasterOn = ButMasterOn;
 
 	mask = {BUTMASTERON};
@@ -270,7 +274,9 @@ PnlMsdcLivVideo::StatShr::StatShr(
 			, const bool SldFcsActive
 			, const double SldFcsMin
 			, const double SldFcsMax
-		) : Block() {
+		) :
+			Block()
+		{
 	this->PupResAvail = PupResAvail;
 	this->ButPlayActive = ButPlayActive;
 	this->ButStopActive = ButStopActive;
@@ -386,7 +392,9 @@ void PnlMsdcLivVideo::Tag::writeXML(
  class PnlMsdcLivVideo::DpchAppData
  ******************************************************************************/
 
-PnlMsdcLivVideo::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODATA) {
+PnlMsdcLivVideo::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODATA)
+		{
 };
 
 string PnlMsdcLivVideo::DpchAppData::getSrefsMask() {
@@ -402,9 +410,7 @@ string PnlMsdcLivVideo::DpchAppData::getSrefsMask() {
 };
 
 void PnlMsdcLivVideo::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -421,7 +427,7 @@ void PnlMsdcLivVideo::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -434,7 +440,9 @@ void PnlMsdcLivVideo::DpchAppData::readXML(
  class PnlMsdcLivVideo::DpchAppDo
  ******************************************************************************/
 
-PnlMsdcLivVideo::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODO) {
+PnlMsdcLivVideo::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODO)
+		{
 	ixVDo = 0;
 };
 
@@ -451,9 +459,7 @@ string PnlMsdcLivVideo::DpchAppDo::getSrefsMask() {
 };
 
 void PnlMsdcLivVideo::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -471,7 +477,7 @@ void PnlMsdcLivVideo::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -494,7 +500,9 @@ PnlMsdcLivVideo::DpchEngData::DpchEngData(
 			, Feed* feedFPupSrc
 			, StatShr* statshr
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEODATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEODATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFPUPRES, FEEDFPUPSRC, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
@@ -540,14 +548,11 @@ void PnlMsdcLivVideo::DpchEngData::merge(
 
 void PnlMsdcLivVideo::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcLivVideoData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFPUPRES)) feedFPupRes.writeXML(wr);
@@ -571,7 +576,9 @@ PnlMsdcLivVideo::DpchEngLive::DpchEngLive(
 			, const vector<utinyint>& blue
 			, const vector<usmallint>& gray
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEOLIVE, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEOLIVE, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTINF, RGB, RED, GREEN, BLUE, GRAY};
 	else this->mask = mask;
 
@@ -616,14 +623,11 @@ void PnlMsdcLivVideo::DpchEngLive::merge(
 
 void PnlMsdcLivVideo::DpchEngLive::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcLivVideoLive");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(RGB)) writeUtinyintvec(wr, "rgb", rgb);
 		if (has(RED)) writeUtinyintvec(wr, "red", red);

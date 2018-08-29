@@ -2,8 +2,8 @@
   * \file DlgMsdcNavLoaini_blks.cpp
   * job handler for job DlgMsdcNavLoaini (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 /******************************************************************************
@@ -156,7 +156,9 @@ void DlgMsdcNavLoaini::VecVSge::fillFeed(
 
 DlgMsdcNavLoaini::ContIac::ContIac(
 			const uint numFDse
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFDse = numFDse;
 
 	mask = {NUMFDSE};
@@ -231,7 +233,9 @@ set<uint> DlgMsdcNavLoaini::ContIac::diff(
 
 DlgMsdcNavLoaini::ContInf::ContInf(
 			const uint numFSge
-		) : Block() {
+		) :
+			Block()
+		{
 	this->numFSge = numFSge;
 
 	mask = {NUMFSGE};
@@ -283,7 +287,9 @@ set<uint> DlgMsdcNavLoaini::ContInf::diff(
 
 DlgMsdcNavLoaini::ContInfImp::ContInfImp(
 			const string& TxtPrg
-		) : Block() {
+		) :
+			Block()
+		{
 	this->TxtPrg = TxtPrg;
 
 	mask = {TXTPRG};
@@ -335,7 +341,9 @@ set<uint> DlgMsdcNavLoaini::ContInfImp::diff(
 
 DlgMsdcNavLoaini::ContInfLfi::ContInfLfi(
 			const string& Dld
-		) : Block() {
+		) :
+			Block()
+		{
 	this->Dld = Dld;
 
 	mask = {DLD};
@@ -410,7 +418,9 @@ void DlgMsdcNavLoaini::StatApp::writeXML(
 
 DlgMsdcNavLoaini::StatShr::StatShr(
 			const bool ButDneActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButDneActive = ButDneActive;
 
 	mask = {BUTDNEACTIVE};
@@ -462,7 +472,9 @@ set<uint> DlgMsdcNavLoaini::StatShr::diff(
 
 DlgMsdcNavLoaini::StatShrIfi::StatShrIfi(
 			const bool UldActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->UldActive = UldActive;
 
 	mask = {ULDACTIVE};
@@ -515,7 +527,9 @@ set<uint> DlgMsdcNavLoaini::StatShrIfi::diff(
 DlgMsdcNavLoaini::StatShrImp::StatShrImp(
 			const bool ButRunActive
 			, const bool ButStoActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ButRunActive = ButRunActive;
 	this->ButStoActive = ButStoActive;
 
@@ -570,7 +584,9 @@ set<uint> DlgMsdcNavLoaini::StatShrImp::diff(
 
 DlgMsdcNavLoaini::StatShrLfi::StatShrLfi(
 			const bool DldActive
-		) : Block() {
+		) :
+			Block()
+		{
 	this->DldActive = DldActive;
 
 	mask = {DLDACTIVE};
@@ -720,7 +736,9 @@ void DlgMsdcNavLoaini::TagLfi::writeXML(
  class DlgMsdcNavLoaini::DpchAppData
  ******************************************************************************/
 
-DlgMsdcNavLoaini::DpchAppData::DpchAppData() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDATA) {
+DlgMsdcNavLoaini::DpchAppData::DpchAppData() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDATA)
+		{
 };
 
 string DlgMsdcNavLoaini::DpchAppData::getSrefsMask() {
@@ -736,9 +754,7 @@ string DlgMsdcNavLoaini::DpchAppData::getSrefsMask() {
 };
 
 void DlgMsdcNavLoaini::DpchAppData::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -755,7 +771,7 @@ void DlgMsdcNavLoaini::DpchAppData::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
@@ -768,7 +784,9 @@ void DlgMsdcNavLoaini::DpchAppData::readXML(
  class DlgMsdcNavLoaini::DpchAppDo
  ******************************************************************************/
 
-DlgMsdcNavLoaini::DpchAppDo::DpchAppDo() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDO) {
+DlgMsdcNavLoaini::DpchAppDo::DpchAppDo() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDO)
+		{
 	ixVDo = 0;
 	ixVDoImp = 0;
 };
@@ -787,9 +805,7 @@ string DlgMsdcNavLoaini::DpchAppDo::getSrefsMask() {
 };
 
 void DlgMsdcNavLoaini::DpchAppDo::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -808,7 +824,7 @@ void DlgMsdcNavLoaini::DpchAppDo::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractStringUclc(docctx, basexpath, "srefIxVDo", "", srefIxVDo)) {
@@ -840,7 +856,9 @@ DlgMsdcNavLoaini::DpchEngData::DpchEngData(
 			, StatShrImp* statshrimp
 			, StatShrLfi* statshrlfi
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCNAVLOAINIDATA, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGDLGMSDCNAVLOAINIDATA, jref)
+		{
 	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, CONTINFIMP, CONTINFLFI, FEEDFDSE, FEEDFSGE, STATAPP, STATSHR, STATSHRIFI, STATSHRIMP, STATSHRLFI, TAG, TAGIFI, TAGIMP, TAGLFI};
 	else this->mask = mask;
 
@@ -907,14 +925,11 @@ void DlgMsdcNavLoaini::DpchEngData::merge(
 
 void DlgMsdcNavLoaini::DpchEngData::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngDlgMsdcNavLoainiData");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(CONTINFIMP)) continfimp.writeXML(wr);

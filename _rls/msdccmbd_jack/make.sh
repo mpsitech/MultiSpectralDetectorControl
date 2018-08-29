@@ -2,8 +2,8 @@
 # file make.sh
 # make script for Msdc combined daemon, release msdccmbd_jack
 # author Alexander Wirthmueller
-# date created: 15 Aug 2018
-# modified: 15 Aug 2018
+# date created: 29 Aug 2018
+# modified: 29 Aug 2018
 
 make Msdccmbd.h.gch
 if [ $? -ne 0 ]; then

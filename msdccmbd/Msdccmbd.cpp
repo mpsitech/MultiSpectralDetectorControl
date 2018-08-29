@@ -2,8 +2,8 @@
   * \file Msdccmbd.cpp
   * inter-thread exchange object for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdccmbd.h"
@@ -14,7 +14,9 @@
 
 DpchAppMsdc::DpchAppMsdc(
 			const uint ixMsdcVDpch
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 	jref = 0;
 };
 
@@ -35,9 +37,7 @@ string DpchAppMsdc::getSrefsMask() {
 };
 
 void DpchAppMsdc::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -54,7 +54,7 @@ void DpchAppMsdc::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 	};
@@ -64,7 +64,9 @@ void DpchAppMsdc::readXML(
  class DpchAppMsdcAlert
  ******************************************************************************/
 
-DpchAppMsdcAlert::DpchAppMsdcAlert() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCALERT) {
+DpchAppMsdcAlert::DpchAppMsdcAlert() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCALERT)
+		{
 };
 
 bool DpchAppMsdcAlert::all(
@@ -89,9 +91,7 @@ string DpchAppMsdcAlert::getSrefsMask() {
 };
 
 void DpchAppMsdcAlert::readXML(
-			pthread_mutex_t* mScr
-			, map<string,ubigint>& descr
-			, xmlXPathContext* docctx
+			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
 		) {
@@ -108,7 +108,7 @@ void DpchAppMsdcAlert::readXML(
 
 	if (basefound) {
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) {
-			jref = Scr::descramble(mScr, descr, scrJref);
+			jref = Scr::descramble(scrJref);
 			add(JREF);
 		};
 		if (extractUintUclc(docctx, basexpath, "numFMcb", "", numFMcb)) add(NUMFMCB);
@@ -120,14 +120,18 @@ void DpchAppMsdcAlert::readXML(
  class DpchAppMsdcInit
  ******************************************************************************/
 
-DpchAppMsdcInit::DpchAppMsdcInit() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCINIT) {
+DpchAppMsdcInit::DpchAppMsdcInit() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCINIT)
+		{
 };
 
 /******************************************************************************
  class DpchAppMsdcResume
  ******************************************************************************/
 
-DpchAppMsdcResume::DpchAppMsdcResume() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCRESUME) {
+DpchAppMsdcResume::DpchAppMsdcResume() :
+			DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCRESUME)
+		{
 };
 
 /******************************************************************************
@@ -137,7 +141,9 @@ DpchAppMsdcResume::DpchAppMsdcResume() : DpchAppMsdc(VecMsdcVDpch::DPCHAPPMSDCRE
 DpchEngMsdc::DpchEngMsdc(
 			const uint ixMsdcVDpch
 			, const ubigint jref
-		) : DpchMsdc(ixMsdcVDpch) {
+		) :
+			DpchMsdc(ixMsdcVDpch)
+		{
 	this->jref = jref;
 
 	mask = {JREF};
@@ -169,16 +175,13 @@ void DpchEngMsdc::merge(
 
 void DpchEngMsdc::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	string tag = VecMsdcVDpch::getSref(ixMsdcVDpch);
 
 	xmlTextWriterStartElement(wr, BAD_CAST tag.c_str());
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 	xmlTextWriterEndElement(wr);
 };
 
@@ -188,7 +191,9 @@ void DpchEngMsdc::writeXML(
 
 DpchEngMsdcAck::DpchEngMsdcAck(
 			const ubigint jref
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCACK, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCACK, jref)
+		{
 };
 
 /******************************************************************************
@@ -200,7 +205,9 @@ DpchEngMsdcAlert::DpchEngMsdcAlert(
 			, ContInfMsdcAlert* continf
 			, Feed* feedFMcb
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCALERT, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCALERT, jref)
+		{
 	if (continf) this->continf = *continf;
 	if (feedFMcb) this->feedFMcb = *feedFMcb;
 
@@ -243,14 +250,11 @@ void DpchEngMsdcAlert::merge(
 
 void DpchEngMsdcAlert::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcAlert");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTINF)) continf.writeXML(wr);
 		if (has(FEEDFMCB)) feedFMcb.writeXML(wr);
 	xmlTextWriterEndElement(wr);
@@ -265,7 +269,9 @@ DpchEngMsdcConfirm::DpchEngMsdcConfirm(
 			, const ubigint jref
 			, const string& sref
 			, const set<uint>& mask
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCCONFIRM, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCCONFIRM, jref)
+		{
 	this->accepted = accepted;
 	this->jref = jref;
 	this->sref = sref;
@@ -309,15 +315,12 @@ void DpchEngMsdcConfirm::merge(
 
 void DpchEngMsdcConfirm::writeXML(
 			const uint ixMsdcVLocale
-			, pthread_mutex_t* mScr
-			, map<ubigint,string>& scr
-			, map<string,ubigint>& descr
 			, xmlTextWriter* wr
 		) {
 	xmlTextWriterStartElement(wr, BAD_CAST "DpchEngMsdcConfirm");
 	xmlTextWriterWriteAttribute(wr, BAD_CAST "xmlns", BAD_CAST "http://www.mpsitech.com/msdc");
 		if (has(ACCEPTED)) writeBool(wr, "accepted", accepted);
-		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(mScr, scr, descr, jref));
+		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(SREF)) writeString(wr, "sref", sref);
 	xmlTextWriterEndElement(wr);
 };
@@ -328,7 +331,9 @@ void DpchEngMsdcConfirm::writeXML(
 
 DpchEngMsdcSuspend::DpchEngMsdcSuspend(
 			const ubigint jref
-		) : DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSUSPEND, jref) {
+		) :
+			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCSUSPEND, jref)
+		{
 };
 
 /******************************************************************************
@@ -344,7 +349,9 @@ StgMsdccmbd::StgMsdccmbd(
 			, const bool ddspub
 			, const bool uasrv
 			, const usmallint histlength
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jobprcn = jobprcn;
 	this->opprcn = opprcn;
 	this->appsrvport = appsrvport;
@@ -452,7 +459,9 @@ StgMsdcDatabase::StgMsdcDatabase(
 			, const string& password
 			, const string& ip
 			, const usmallint port
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ixDbsVDbstype = ixDbsVDbstype;
 	this->dbspath = dbspath;
 	this->dbsname = dbsname;
@@ -556,7 +565,9 @@ set<uint> StgMsdcDatabase::diff(
 StgMsdcDdspub::StgMsdcDdspub(
 			const string& username
 			, const string& password
-		) : Block() {
+		) :
+			Block()
+		{
 	this->username = username;
 	this->password = password;
 	mask = {USERNAME, PASSWORD};
@@ -639,7 +650,9 @@ StgMsdcPath::StgMsdcPath(
 			, const string& tmppath
 			, const string& webpath
 			, const string& helpurl
-		) : Block() {
+		) :
+			Block()
+		{
 	this->acvpath = acvpath;
 	this->keypath = keypath;
 	this->monpath = monpath;
@@ -737,7 +750,9 @@ StgMsdcUasrv::StgMsdcUasrv(
 			, const usmallint cycle
 			, const uint maxbrowse
 			, const uint maxmon
-		) : Block() {
+		) :
+			Block()
+		{
 	this->profile = profile;
 	this->port = port;
 	this->cycle = cycle;
@@ -836,13 +851,13 @@ DpchEngMsdcAlert* AlrMsdc::prepareAlrAbt(
 	continf.TxtCpt = StrMod::cap(continf.TxtCpt);
 
 	if (ixMsdcVLocale == VecMsdcVLocale::ENUS) {
-		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.45 released on 15-8-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.49 released on 29-8-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "contributors: Alexander Wirthmueller";
 		continf.TxtMsg6 = "libraries: png 1.5.12, jpeg 8, devmsdd 1.0.0 and spinnaker 1.13";
 		continf.TxtMsg8 = "MultispectralDetectorControl provides users and machines with access to the MPSI Technologies Stereo+LWIR detector vision demonstrator.";
 	} else if (ixMsdcVLocale == VecMsdcVLocale::DECH) {
-		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.45 ver\\u00f6ffentlicht am 15-8-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.49 ver\\u00f6ffentlicht am 29-8-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "Mitwirkende: Alexander Wirthmueller";
 		continf.TxtMsg6 = "Programmbibliotheken: png 1.5.12, jpeg 8, devmsdd 1.0.0 und spinnaker 1.13";
@@ -916,22 +931,17 @@ ReqMsdc::ReqMsdc(
 			const uint ixVBasetype
 			, const uint ixVState
 			, const string& ip
-		) {
+		) :
+			cReady("cReady", "ReqMsdc", "ReqMsdc")
+		{
 	this->ixVBasetype = ixVBasetype;
 	this->ixVState = ixVState;
 	this->ip = ip;
 
 	pp = NULL;
 
-	if ((ixVBasetype == VecVBasetype::CMD) || (ixVBasetype == VecVBasetype::REGULAR) || (ixVBasetype == VecVBasetype::NOTIFY)
-					|| (ixVBasetype == VecVBasetype::UPLOAD) || (ixVBasetype == VecVBasetype::DOWNLOAD) || (ixVBasetype == VecVBasetype::METHOD)) {
-		retain = false;
-		Mutex::init(&mcReady, false, "mcReady", "ReqMsdc", "ReqMsdc");
-		Cond::init(&cReady, "cReady", "ReqMsdc", "ReqMsdc");
-
-	} else {
-		retain = true;
-	};
+	retain = !((ixVBasetype == VecVBasetype::CMD) || (ixVBasetype == VecVBasetype::REGULAR) || (ixVBasetype == VecVBasetype::NOTIFY)
+					|| (ixVBasetype == VecVBasetype::UPLOAD) || (ixVBasetype == VecVBasetype::DOWNLOAD) || (ixVBasetype == VecVBasetype::METHOD));
 
 	file = NULL;
 	filelen = 0;
@@ -964,12 +974,6 @@ ReqMsdc::ReqMsdc(
 ReqMsdc::~ReqMsdc() {
 	if (pp) MHD_destroy_post_processor(pp);
 
-	if ((ixVBasetype == VecVBasetype::CMD) || (ixVBasetype == VecVBasetype::REGULAR) || (ixVBasetype == VecVBasetype::NOTIFY)
-					|| (ixVBasetype == VecVBasetype::UPLOAD) || (ixVBasetype == VecVBasetype::DOWNLOAD) || (ixVBasetype == VecVBasetype::METHOD)) {
-		Mutex::destroy(&mcReady, false, "mcReady", "ReqMsdc", "~ReqMsdc");
-		Cond::destroy(&cReady, "cReady", "ReqMsdc", "~ReqMsdc");
-	};
-
 	if (file) {
 		if (file->is_open()) file->close();
 		delete file;
@@ -992,11 +996,11 @@ ReqMsdc::~ReqMsdc() {
 };
 
 void ReqMsdc::setStateReply() {
-	Mutex::lock(&mcReady, "mcReady", "ReqMsdc", "setStateReply");
+	cReady.lockMutex("ReqMsdc", "setStateReply");
 	ixVState = VecVState::REPLY;
-	Mutex::unlock(&mcReady, "mcReady", "ReqMsdc", "setStateReply");
+	cReady.unlockMutex("ReqMsdc", "setStateReply");
 
-	Cond::signal(&cReady, &mcReady, "cReady", "mcReady", "ReqMsdc", "setStateReply");
+	cReady.signal("ReqMsdc", "setStateReply");
 };
 
 /******************************************************************************
@@ -1006,11 +1010,11 @@ void ReqMsdc::setStateReply() {
 DcolMsdc::DcolMsdc(
 			const ubigint jref
 			, const uint ixMsdcVLocale
-		) {
+		) :
+			mAccess("dcol(" + to_string(jref) + ").mAccess", "DcolMsdc", "DcolMsdc")
+		{
 	this->jref = jref;
 	this->ixMsdcVLocale = ixMsdcVLocale;
-
-	Mutex::init(&mAccess, false, "mAccess", "DcolMsdc", "DcolMsdc");
 
 	hot = false;
 
@@ -1018,27 +1022,26 @@ DcolMsdc::DcolMsdc(
 };
 
 DcolMsdc::~DcolMsdc() {
-	Mutex::lock(&mAccess, "mAccess", "DcolMsdc", "~DcolMsdc");
-	Mutex::unlock(&mAccess, "mAccess", "DcolMsdc", "~DcolMsdc");
-	Mutex::destroy(&mAccess, true, "mAccess", "DcolMsdc", "~DcolMsdc");
-
 	for (auto it=dpchs.begin();it!=dpchs.end();it++) delete(*it);
 
-	if (req) Cond::signal(&(req->cReady), &(req->mcReady), "req->cReady", "req->mcReady", "DcolMsdc", "~DcolMsdc");
+	if (req) req->cReady.signal("DcolMsdc", "~DcolMsdc");
+
+	mAccess.lock("DcolMsdc", "~DcolMsdc");
+	mAccess.unlock("DcolMsdc", "~DcolMsdc");
 };
 
-int DcolMsdc::lockAccess(
+void DcolMsdc::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "dcol(" + to_string(jref) + ")->mAccess", srefObject, srefMember);
+	mAccess.lock(srefObject, srefMember);
 };
 
-int DcolMsdc::unlockAccess(
+void DcolMsdc::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "dcol(" + to_string(jref) + ")->mAccess", srefObject, srefMember);
+	mAccess.unlock(srefObject, srefMember);
 };
 
 /******************************************************************************
@@ -1050,7 +1053,10 @@ JobMsdc::JobMsdc(
 			, const uint ixMsdcVJob
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) {
+		) :
+			mAccess("mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(jrefSup=" + to_string(jrefSup) + ")", VecMsdcVJob::getSref(ixMsdcVJob))
+			, mOps("mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(jrefSup=" + to_string(jrefSup) + ")", VecMsdcVJob::getSref(ixMsdcVJob))
+		{
 	this->xchg = xchg;
 
 	jref = 0;
@@ -1061,8 +1067,6 @@ JobMsdc::JobMsdc(
 
 	this->ixMsdcVLocale = ixMsdcVLocale;
 
-	Mutex::init(&mAccess, true, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(jrefSup=" + to_string(jrefSup) + ")", VecMsdcVJob::getSref(ixMsdcVJob));
-
 	muteRefresh = false;
 
 	ixVSge = 1;
@@ -1071,8 +1075,6 @@ JobMsdc::JobMsdc(
 	opNdone = 0;
 	opN = 0;
 
-	Mutex::init(&mOps, true, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(jrefSup=" + to_string(jrefSup) + ")", VecMsdcVJob::getSref(ixMsdcVJob));
-
 	wrefLast = 0;
 	wrefMin = 0;
 
@@ -1080,13 +1082,10 @@ JobMsdc::JobMsdc(
 };
 
 JobMsdc::~JobMsdc() {
-	Mutex::lock(&mAccess, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
-	Mutex::unlock(&mAccess, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
-	Mutex::destroy(&mAccess, true, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
-
-	Mutex::destroy(&mOps, true, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
-
 	if (reqCmd) delete reqCmd;
+
+	mAccess.lock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
+	mAccess.unlock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "~" + VecMsdcVJob::getSref(ixMsdcVJob));
 };
 
 DpchEngMsdc* JobMsdc::getNewDpchEng(
@@ -1145,37 +1144,43 @@ void JobMsdc::handleCall(
 		) {
 };
 
-int JobMsdc::lockAccess(
+void JobMsdc::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ").mAccess", srefObject, srefMember);
+	mAccess.lock(srefObject, srefMember);
 };
 
-int JobMsdc::trylockAccess(
+bool JobMsdc::trylockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::trylock(&mAccess, VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ").mAccess", srefObject, srefMember);
+	return mAccess.trylock(srefObject, srefMember);
 };
 
-int JobMsdc::unlockAccess(
+void JobMsdc::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ").mAccess", srefObject, srefMember);
+	mAccess.unlock(srefObject, srefMember);
 };
 
-int JobMsdc::lockAccess(
+void JobMsdc::lockAccess(
 			const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", srefMember);
+	mAccess.lock("", srefMember);
 };
 
-int JobMsdc::unlockAccess(
+bool JobMsdc::trylockAccess(
 			const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "mAccess", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", srefMember);
+	return mAccess.trylock("", srefMember);
+};
+
+void JobMsdc::unlockAccess(
+			const string& srefMember
+		) {
+	mAccess.unlock("", srefMember);
 };
 
 void JobMsdc::setStage(
@@ -1195,7 +1200,7 @@ void JobMsdc::clearInvs() {
 ubigint JobMsdc::addInv(
 			DpchInvMsdc* inv
 		) {
-	inv->oref = xchg->orefseq->getNewRef();
+	inv->oref = xchg->orefseq.getNewRef();
 	inv->jref = jref;
 
 	invs.push_back(inv);
@@ -1226,12 +1231,12 @@ void JobMsdc::submitInvs(
 };
 
 void JobMsdc::clearOps() {
-	Mutex::lock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "clearOps");
+	mOps.lock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "clearOps");
 
 	for (auto it=ops.begin();it!=ops.end();it++) delete(*it);
 	ops.clear();
 
-	Mutex::unlock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "clearOps");
+	mOps.unlock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "clearOps");
 };
 
 void JobMsdc::addOp(
@@ -1240,14 +1245,14 @@ void JobMsdc::addOp(
 		) {
 	string squawk;
 
-	Mutex::lock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "addOp");
+	mOps.lock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "addOp");
 
 	// generate squawk
 
 	// append to op list
 	ops.push_back(new Op(inv->oref, inv->ixMsdcVDpch, squawk));
 
-	Mutex::unlock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "addOp");
+	mOps.unlock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "addOp");
 };
 
 void JobMsdc::removeOp(
@@ -1255,7 +1260,7 @@ void JobMsdc::removeOp(
 		) {
 	Op* op = NULL;
 
-	Mutex::lock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "removeOp");
+	mOps.lock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "removeOp");
 
 	for (auto it=ops.begin();it!=ops.end();it++) {
 		op = *it;
@@ -1273,17 +1278,17 @@ void JobMsdc::removeOp(
 		};
 	};
 
-	Mutex::unlock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "removeOp");
+	mOps.unlock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "removeOp");
 };
 
 string JobMsdc::getOpsqkLast() {
 	string retval;
 
-	Mutex::lock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "getOpsqkLast");
+	mOps.lock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "getOpsqkLast");
 
 	retval = opsqkLast;
 
-	Mutex::unlock(&mOps, "mOps", VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "getOpsqkLast");
+	mOps.unlock(VecMsdcVJob::getSref(ixMsdcVJob) + "(" + to_string(jref) + ")", "getOpsqkLast");
 
 	return retval;
 };
@@ -1309,7 +1314,9 @@ MsjobMsdc::MsjobMsdc(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : JobMsdc(xchg, ixMsdcVJob, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, ixMsdcVJob, jrefSup, ixMsdcVLocale)
+		{
 	this->prefmast = prefmast;
 
 	srd = false;
@@ -1406,17 +1413,14 @@ void MsjobMsdc::setStage(
 ShrdatMsdc::ShrdatMsdc(
 			const string& srefSupclass
 			, const string& srefObject
-			, const string& srefMutexsup
-		) {
+		) :
+			rwmAccess("shrdat.mAccess", srefSupclass + "::" + srefObject, srefObject)
+		{
 	this->srefSupclass = srefSupclass;
 	this->srefObject = srefObject;
-	this->srefMutexsup = srefMutexsup;
-
-	Mutex::init(&mAccess, true, "mAccess", srefSupclass + "::" + srefObject, srefObject);
 };
 
 ShrdatMsdc::~ShrdatMsdc() {
-	Mutex::destroy(&mAccess, true, "mAccess", srefSupclass + "::" + srefObject, "~" + srefObject);
 };
 
 void ShrdatMsdc::init(
@@ -1428,32 +1432,60 @@ void ShrdatMsdc::init(
 void ShrdatMsdc::term() {
 };
 
-int ShrdatMsdc::lockAccess(
+void ShrdatMsdc::rlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, srefMutexsup + ".mAccess", srefObject, srefMember);
+	rwmAccess.rlock(srefObject, srefMember);
 };
 
-int ShrdatMsdc::unlockAccess(
+void ShrdatMsdc::runlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, srefMutexsup + ".mAccess", srefObject, srefMember);
+	rwmAccess.runlock(srefObject, srefMember);
 };
 
-int ShrdatMsdc::lockAccess(
+void ShrdatMsdc::rlockAccess(
 			const ubigint jref
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "shrdat.mAccess", srefSupclass + "(" + to_string(jref) + ")", srefMember);
+	rwmAccess.rlock(srefSupclass + "(" + to_string(jref) + ")", srefMember);
 };
 
-int ShrdatMsdc::unlockAccess(
+void ShrdatMsdc::runlockAccess(
 			const ubigint jref
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "shrdat.mAccess", srefSupclass + "(" + to_string(jref) + ")", srefMember);
+	rwmAccess.runlock(srefSupclass + "(" + to_string(jref) + ")", srefMember);
+};
+
+void ShrdatMsdc::wlockAccess(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	rwmAccess.wlock(srefObject, srefMember);
+};
+
+void ShrdatMsdc::wunlockAccess(
+			const string& srefObject
+			, const string& srefMember
+		) {
+	rwmAccess.wunlock(srefObject, srefMember);
+};
+
+void ShrdatMsdc::wlockAccess(
+			const ubigint jref
+			, const string& srefMember
+		) {
+	rwmAccess.wlock(srefSupclass + "(" + to_string(jref) + ")", srefMember);
+};
+
+void ShrdatMsdc::wunlockAccess(
+			const ubigint jref
+			, const string& srefMember
+		) {
+	rwmAccess.wunlock(srefSupclass + "(" + to_string(jref) + ")", srefMember);
 };
 
 /******************************************************************************
@@ -1464,23 +1496,22 @@ StmgrMsdc::StmgrMsdc(
 			XchgMsdc* xchg
 			, const ubigint jref
 			, const uint ixVNonetype
-		) {
+		) :
+			mAccess("stmgr(" + to_string(jref) + ").mAccess", "StmgrMsdc", "StmgrMsdc")
+		{
 	this->xchg = xchg;
 
 	this->jref = jref;
 	this->ixVNonetype = ixVNonetype;
 
 	stcch = new Stcch(true);
-
-	Mutex::init(&mAccess, true, "mAccess", "StmgrMsdc(" + to_string(jref) + ")", "StmgrMsdc");
 };
 
 StmgrMsdc::~StmgrMsdc() {
-	Mutex::lock(&mAccess, "mAccess", "StmgrMsdc(" + to_string(jref) + ")", "~StmgrMsdc");
-	Mutex::unlock(&mAccess, "mAccess", "StmgrMsdc(" + to_string(jref) + ")", "~StmgrMsdc");
-	Mutex::destroy(&mAccess, true, "mAccess", "StmgrMsdc(" + to_string(jref) + ")", "~StmgrMsdc");
-
 	delete stcch;
+
+	mAccess.lock("StmgrMsdc", "~StmgrMsdc");
+	mAccess.unlock("StmgrMsdc", "~StmgrMsdc");
 };
 
 void StmgrMsdc::handleCall(
@@ -1506,11 +1537,11 @@ void StmgrMsdc::handleCall(
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCSESMENU);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCSESSTD);
 	} else if (call->ixVCall == VecMsdcVCall::CALLMSDCUSGUPD_REFEQ) {
-		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCGRP);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSGSTD);
+		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCGRP);
 	} else if (call->ixVCall == VecMsdcVCall::CALLMSDCUSRUPD_REFEQ) {
-		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSRSTD);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCOWN);
+		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSRSTD);
 	};
 
 	for (auto it=icsMsdcVStub.begin();it!=icsMsdcVStub.end();it++) {
@@ -1575,18 +1606,18 @@ void StmgrMsdc::commit() {
 	stcch->commit();
 };
 
-int StmgrMsdc::lockAccess(
+void StmgrMsdc::lockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::lock(&mAccess, "stmgr(" + to_string(jref) + ")->mAccess", srefObject, srefMember);
+	mAccess.lock(srefObject, srefMember);
 };
 
-int StmgrMsdc::unlockAccess(
+void StmgrMsdc::unlockAccess(
 			const string& srefObject
 			, const string& srefMember
 		) {
-	return Mutex::unlock(&mAccess, "stmgr(" + to_string(jref) + ")->mAccess", srefObject, srefMember);
+	mAccess.unlock(srefObject, srefMember);
 };
 
 /******************************************************************************
@@ -1627,7 +1658,9 @@ ExtcallMsdc::ExtcallMsdc(
  class XchgMsdccmbd::ShrdatJobprc
  ******************************************************************************/
 
-XchgMsdccmbd::ShrdatJobprc::ShrdatJobprc() : ShrdatMsdc("XchgMsdc", "ShrdatJobprc", "xchg->shrdatJobprc") {
+XchgMsdccmbd::ShrdatJobprc::ShrdatJobprc() :
+			ShrdatMsdc("XchgMsdc", "ShrdatJobprc")
+		{
 };
 
 void XchgMsdccmbd::ShrdatJobprc::init(
@@ -1635,7 +1668,7 @@ void XchgMsdccmbd::ShrdatJobprc::init(
 			, DbsMsdc* dbsmsdc
 		) {
 	// IP ShrdatJobprc.init --- IBEGIN
-	Mt::ixVVerbose = Mt::VecVVerbose::OFF;
+	Mt::ixVVerbose = Mt::VecVVerbose::ERROR;
 
 #ifdef __linux__
 	spinsys = Spinnaker::System::GetInstance();
@@ -1657,7 +1690,9 @@ void XchgMsdccmbd::ShrdatJobprc::term() {
  class XchgMsdccmbd::ShrdatOpprc
  ******************************************************************************/
 
-XchgMsdccmbd::ShrdatOpprc::ShrdatOpprc() : ShrdatMsdc("XchgMsdc", "ShrdatOpprc", "xchg->shrdatOpprc") {
+XchgMsdccmbd::ShrdatOpprc::ShrdatOpprc() :
+			ShrdatMsdc("XchgMsdc", "ShrdatOpprc")
+		{
 };
 
 void XchgMsdccmbd::ShrdatOpprc::init(
@@ -1675,60 +1710,33 @@ void XchgMsdccmbd::ShrdatOpprc::term() {
  class XchgMsdccmbd
  ******************************************************************************/
 
-XchgMsdccmbd::XchgMsdccmbd() {
+XchgMsdccmbd::XchgMsdccmbd() :
+			mLogfile("mLogfile", "XchgMsdccmbd", "XchgMsdccmbd")
+			, cJobprcs("cJobprcs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, cOpprcs("cOpprcs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, cDdspub("cDdspub", "XchgMsdccmbd", "XchgMsdccmbd")
+			, cUasrv("cUasrv", "XchgMsdccmbd", "XchgMsdccmbd")
+			, mReqs("mReqs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, orefseq("orefseq")
+			, mInvs("mInvs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, rwmPresets("rwmPresets", "XchgMsdccmbd", "XchgMsdccmbd")
+			, rwmStmgrs("rwmStmgrs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, rwmClstns("rwmClstns", "XchgMsdccmbd", "XchgMsdccmbd")
+			, rwmDcols("rwmDcols", "XchgMsdccmbd", "XchgMsdccmbd")
+			, jrefseq("jrefseq")
+			, rwmJobs("rwmJobs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, rwmMsjobinfos("rwmMsjobinfos", "XchgMsdccmbd", "XchgMsdccmbd")
+			, mDdspubcall("mDdspubcall", "XchgMsdccmbd", "XchgMsdccmbd")
+			, mUasrvcall("mUasrvcall", "XchgMsdccmbd", "XchgMsdccmbd")
+			, wrefseq("wrefseq")
+		{
 	// root job
 	jrefRoot = 0;
 
 	// job receiving commands
 	jrefCmd = 0;
 
-	// scrambled ref codes
-	Mutex::init(&mScr, true, "mScr", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// log file
-	Mutex::init(&mLogfile, true, "mLogfile", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// condition for job processors
-	Mutex::init(&mcJobprcs, true, "mcJobprcs", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::init(&cJobprcs, "cJobprcs", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// condition for op processors
-	Mutex::init(&mcOpprcs, true, "mcOpprcs", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::init(&cOpprcs, "cOpprcs", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// condition for DDS publisher
-	Mutex::init(&mcDdspub, true, "mcDdspub", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::init(&cDdspub, "cDdspub", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// condition for OPC UA server
-	Mutex::init(&mcUasrv, true, "mcUasrv", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::init(&cUasrv, "cUasrv", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// request list
-	Mutex::init(&mReqs, true, "mReqs", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// operation invocation list
-	orefseq = new Refseq("orefseq");
-	Mutex::init(&mInvs, true, "mInvs", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// presetting list
-	Mutex::init(&mPresets, true, "mPresets", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// stub manager list
-	Mutex::init(&mStmgrs, true, "mStmgrs", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// call listener list
-	Mutex::init(&mClstns, true, "mClstns", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// dispatch collector list
-	Mutex::init(&mDcols, true, "mDcols", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// job list
-	jrefseq = new Refseq("jrefseq");
-	Mutex::init(&mJobs, true, "mJobs", "XchgMsdccmbd", "XchgMsdccmbd");
-
 	// master-slave job information
-	Mutex::init(&mMsjobinfos, true, "mMsjobinfos", "XchgMsdccmbd", "XchgMsdccmbd");
 	msjobinfos[VecMsdcVJob::JOBMSDCACQADXL] = new Msjobinfo(VecMsdcVJob::JOBMSDCACQADXL);
 	msjobinfos[VecMsdcVJob::JOBMSDCACQLWIR] = new Msjobinfo(VecMsdcVJob::JOBMSDCACQLWIR);
 	msjobinfos[VecMsdcVJob::JOBMSDCACQVISL] = new Msjobinfo(VecMsdcVJob::JOBMSDCACQVISL);
@@ -1743,15 +1751,10 @@ XchgMsdccmbd::XchgMsdccmbd() {
 	msjobinfos[VecMsdcVJob::JOBMSDCSRCTRIGGER] = new Msjobinfo(VecMsdcVJob::JOBMSDCSRCTRIGGER);
 
 	// DDS publisher call
-	Mutex::init(&mDdspubcall, true, "mDdspubcall", "XchgMsdccmbd", "XchgMsdccmbd");
 	ddspubcall = NULL;
 
 	// OPC UA server call
-	Mutex::init(&mUasrvcall, true, "mUasrvcall", "XchgMsdccmbd", "XchgMsdccmbd");
 	uasrvcall = NULL;
-
-	// sequence for wakeup references
-	wrefseq = new Refseq("wrefseq");
 };
 
 XchgMsdccmbd::~XchgMsdccmbd() {
@@ -1764,78 +1767,9 @@ XchgMsdccmbd::~XchgMsdccmbd() {
 	for (auto it=dcols.begin();it!=dcols.end();it++) delete(it->second);
 	for (auto it=jobs.begin();it!=jobs.end();it++) delete(it->second);
 	for (auto it=msjobinfos.begin();it!=msjobinfos.end();it++) delete(it->second);
-
-	// scrambled ref codes
-	Mutex::destroy(&mScr, true, "mScr", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// log file
-	Mutex::destroy(&mLogfile, true, "mLogfile", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// condition for job processors
-	Mutex::destroy(&mcJobprcs, true, "mcJobprcs", "XchgMsdccmbd", "~XchgMsdccmbd");
-	Cond::destroy(&cJobprcs, "cJobprcs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// condition for op processors
-	Mutex::destroy(&mcOpprcs, true, "mcOpprcs", "XchgMsdccmbd", "~XchgMsdccmbd");
-	Cond::destroy(&cOpprcs, "cOpprcs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// condition for DDS publisher
-	Mutex::destroy(&mcDdspub, true, "mcDdspub", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::destroy(&cDdspub, "cDdspub", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// condition for OPC UA server
-	Mutex::destroy(&mcUasrv, true, "mcUasrv", "XchgMsdccmbd", "XchgMsdccmbd");
-	Cond::destroy(&cUasrv, "cUasrv", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// request list
-	Mutex::destroy(&mReqs, true, "mReqs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// operation invocation list
-	delete orefseq;
-	Mutex::destroy(&mInvs, true, "mInvs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// presetting list
-	Mutex::destroy(&mPresets, true, "mPresets", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// stub manager list
-	Mutex::destroy(&mStmgrs, true, "mStmgrs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// call listener list
-	Mutex::destroy(&mClstns, true, "mClstns", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// dispatch collector list
-	Mutex::destroy(&mDcols, true, "mDcols", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// job list
-	delete jrefseq;
-	Mutex::destroy(&mJobs, true, "mJobs", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// master-slave job information
-	Mutex::destroy(&mMsjobinfos, true, "mMsjobinfos", "XchgMsdccmbd", "~XchgMsdccmbd");
-
-	// DDS publisher call
-	Mutex::destroy(&mDdspubcall, true, "mDdspubcall", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// OPC UA server call
-	Mutex::destroy(&mUasrvcall, true, "mUasrvcall", "XchgMsdccmbd", "XchgMsdccmbd");
-
-	// sequence for wakeup references
-	delete wrefseq;
 };
 
 // IP cust --- INSERT
-
-string XchgMsdccmbd::scramble(
-			const ubigint ref
-		) {
-	return Scr::scramble(&mScr, scr, descr, ref);
-};
-
-ubigint XchgMsdccmbd::descramble(
-			const string& scrRef
-		) {
-	return Scr::descramble(&mScr, descr, scrRef);
-};
 
 void XchgMsdccmbd::startMon() {
 	JobMsdc* job = NULL;
@@ -1849,9 +1783,9 @@ void XchgMsdccmbd::startMon() {
 	Clstn* clstn = NULL;
 	Preset* preset = NULL;
 
-	mon.start("MultispectralDetectorControl 0.1.45", stgmsdcpath.monpath);
+	mon.start("MultispectralDetectorControl 0.1.49", stgmsdcpath.monpath);
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "startMon");
+	rwmJobs.rlock("XchgMsdccmbd", "startMon");
 	for (auto it=jobs.begin();it!=jobs.end();it++) {
 		job = it->second;
 
@@ -1870,21 +1804,21 @@ void XchgMsdccmbd::startMon() {
 		if (getMsjobNotJob(job->ixMsdcVJob)) mon.insertJob(job->jrefSup, VecMsdcVJob::getSref(job->ixMsdcVJob), job->jref, true, getMsjobMastNotSlv((MsjobMsdc*) job), Dcol, Stmgr);
 		else mon.insertJob(job->jrefSup, VecMsdcVJob::getSref(job->ixMsdcVJob), job->jref, false, false, Dcol, Stmgr);
 	};
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "startMon");
+	rwmJobs.runlock("XchgMsdccmbd", "startMon");
 
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "startMon");
+	rwmClstns.rlock("XchgMsdccmbd", "startMon");
 	for (auto it=clstns.begin();it!=clstns.end();it++) {
 		clstn = it->second;
 		mon.insertClstn(clstn->cref.jref, VecMsdcVCall::getSref(clstn->cref.ixVCall), Clstn::VecVTarget::getSref(clstn->cref.ixVTarget), Clstn::VecVJobmask::getSref(clstn->cref.ixVJobmask), clstn->cref.jrefTrig, clstn->argMask.writeText(), Clstn::VecVJactype::getSref(clstn->ixVJactype));
 	};
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "startMon");
+	rwmClstns.runlock("XchgMsdccmbd", "startMon");
 
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "startMon");
+	rwmPresets.rlock("XchgMsdccmbd", "startMon");
 	for (auto it=presets.begin();it!=presets.end();it++) {
 		preset = it->second;
 		mon.insertPreset(preset->pref.jref, VecMsdcVPreset::getSref(preset->pref.ixVPreset), preset->arg.writeText());
 	};
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "startMon");
+	rwmPresets.runlock("XchgMsdccmbd", "startMon");
 
 	triggerCall(NULL, VecMsdcVCall::CALLMSDCMONSTATCHG, jrefRoot);
 };
@@ -1901,7 +1835,7 @@ void XchgMsdccmbd::appendToLogfile(
 	time_t rawtime;
 	fstream logfile;
 
-	Mutex::lock(&mLogfile, "mLogfile", "XchgMsdccmbd", "appendToLogfile");
+	mLogfile.lock("XchgMsdccmbd", "appendToLogfile");
 
 	time(&rawtime);
 
@@ -1909,27 +1843,27 @@ void XchgMsdccmbd::appendToLogfile(
 	logfile << Ftm::stamp(rawtime) << ": " << str << endl;
 	logfile.close();
 
-	Mutex::unlock(&mLogfile, "mLogfile", "XchgMsdccmbd", "appendToLogfile");
+	mLogfile.unlock("XchgMsdccmbd", "appendToLogfile");
 };
 
 void XchgMsdccmbd::addReq(
 			ReqMsdc* req
 		) {
-	Mutex::lock(&mReqs, "mReqs", "XchgMsdccmbd", "addReq");
+	mReqs.lock("XchgMsdccmbd", "addReq");
 
 	req->ixVState = ReqMsdc::VecVState::WAITPRC;
 	reqs.push_back(req);
 
-	Mutex::unlock(&mReqs, "mReqs", "XchgMsdccmbd", "addReq");
+	mReqs.unlock("XchgMsdccmbd", "addReq");
 
-	Cond::signal(&cJobprcs, &mcJobprcs, "cJobprcs", "mcJobprcs", "XchgMsdccmbd", "addReq");
+	cJobprcs.signal("XchgMsdccmbd", "addReq");
 };
 
 ReqMsdc* XchgMsdccmbd::pullFirstReq() {
 	ReqMsdc* req;
 
 	// get first element from list
-	Mutex::lock(&mReqs, "mReqs", "XchgMsdccmbd", "pullFirstReq");
+	mReqs.lock("XchgMsdccmbd", "pullFirstReq");
 
 	req = NULL;
 
@@ -1939,7 +1873,7 @@ ReqMsdc* XchgMsdccmbd::pullFirstReq() {
 		reqs.pop_front();
 	};
 
-	Mutex::unlock(&mReqs, "mReqs", "XchgMsdccmbd", "pullFirstReq");
+	mReqs.unlock("XchgMsdccmbd", "pullFirstReq");
 
 	return req;
 };
@@ -1955,8 +1889,8 @@ void XchgMsdccmbd::addInvs(
 
 	if (job) {
 		// append to inv list and signal the news (note the double-lock)
-		Mutex::lock(&mInvs, "mInvs", "XchgMsdccmbd", "addInvs");
-		Mutex::lock(&(job->mOps), "job->mOps", "XchgMsdccmbd", "addInvs");
+		mInvs.lock("XchgMsdccmbd", "addInvs");
+		job->mOps.lock("XchgMsdccmbd", "addInvs");
 
 		for (unsigned int i=0;i<dpchinvs.size();i++) {
 			job->addOp(dbsmsdc, dpchinvs[i]);
@@ -1966,10 +1900,10 @@ void XchgMsdccmbd::addInvs(
 			mon.eventAddInv(jref, VecMsdcVDpch::getSref(dpchinvs[i]->ixMsdcVDpch), "", dpchinvs[i]->oref);
 		};
 
-		Mutex::unlock(&(job->mOps), "job->mOps", "XchgMsdccmbd", "addInvs");
-		Mutex::unlock(&mInvs, "mInvs", "XchgMsdccmbd", "addInvs");
+		job->mOps.unlock("XchgMsdccmbd", "addInvs");
+		mInvs.unlock("XchgMsdccmbd", "addInvs");
 
-		Cond::signal(&cOpprcs, &mcOpprcs, "cOpprcs", "mcOpprcs", "XchgMsdccmbd", "addInvs");
+		cOpprcs.signal("XchgMsdccmbd", "addInvs");
 	};
 };
 
@@ -1977,7 +1911,7 @@ DpchInvMsdc* XchgMsdccmbd::pullFirstInv() {
 	DpchInvMsdc* inv;
 
 	// get first element from list
-	Mutex::lock(&mInvs, "mInvs", "XchgMsdccmbd", "pullFirstInv");
+	mInvs.lock("XchgMsdccmbd", "pullFirstInv");
 
 	inv = NULL;
 
@@ -1986,7 +1920,7 @@ DpchInvMsdc* XchgMsdccmbd::pullFirstInv() {
 		invs.pop_front();
 	};
 
-	Mutex::unlock(&mInvs, "mInvs", "XchgMsdccmbd", "pullFirstInv");
+	mInvs.unlock("XchgMsdccmbd", "pullFirstInv");
 
 	return inv;
 };
@@ -2000,9 +1934,9 @@ Preset* XchgMsdccmbd::addPreset(
 	Preset* preset;
 
 	// create new presetting (override value if exists) and append to presetting list
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "addPreset");
-
 	preset = getPresetByPref(pref);
+
+	rwmPresets.wlock("XchgMsdccmbd", "addPreset");
 
 	if (preset) {
 		preset->arg = arg;
@@ -2016,7 +1950,7 @@ Preset* XchgMsdccmbd::addPreset(
 		mon.eventAddPreset(jref, VecMsdcVPreset::getSref(ixMsdcVPreset), arg.writeText());
 	};
 
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "addPreset");
+	rwmPresets.wunlock("XchgMsdccmbd", "addPreset");
 
 	return(preset);
 };
@@ -2092,12 +2026,12 @@ Preset* XchgMsdccmbd::getPresetByPref(
 		) {
 	Preset* preset = NULL;
 
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "getPresetByPref");
+	rwmPresets.rlock("XchgMsdccmbd", "getPresetByPref");
 
 	auto it = presets.find(pref);
 	if (it != presets.end()) preset = it->second;
 
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "getPresetByPref");
+	rwmPresets.runlock("XchgMsdccmbd", "getPresetByPref");
 
 	return preset;
 };
@@ -2122,9 +2056,9 @@ Arg XchgMsdccmbd::getPreset(
 		else if (ixMsdcVPreset == VecMsdcVPreset::PREMSDCSYSSTAMP) arg.intval = rawtime;
 
 	} else {
-		Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "getPreset");
-		Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "getPreset");
-		
+		rwmJobs.rlock("XchgMsdccmbd", "getPreset");
+		rwmPresets.rlock("XchgMsdccmbd", "getPreset");
+
 		job = getJobByJref(jref);
 
 		if ( (job != NULL) && (ixMsdcVPreset == VecMsdcVPreset::PREMSDCIXLCL) ) {
@@ -2140,8 +2074,8 @@ Arg XchgMsdccmbd::getPreset(
 			};
 		};
 
-		Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "getPreset");
-		Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "getPreset");
+		rwmPresets.runlock("XchgMsdccmbd", "getPreset");
+		rwmJobs.runlock("XchgMsdccmbd", "getPreset");
 	};
 
 	return(arg);
@@ -2238,7 +2172,7 @@ void XchgMsdccmbd::getPresetsByJref(
 	icsMsdcVPreset.clear();
 	args.clear();
 
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "getPresetsByJref");
+	rwmPresets.rlock("XchgMsdccmbd", "getPresetsByJref");
 
 	auto rng = presets.equal_range(presetref_t(jref, 0));
 	for (auto it=rng.first;it!=rng.second;it++) {
@@ -2248,14 +2182,14 @@ void XchgMsdccmbd::getPresetsByJref(
 		args.push_back(preset->arg);
 	};
 
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "getPresetsByJref");
+	rwmPresets.runlock("XchgMsdccmbd", "getPresetsByJref");
 };
 
 void XchgMsdccmbd::removePreset(
 			const uint ixMsdcVPreset
 			, const ubigint jref
 		) {
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "removePreset");
+	rwmPresets.wlock("XchgMsdccmbd", "removePreset");
 
 	auto it = presets.find(presetref_t(jref, ixMsdcVPreset));
 	if (it != presets.end()) {
@@ -2265,13 +2199,13 @@ void XchgMsdccmbd::removePreset(
 		mon.eventRemovePreset(jref, VecMsdcVPreset::getSref(ixMsdcVPreset));
 	};
 
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "removePreset");
+	rwmPresets.wunlock("XchgMsdccmbd", "removePreset");
 };
 
 void XchgMsdccmbd::removePresetsByJref(
 			const ubigint jref
 		) {
-	Mutex::lock(&mPresets, "mPresets", "XchgMsdccmbd", "removePresetsByJref");
+	rwmPresets.wlock("XchgMsdccmbd", "removePresetsByJref");
 
 	uint ixVPreset;
 
@@ -2284,7 +2218,7 @@ void XchgMsdccmbd::removePresetsByJref(
 	};
 	presets.erase(rng.first, rng.second);
 
-	Mutex::unlock(&mPresets, "mPresets", "XchgMsdccmbd", "removePresetsByJref");
+	rwmPresets.wunlock("XchgMsdccmbd", "removePresetsByJref");
 };
 
 StmgrMsdc* XchgMsdccmbd::addStmgr(
@@ -2294,18 +2228,18 @@ StmgrMsdc* XchgMsdccmbd::addStmgr(
 	StmgrMsdc* stmgr = NULL;
 
 	// create new stmgr and append to stmgr list
-	Mutex::lock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "addStmgr");
-
 	stmgr = getStmgrByJref(jref);
 
 	if (!stmgr) {
+		rwmStmgrs.wlock("XchgMsdccmbd", "addStmgr");
+
 		stmgr = new StmgrMsdc(this, jref, ixVNonetype);
 		stmgrs[jref] = stmgr;
 
+		rwmStmgrs.wunlock("XchgMsdccmbd", "addStmgr");
+
 		mon.eventAddStmgr(jref);
 	};
-
-	Mutex::unlock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "addStmgr");
 
 	return(stmgr);
 };
@@ -2315,7 +2249,7 @@ StmgrMsdc* XchgMsdccmbd::getStmgrByJref(
 		) {
 	StmgrMsdc* stmgr = NULL;
 
-	Mutex::lock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "getStmgrByJref");
+	rwmStmgrs.rlock("XchgMsdccmbd", "getStmgrByJref");
 
 	auto it = stmgrs.find(jref);
 
@@ -2324,7 +2258,7 @@ StmgrMsdc* XchgMsdccmbd::getStmgrByJref(
 		stmgr->lockAccess("XchgMsdccmbd", "getStmgrByJref");
 	};
 
-	Mutex::unlock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "getStmgrByJref");
+	rwmStmgrs.runlock("XchgMsdccmbd", "getStmgrByJref");
 
 	return(stmgr);
 };
@@ -2332,7 +2266,7 @@ StmgrMsdc* XchgMsdccmbd::getStmgrByJref(
 void XchgMsdccmbd::removeStmgrByJref(
 			const ubigint jref
 		) {
-	Mutex::lock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "removeStmgrByJref");
+	rwmStmgrs.wlock("XchgMsdccmbd", "removeStmgrByJref");
 
 	removeClstnsByJref(jref, Clstn::VecVTarget::STMGR);
 
@@ -2344,7 +2278,7 @@ void XchgMsdccmbd::removeStmgrByJref(
 		mon.eventRemoveStmgr(jref);
 	};
 
-	Mutex::unlock(&mStmgrs, "mStmgrs", "XchgMsdccmbd", "removeStmgrByJref");
+	rwmStmgrs.wunlock("XchgMsdccmbd", "removeStmgrByJref");
 };
 
 Clstn* XchgMsdccmbd::addClstn(
@@ -2360,8 +2294,6 @@ Clstn* XchgMsdccmbd::addClstn(
 	Clstn* clstn;
 
 	// create new clstn and append to clstn list
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstn");
-
 	clstn = getClstnByCref(cref);
 
 	if (clstn) {
@@ -2371,14 +2303,16 @@ Clstn* XchgMsdccmbd::addClstn(
 		mon.eventChangeClstn(jref, VecMsdcVCall::getSref(ixMsdcVCall), "job", Clstn::VecVJobmask::getSref(ixVJobmask), jrefTrig, argMask.writeText(), Clstn::VecVJactype::getSref(ixVJactype));
 
 	} else {
+		rwmClstns.wlock("XchgMsdccmbd", "addClstn");
+
 		clstn = new Clstn(cref, argMask, ixVJactype);
 		clstns.insert(pair<clstnref_t,Clstn*>(cref, clstn));
 		cref2sClstns.insert(pair<clstnref2_t,clstnref_t>(cref2, cref));
 
+		rwmClstns.wunlock("XchgMsdccmbd", "addClstn");
+
 		mon.eventAddClstn(jref, VecMsdcVCall::getSref(ixMsdcVCall), "job", Clstn::VecVJobmask::getSref(ixVJobmask), jrefTrig, argMask.writeText(), Clstn::VecVJactype::getSref(ixVJactype));
 	};
-
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstn");
 
 	return(clstn);
 };
@@ -2447,19 +2381,19 @@ Clstn* XchgMsdccmbd::addClstnStmgr(
 	Clstn* clstn;
 
 	// create new clstn and append to clstn list
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnStmgr");
-
 	clstn = getClstnByCref(cref);
 
 	if (!clstn) {
+		rwmClstns.wlock("XchgMsdccmbd", "addClstnStmgr");
+
 		clstn = new Clstn(cref, Arg(), Clstn::VecVJactype::LOCK);
 		clstns.insert(pair<clstnref_t,Clstn*>(cref, clstn));
 		cref2sClstns.insert(pair<clstnref2_t,clstnref_t>(cref2, cref));
 
+		rwmClstns.wunlock("XchgMsdccmbd", "addClstnStmgr");
+
 		mon.eventAddClstn(jref, VecMsdcVCall::getSref(ixMsdcVCall), "stmgr", Clstn::VecVJobmask::getSref(Clstn::VecVJobmask::ALL), 0, "", Clstn::VecVJactype::getSref(Clstn::VecVJactype::LOCK));
 	};
-
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnStmgr");
 
 	return(clstn);
 };
@@ -2473,19 +2407,19 @@ Clstn* XchgMsdccmbd::addClstnDdspub(
 	Clstn* clstn;
 
 	// create new clstn and append to clstn list
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnDdspub");
-
 	clstn = getClstnByCref(cref);
 
 	if (!clstn) {
+		rwmClstns.wlock("XchgMsdccmbd", "addClstnDdspub");
+
 		clstn = new Clstn(cref, Arg(0, 0, {}, srefMask, 0, 0.0, false, "", Arg::SREF), Clstn::VecVJactype::LOCK);
 		clstns.insert(pair<clstnref_t,Clstn*>(cref, clstn));
 		cref2sClstns.insert(pair<clstnref2_t,clstnref_t>(cref2, cref));
 
+		rwmClstns.wunlock("XchgMsdccmbd", "addClstnDdspub");
+
 		mon.eventAddClstn(0, "CallMsdcShrdatChg", "ddspub", Clstn::VecVJobmask::getSref(Clstn::VecVJobmask::SPEC), jrefTrig, "sref='" + srefMask + "'", Clstn::VecVJactype::getSref(Clstn::VecVJactype::LOCK));
 	};
-
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnDdspub");
 
 	return(clstn);
 };
@@ -2499,19 +2433,19 @@ Clstn* XchgMsdccmbd::addClstnUasrv(
 	Clstn* clstn;
 
 	// create new clstn and append to clstn list
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnUasrv");
-
 	clstn = getClstnByCref(cref);
 
 	if (!clstn) {
+		rwmClstns.wlock("XchgMsdccmbd", "addClstnUasrv");
+
 		clstn = new Clstn(cref, Arg(0, 0, {}, srefMask, 0, 0.0, false, "", Arg::SREF), Clstn::VecVJactype::LOCK);
 		clstns.insert(pair<clstnref_t,Clstn*>(cref, clstn));
 		cref2sClstns.insert(pair<clstnref2_t,clstnref_t>(cref2, cref));
 
+		rwmClstns.wunlock("XchgMsdccmbd", "addClstnUasrv");
+
 		mon.eventAddClstn(0, "CallMsdcShrdatChg", "uasrv", Clstn::VecVJobmask::getSref(Clstn::VecVJobmask::SPEC), jrefTrig, "sref='" + srefMask + "'", Clstn::VecVJactype::getSref(Clstn::VecVJactype::LOCK));
 	};
-
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "addClstnUasrv");
 
 	return(clstn);
 };
@@ -2521,12 +2455,12 @@ Clstn* XchgMsdccmbd::getClstnByCref(
 		) {
 	Clstn* clstn = NULL;
 
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "getClstnByCref");
+	rwmClstns.rlock("XchgMsdccmbd", "getClstnByCref");
 
 	auto it = clstns.find(cref);
 	if (it != clstns.end()) clstn = it->second;
 
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "getClstnByCref");
+	rwmClstns.runlock("XchgMsdccmbd", "getClstnByCref");
 
 	return clstn;
 };
@@ -2542,7 +2476,7 @@ void XchgMsdccmbd::getClstnsByJref(
 	icsMsdcVCall.clear();
 	icsVJobmask.clear();
 
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "getClstnsByJref");
+	rwmClstns.rlock("XchgMsdccmbd", "getClstnsByJref");
 
 	auto rng = cref2sClstns.equal_range(clstnref2_t(jref, ixVTarget, 0));
 	for (auto it=rng.first;it!=rng.second;it++) {
@@ -2554,7 +2488,7 @@ void XchgMsdccmbd::getClstnsByJref(
 		};
 	};
 
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "getClstnsByJref");
+	rwmClstns.runlock("XchgMsdccmbd", "getClstnsByJref");
 };
 
 void XchgMsdccmbd::removeClstns(
@@ -2562,7 +2496,7 @@ void XchgMsdccmbd::removeClstns(
 			, const ubigint jref
 			, const uint ixVTarget
 		) {
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "removeClstns");
+	rwmClstns.wlock("XchgMsdccmbd", "removeClstns");
 
 	uint ixVJobmask;
 	ubigint jrefTrig;
@@ -2579,14 +2513,14 @@ void XchgMsdccmbd::removeClstns(
 	};
 	clstns.erase(rng.first, rng.second);
 
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "removeClstns");
+	rwmClstns.wunlock("XchgMsdccmbd", "removeClstns");
 };
 
 void XchgMsdccmbd::removeClstnsByJref(
 			const ubigint jref
 			, const uint ixVTarget
 		) {
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "removeClstnsByJref");
+	rwmClstns.wlock("XchgMsdccmbd", "removeClstnsByJref");
 
 	uint ixVCall;
 	uint ixVJobmask;
@@ -2607,7 +2541,7 @@ void XchgMsdccmbd::removeClstnsByJref(
 	};
 	cref2sClstns.erase(rng.first, rng.second);
 
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "removeClstnsByJref");
+	rwmClstns.wunlock("XchgMsdccmbd", "removeClstnsByJref");
 };
 
 void XchgMsdccmbd::findJrefsByCall(
@@ -2623,8 +2557,8 @@ void XchgMsdccmbd::findJrefsByCall(
 
 	bool match;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "findJrefsByCall");
-	Mutex::lock(&mClstns, "mClstns", "XchgMsdccmbd", "findJrefsByCall");
+	rwmJobs.rlock("XchgMsdccmbd", "findJrefsByCall");
+	rwmClstns.rlock("XchgMsdccmbd", "findJrefsByCall");
 
 	auto rng = clstns.equal_range(clstnref_t(call->ixVCall, 0));
 	for (auto it=rng.first;it!=rng.second;it++) {
@@ -2721,8 +2655,8 @@ void XchgMsdccmbd::findJrefsByCall(
 		};
 	};
 
-	Mutex::unlock(&mClstns, "mClstns", "XchgMsdccmbd", "findJrefsByCall");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "findJrefsByCall");
+	rwmClstns.runlock("XchgMsdccmbd", "findJrefsByCall");
+	rwmJobs.runlock("XchgMsdccmbd", "findJrefsByCall");
 };
 
 void XchgMsdccmbd::triggerCall(
@@ -2762,7 +2696,7 @@ void XchgMsdccmbd::triggerCall(
 						job->lockAccess("XchgMsdccmbd", "triggerCall");
 
 					} else if (ixVJactype == Clstn::VecVJactype::TRY) {
-						if (Mutex::trylock(&(job->mAccess), "job(" + to_string(jref) + ")->mAccess", "XchgMsdccmbd", "triggerCall") == EBUSY) continue;
+						if (!job->trylockAccess("XchgMsdccmbd", "triggerCall")) continue;
 					};
 				};
 
@@ -2794,35 +2728,35 @@ void XchgMsdccmbd::triggerCall(
 			};
 
 		} else if (ixVTarget == Clstn::VecVTarget::DDSPUB) {
-			Mutex::lock(&mDdspubcall, "mDdspubcall", "XchgMsdccmbd", "triggerCall");
+			mDdspubcall.lock("XchgMsdccmbd", "triggerCall");
 
-			Mutex::lock(&mcDdspub, "mcDdspub", "XchgMsdccmbd", "triggerCall[1]");
+			cDdspub.lockMutex("XchgMsdccmbd", "triggerCall[1]");
 			ddspubcall = call;
-			Mutex::unlock(&mcDdspub, "mcDdspub", "XchgMsdccmbd", "triggerCall[1]");
+			cDdspub.unlockMutex("XchgMsdccmbd", "triggerCall[1]");
 
 			mon.eventHandleCall(eref, jref);
-			Cond::signal(&cDdspub, &mcDdspub, "cDdspub", "mcDdspub", "XchgMsdccmbd", "triggerCall");
+			cDdspub.signal("XchgMsdccmbd", "triggerCall");
 
-			Mutex::lock(&mcDdspub, "mcDdspub", "XchgMsdccmbd", "triggerCall[2]");
-			if (ddspubcall) Cond::wait(&cDdspub, &mcDdspub, "cDdspub", "XchgMsdccmbd", "triggerCall");
-			Mutex::unlock(&mcDdspub, "mcDdspub", "XchgMsdccmbd", "triggerCall[2]");
+			cDdspub.lockMutex("XchgMsdccmbd", "triggerCall[2]");
+			if (ddspubcall) cDdspub.wait("XchgMsdccmbd", "triggerCall");
+			cDdspub.unlockMutex("XchgMsdccmbd", "triggerCall[2]");
 
-			Mutex::unlock(&mDdspubcall, "mDdspubcall", "XchgMsdccmbd", "triggerCall");
+			mDdspubcall.unlock("XchgMsdccmbd", "triggerCall");
 
 		} else if (ixVTarget == Clstn::VecVTarget::UASRV) {
-			Mutex::lock(&mUasrvcall, "mUasrvcall", "XchgMsdccmbd", "triggerCall");
+			mUasrvcall.lock("XchgMsdccmbd", "triggerCall");
 
-			Mutex::lock(&mcUasrv, "mcUasrv", "XchgMsdccmbd", "triggerCall[1]");
+			cUasrv.lockMutex("XchgMsdccmbd", "triggerCall[1]");
 			uasrvcall = call;
-			Mutex::unlock(&mcUasrv, "mcUasrv", "XchgMsdccmbd", "triggerCall[1]");
+			cUasrv.unlockMutex("XchgMsdccmbd", "triggerCall[1]");
 
 			mon.eventHandleCall(eref, jref);
 			
-			Mutex::lock(&mcUasrv, "mcUasrv", "XchgMsdccmbd", "triggerCall[2]");
-			if (uasrvcall) Cond::wait(&cUasrv, &mcUasrv, "cUasrv", "XchgMsdccmbd", "triggerCall");
-			Mutex::unlock(&mcUasrv, "mcUasrv", "XchgMsdccmbd", "triggerCall[2]");
+			cUasrv.lockMutex("XchgMsdccmbd", "triggerCall[2]");
+			if (uasrvcall) cUasrv.wait("XchgMsdccmbd", "triggerCall");
+			cUasrv.unlockMutex("XchgMsdccmbd", "triggerCall[2]");
 
-			Mutex::unlock(&mUasrvcall, "mUasrvcall", "XchgMsdccmbd", "triggerCall");
+			mUasrvcall.unlock("XchgMsdccmbd", "triggerCall");
 		};
 
 		if (call->abort) break;
@@ -3227,8 +3161,7 @@ DcolMsdc* XchgMsdccmbd::addDcol(
 	DcolMsdc* dcol = NULL;
 
 	// create new dcol and append to dcol list
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "addDcol");
-	Mutex::lock(&mDcols, "mDcols", "XchgMsdccmbd", "addDcol");
+	rwmJobs.rlock("XchgMsdccmbd", "addDcol");
 
 	job = getJobByJref(jref);
 
@@ -3236,17 +3169,20 @@ DcolMsdc* XchgMsdccmbd::addDcol(
 		dcol = getDcolByJref(jref);
 
 		if (!dcol) {
+			rwmDcols.wlock("XchgMsdccmbd", "addDcol");
+
 			dcol = new DcolMsdc(jref, job->ixMsdcVLocale);
 			dcols[jref] = dcol;
 
-			mon.eventAddDcol(jref);
-
 			dcol->lockAccess("XchgMsdccmbd", "addDcol");
+
+			rwmDcols.wunlock("XchgMsdccmbd", "addDcol");
+
+			mon.eventAddDcol(jref);
 		};
 	};
 
-	Mutex::unlock(&mDcols, "mDcols", "XchgMsdccmbd", "addDcol");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "addDcol");
+	rwmJobs.runlock("XchgMsdccmbd", "addDcol");
 
 	// make dcol the session's active notify dcol
 	triggerIxRefCall(NULL, VecMsdcVCall::CALLMSDCREFPRESET, jref, VecMsdcVPreset::PREMSDCJREFNOTIFY, jref);
@@ -3262,8 +3198,8 @@ DcolMsdc* XchgMsdccmbd::getDcolByJref(
 
 	DcolMsdc* dcol = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "getDcolByJref");
-	Mutex::lock(&mDcols, "mDcols", "XchgMsdccmbd", "getDcolByJref");
+	rwmJobs.rlock("XchgMsdccmbd", "getDcolByJref");
+	rwmDcols.rlock("XchgMsdccmbd", "getDcolByJref");
 
 	job = getJobByJref(jref);
 
@@ -3282,8 +3218,8 @@ DcolMsdc* XchgMsdccmbd::getDcolByJref(
 		job = getJobByJref(job->jrefSup);
 	};
 
-	Mutex::unlock(&mDcols, "mDcols", "XchgMsdccmbd", "addDcol");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "addDcol");
+	rwmDcols.runlock("XchgMsdccmbd", "getDcolByJref");
+	rwmJobs.runlock("XchgMsdccmbd", "getDcolByJref");
 
 	return(dcol);
 };
@@ -3291,7 +3227,7 @@ DcolMsdc* XchgMsdccmbd::getDcolByJref(
 void XchgMsdccmbd::removeDcolByJref(
 			const ubigint jref
 		) {
-	Mutex::lock(&mDcols, "mDcols", "XchgMsdccmbd", "removeDcolByJref");
+	rwmDcols.wlock("XchgMsdccmbd", "removeDcolByJref");
 
 	auto it = dcols.find(jref);
 	if (it != dcols.end()) {
@@ -3301,7 +3237,7 @@ void XchgMsdccmbd::removeDcolByJref(
 		mon.eventRemoveDcol(jref);
 	};
 
-	Mutex::unlock(&mDcols, "mDcols", "XchgMsdccmbd", "removeDcolByJref");
+	rwmDcols.wunlock("XchgMsdccmbd", "removeDcolByJref");
 };
 
 void XchgMsdccmbd::removeDcolsByJref(
@@ -3313,8 +3249,8 @@ void XchgMsdccmbd::removeDcolsByJref(
 
 	vector<ubigint> jrefs;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "removeDcolsByJref");
-	Mutex::lock(&mDcols, "mDcols", "XchgMsdccmbd", "removeDcolsByJref");
+	rwmJobs.rlock("XchgMsdccmbd", "removeDcolsByJref");
+	rwmDcols.wlock("XchgMsdccmbd", "removeDcolsByJref");
 
 	jrefs.push_back(jref);
 
@@ -3334,8 +3270,8 @@ void XchgMsdccmbd::removeDcolsByJref(
 		};
 	};
 
-	Mutex::unlock(&mDcols, "mDcols", "XchgMsdccmbd", "removeDcolsByJref");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "removeDcolsByJref");
+	rwmDcols.wunlock("XchgMsdccmbd", "removeDcolsByJref");
+	rwmJobs.runlock("XchgMsdccmbd", "removeDcolsByJref");
 };
 
 void XchgMsdccmbd::submitDpch(
@@ -3343,8 +3279,7 @@ void XchgMsdccmbd::submitDpch(
 		) {
 	DcolMsdc* dcol = NULL;
 
-	pthread_cond_t* cReady_backup;
-	pthread_mutex_t* mcReady_backup;
+	Cond* cReady_backup;
 
 	DpchEngMsdc* dpchtest;
 
@@ -3360,12 +3295,11 @@ void XchgMsdccmbd::submitDpch(
 			dcol->req->dpcheng = dpcheng;
 
 			cReady_backup = &(dcol->req->cReady);
-			mcReady_backup = &(dcol->req->mcReady);
 
 			dcol->req = NULL;
 			//cout << "XchgMsdccmbd::submitDpch() waiting request for ixMsdcVDpch = " << dpcheng->ixMsdcVDpch << ", jref = " << dpcheng->jref << endl;
 
-			Cond::signal(cReady_backup, mcReady_backup, "dcol(" + to_string(dcol->jref) + ")->req->cReady", "dcol(" + to_string(dcol->jref) + ")->req->mcReady", "XchgMsdccmbd", "submitDpch");
+			cReady_backup->signal("XchgMsdccmbd", "submitDpch");
 
 			dcol->unlockAccess("XchgMsdccmbd", "submitDpch");
 
@@ -3420,9 +3354,9 @@ ubigint XchgMsdccmbd::addJob(
 	JobMsdc* supjob = NULL;
 
 	// get new jref and append to job list
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "addJob");
+	rwmJobs.wlock("XchgMsdccmbd", "addJob");
 
-	job->jref = jrefseq->getNewRef();
+	job->jref = jrefseq.getNewRef();
 	jobs[job->jref] = job;
 
 	if (jobs.size() == 1) {
@@ -3434,9 +3368,9 @@ ubigint XchgMsdccmbd::addJob(
 	supjob = getJobByJref(job->jrefSup);
 	if (supjob) supjob->jrefsSub.insert(job->jref);
 
-	mon.eventAddJob(job->jrefSup, VecMsdcVJob::getSref(job->ixMsdcVJob), job->jref);
+	rwmJobs.wunlock("XchgMsdccmbd", "addJob");
 
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "addJob");
+	mon.eventAddJob(job->jrefSup, VecMsdcVJob::getSref(job->ixMsdcVJob), job->jref);
 
 	return(job->jref);
 };
@@ -3448,14 +3382,14 @@ ubigint XchgMsdccmbd::addMsjob(
 		) {
 	JobMsdc* supjob = NULL;
 
-	Msjobinfo* msji = NULL;
+	Msjobinfo* msjobinfo = NULL;
 	MsjobMsdc* mastjob = NULL;
 
 	// get new jref, append to job list and update master/slave job info
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "addMsjob");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "addMsjob");
+	rwmJobs.wlock("XchgMsdccmbd", "addMsjob");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "addMsjob");
 
-	job->jref = jrefseq->getNewRef();
+	job->jref = jrefseq.getNewRef();
 	jobs[job->jref] = job;
 
 	supjob = getJobByJref(job->jrefSup);
@@ -3465,43 +3399,43 @@ ubigint XchgMsdccmbd::addMsjob(
 
 	auto it = msjobinfos.find(job->ixMsdcVJob);
 	if (it != msjobinfos.end()) {
-		msji = it->second;
+		msjobinfo = it->second;
 
-		if (syncsge) job->ixVSge = msji->ixVSge;
+		if (syncsge) job->ixVSge = msjobinfo->ixVSge;
 
-		if (msji->jrefMast != 0) mastjob = (MsjobMsdc*) getJobByJref(msji->jrefMast);
+		if (msjobinfo->jrefMast != 0) mastjob = (MsjobMsdc*) getJobByJref(msjobinfo->jrefMast);
 
 		if (mastjob) {
 			if (job->prefmast) {
 				// priority for becoming new master
-				msji->jrefsSlv.push_front(job->jref);
+				msjobinfo->jrefsSlv.push_front(job->jref);
 
 				mon.eventBecomeSlave(job->jref);
 
-				job->becomeSlave(dbsmsdc, msji);
+				job->becomeSlave(dbsmsdc, msjobinfo);
 
 				claimMsjobMaster(dbsmsdc, job->jref);
 
 			} else {
-				msji->jrefsSlv.push_back(job->jref);
+				msjobinfo->jrefsSlv.push_back(job->jref);
 
 				mon.eventBecomeSlave(job->jref);
 
-				job->becomeSlave(dbsmsdc, msji);
+				job->becomeSlave(dbsmsdc, msjobinfo);
 			};
 
 		} else {
 			// only job of its type
-			msji->jrefMast = job->jref;
+			msjobinfo->jrefMast = job->jref;
 
 			mon.eventBecomeMaster(job->jref);
 
-			job->becomeMaster(dbsmsdc, msji);
+			job->becomeMaster(dbsmsdc, msjobinfo);
 		};
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "addMsjob");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "addMsjob");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "addMsjob");
+	rwmJobs.wunlock("XchgMsdccmbd", "addMsjob");
 
 	return(job->jref);
 };
@@ -3511,12 +3445,12 @@ JobMsdc* XchgMsdccmbd::getJobByJref(
 		) {
 	JobMsdc* job = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "getJobByJref");
+	rwmJobs.rlock("XchgMsdccmbd", "getJobByJref");
 
 	auto it = jobs.find(jref);
 	if (it != jobs.end()) job = it->second;
 
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "getJobByJref");
+	rwmJobs.runlock("XchgMsdccmbd", "getJobByJref");
 
 	return job;
 };
@@ -3528,7 +3462,7 @@ void XchgMsdccmbd::removeJobByJref(
 	JobMsdc* job = NULL;
 	JobMsdc* subjob = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "removeJobByJref");
+	rwmJobs.wlock("XchgMsdccmbd", "removeJobByJref");
 
 	job = getJobByJref(jref);
 
@@ -3562,7 +3496,7 @@ void XchgMsdccmbd::removeJobByJref(
 		jrefCmd = 0;
 	};
 
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "removeJobByJref");
+	rwmJobs.wunlock("XchgMsdccmbd", "removeJobByJref");
 };
 
 void XchgMsdccmbd::removeMsjobByJref(
@@ -3572,12 +3506,12 @@ void XchgMsdccmbd::removeMsjobByJref(
 	MsjobMsdc* job = NULL;
 	JobMsdc* subjob = NULL;
 
-	Msjobinfo* msji = NULL;
+	Msjobinfo* msjobinfo = NULL;
 
 	MsjobMsdc* mastjob = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "removeMsjobByJref");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "removeMsjobByJref");
+	rwmJobs.wlock("XchgMsdccmbd", "removeMsjobByJref");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "removeMsjobByJref");
 
 	job = (MsjobMsdc*) getJobByJref(jref);
 
@@ -3592,44 +3526,44 @@ void XchgMsdccmbd::removeMsjobByJref(
 		// update master/slave job info
 		auto it = msjobinfos.find(job->ixMsdcVJob);
 		if (it != msjobinfos.end()) {
-			msji = it->second;
+			msjobinfo = it->second;
 
 			setMsjobStarted(NULL, job, false);
 
-			if (job->jref == msji->jrefMast) {
-				if (!msji->jrefsSlv.empty()) {
+			if (job->jref == msjobinfo->jrefMast) {
+				if (!msjobinfo->jrefsSlv.empty()) {
 					mon.eventGiveupMaster(job->jref);
-					job->giveupMaster(NULL, msji);
+					job->giveupMaster(NULL, msjobinfo);
 
-					mastjob = (MsjobMsdc*) getJobByJref(msji->jrefsSlv.front());
+					mastjob = (MsjobMsdc*) getJobByJref(msjobinfo->jrefsSlv.front());
 				};
 
 				if (mastjob) {
 					// the new master = mastjob
 					mon.eventGiveupSlave(mastjob->jref);
-					mastjob->giveupSlave(NULL, msji);
+					mastjob->giveupSlave(NULL, msjobinfo);
 
 					mon.eventGiveupMaster(job->jref);
-					job->giveupMaster(NULL, msji);
+					job->giveupMaster(NULL, msjobinfo);
 
-					msji->jrefsSlv.pop_front();
-					msji->jrefMast = mastjob->jref;
+					msjobinfo->jrefsSlv.pop_front();
+					msjobinfo->jrefMast = mastjob->jref;
 
 					mon.eventBecomeMaster(mastjob->jref);
-					mastjob->becomeMaster(NULL, msji);
+					mastjob->becomeMaster(NULL, msjobinfo);
 
 				} else {
 					mon.eventGiveupMaster(job->jref);
-					job->giveupMaster(NULL, msji);
+					job->giveupMaster(NULL, msjobinfo);
 
-					msji->jrefMast = 0;
+					msjobinfo->jrefMast = 0;
 				};
 
 			} else {
 				mon.eventGiveupSlave(job->jref);
-				job->giveupSlave(NULL, msji);
+				job->giveupSlave(NULL, msjobinfo);
 
-				msji->jrefsSlv.remove(job->jref);
+				msjobinfo->jrefsSlv.remove(job->jref);
 			};
 		};
 
@@ -3649,8 +3583,8 @@ void XchgMsdccmbd::removeMsjobByJref(
 		mon.eventRemoveJob(jref);
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "removeMsjobByJref");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "removeMsjobByJref");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "removeMsjobByJref");
+	rwmJobs.wunlock("XchgMsdccmbd", "removeMsjobByJref");
 
 	if (mastjob) triggerCall(NULL, VecMsdcVCall::CALLMSDCMASTSLVCHG, mastjob->jref);
 };
@@ -3661,7 +3595,7 @@ void XchgMsdccmbd::transferMsjobMaster(
 			, MsjobMsdc* tojob
 			, Msjobinfo* msji
 		) {
-	// requires mJobs and mMsjobinfos locked and tojob at first position in msji->jrefsSlv
+	// requires mJobs rlocked, mMsjobinfos rlocked and tojob at first position in msji->jrefsSlv
 	mon.eventGiveupSlave(tojob->jref);
 	tojob->giveupSlave(dbsmsdc, msji);
 
@@ -3692,28 +3626,28 @@ void XchgMsdccmbd::offerMsjobMaster(
 	MsjobMsdc* mastjob = NULL;
 	MsjobMsdc* slvjob = NULL;
 
-	Msjobinfo* msji = NULL;
+	Msjobinfo* msjobinfo = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "offerMsjobMaster");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "offerMsjobMaster");
+	rwmJobs.rlock("XchgMsdccmbd", "offerMsjobMaster");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "offerMsjobMaster");
 
 	mastjob = (MsjobMsdc*) getJobByJref(jref);
 
 	if (mastjob) {
 		auto it = msjobinfos.find(mastjob->ixMsdcVJob);
 		if (it != msjobinfos.end()) {
-			msji = it->second;
+			msjobinfo = it->second;
 
-			if (!msji->jrefsSlv.empty()) {
-				slvjob = (MsjobMsdc*) getJobByJref(msji->jrefsSlv.front());
+			if (!msjobinfo->jrefsSlv.empty()) {
+				slvjob = (MsjobMsdc*) getJobByJref(msjobinfo->jrefsSlv.front());
 
-				if (slvjob) if (slvjob->prefmast) transferMsjobMaster(dbsmsdc, mastjob, slvjob, msji);
+				if (slvjob) if (slvjob->prefmast) transferMsjobMaster(dbsmsdc, mastjob, slvjob, msjobinfo);
 			};
 		};
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "offerMsjobMaster");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "offerMsjobMaster");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "offerMsjobMaster");
+	rwmJobs.runlock("XchgMsdccmbd", "offerMsjobMaster");
 };
 
 bool XchgMsdccmbd::claimMsjobMaster(
@@ -3725,41 +3659,41 @@ bool XchgMsdccmbd::claimMsjobMaster(
 	MsjobMsdc* mastjob = NULL;
 	MsjobMsdc* slvjob = NULL;
 
-	Msjobinfo* msji = NULL;
+	Msjobinfo* msjobinfo = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "claimMsjobMaster");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "claimMsjobMaster");
+	rwmJobs.rlock("XchgMsdccmbd", "claimMsjobMaster");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "claimMsjobMaster");
 
 	slvjob = (MsjobMsdc*) getJobByJref(jref);
 
 	if (slvjob) {
 		auto it = msjobinfos.find(slvjob->ixMsdcVJob);
 		if (it != msjobinfos.end()) {
-			msji = it->second;
+			msjobinfo = it->second;
 
-			if (jref != msji->jrefMast) {
-				mastjob = (MsjobMsdc*) getJobByJref(msji->jrefMast);
+			if (jref != msjobinfo->jrefMast) {
+				mastjob = (MsjobMsdc*) getJobByJref(msjobinfo->jrefMast);
 
-				for (auto it2=msji->jrefsSlv.begin();it2!=msji->jrefsSlv.end();it2++) {
+				for (auto it2=msjobinfo->jrefsSlv.begin();it2!=msjobinfo->jrefsSlv.end();it2++) {
 					// put slvjob first
 					if (*it2 == jref) {
-						*it2 = msji->jrefsSlv.front();
-						msji->jrefsSlv.pop_front();
-						msji->jrefsSlv.push_front(jref);
+						*it2 = msjobinfo->jrefsSlv.front();
+						msjobinfo->jrefsSlv.pop_front();
+						msjobinfo->jrefsSlv.push_front(jref);
 
 						break;
 					};
 				};
 
-				if (mastjob->handleClaimMaster(dbsmsdc, msji)) transferMsjobMaster(dbsmsdc, mastjob, slvjob, msji);
+				if (mastjob->handleClaimMaster(dbsmsdc, msjobinfo)) transferMsjobMaster(dbsmsdc, mastjob, slvjob, msjobinfo);
 			};
 
-			retval = (jref == msji->jrefMast);
+			retval = (jref == msjobinfo->jrefMast);
 		};
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "claimMsjobMaster");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "claimMsjobMaster");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "claimMsjobMaster");
+	rwmJobs.runlock("XchgMsdccmbd", "claimMsjobMaster");
 
 	return retval;
 };
@@ -3769,11 +3703,11 @@ bool XchgMsdccmbd::getMsjobNotJob(
 		) {
 	bool retval;
 
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobNotJob");
+	rwmMsjobinfos.rlock("XchgMsdccmbd", "getMsjobNotJob");
 
 	retval = (msjobinfos.find(ixMsdcVJob) != msjobinfos.end());
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobNotJob");
+	rwmMsjobinfos.runlock("XchgMsdccmbd", "getMsjobNotJob");
 
 	return retval;
 };
@@ -3784,12 +3718,12 @@ bool XchgMsdccmbd::getMsjobMastNotSlv(
 	bool retval = false;
 
 	if (job) {
-		Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobMastNotSlv");
+		rwmMsjobinfos.rlock("XchgMsdccmbd", "getMsjobMastNotSlv");
 
 		auto it = msjobinfos.find(job->ixMsdcVJob);
 		if (it != msjobinfos.end()) retval = (it->second->jrefMast == job->jref);
 
-		Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobMastNotSlv");
+		rwmMsjobinfos.runlock("XchgMsdccmbd", "getMsjobMastNotSlv");
 	};
 
 	return retval;
@@ -3802,12 +3736,12 @@ MsjobMsdc* XchgMsdccmbd::getMsjobMaster(
 	MsjobMsdc* retval = NULL;
 
 	if (job) {
-		Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobMaster");
+		rwmMsjobinfos.rlock("XchgMsdccmbd", "getMsjobMaster");
 
 		auto it = msjobinfos.find(job->ixMsdcVJob);
 		if (it != msjobinfos.end()) retval = (MsjobMsdc*) getJobByJref(it->second->jrefMast);
 
-		Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "getMsjobMaster");
+		rwmMsjobinfos.runlock("XchgMsdccmbd", "getMsjobMaster");
 
 		if (retval) retval->lockAccess(srefMember);
 	};
@@ -3823,8 +3757,8 @@ void XchgMsdccmbd::setMsjobStarted(
 	Msjobinfo* msjobinfo = NULL;
 	bool changed = false;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "setMsjobStarted");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "setMsjobStarted");
+	rwmJobs.rlock("XchgMsdccmbd", "setMsjobStarted");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "setMsjobStarted");
 
 	auto it = msjobinfos.find(job->ixMsdcVJob);
 
@@ -3846,8 +3780,8 @@ void XchgMsdccmbd::setMsjobStarted(
 		};
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "setMsjobStarted");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "setMsjobStarted");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "setMsjobStarted");
+	rwmJobs.runlock("XchgMsdccmbd", "setMsjobStarted");
 
 	if (changed) triggerBoolvalCall(dbsmsdc, VecMsdcVCall::CALLMSDCMASTSRDCHG, job->jref, srd);
 };
@@ -3859,8 +3793,8 @@ void XchgMsdccmbd::setMsjobStage(
 		) {
 	Msjobinfo* msjobinfo = NULL;
 
-	Mutex::lock(&mJobs, "mJobs", "XchgMsdccmbd", "setMsjobStage");
-	Mutex::lock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "setMsjobStage");
+	rwmJobs.rlock("XchgMsdccmbd", "setMsjobStage");
+	rwmMsjobinfos.wlock("XchgMsdccmbd", "setMsjobStage");
 
 	auto it = msjobinfos.find(job->ixMsdcVJob);
 
@@ -3871,8 +3805,8 @@ void XchgMsdccmbd::setMsjobStage(
 		else msjobinfo = NULL;
 	};
 
-	Mutex::unlock(&mMsjobinfos, "mMsjobinfos", "XchgMsdccmbd", "setMsjobStage");
-	Mutex::unlock(&mJobs, "mJobs", "XchgMsdccmbd", "setMsjobStage");
+	rwmMsjobinfos.wunlock("XchgMsdccmbd", "setMsjobStage");
+	rwmJobs.runlock("XchgMsdccmbd", "setMsjobStage");
 
 	if (msjobinfo) triggerIxCall(dbsmsdc, VecMsdcVCall::CALLMSDCMASTSGECHG, job->jref, ixVSge);
 };
@@ -3889,7 +3823,7 @@ ubigint XchgMsdccmbd::addWakeup(
 
 	pthread_t timer;
 
-	wref = wrefseq->getNewRef();
+	wref = wrefseq.getNewRef();
 
 	if (deltat == 0) {
 		// immediate callback: generate request to be treated by job processor

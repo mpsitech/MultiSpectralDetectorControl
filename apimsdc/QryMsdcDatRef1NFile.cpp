@@ -2,8 +2,8 @@
   * \file QryMsdcDatRef1NFile.cpp
   * API code for job QryMsdcDatRef1NFile (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef _WIN32
@@ -21,7 +21,9 @@ QryMsdcDatRef1NFile::StatApp::StatApp(
 			, const uint jnumFirstdisp
 			, const uint ncol
 			, const uint ndisp
-		) : Block() {
+		) :
+			Block()
+		{
 	this->firstcol = firstcol;
 	this->jnumFirstdisp = jnumFirstdisp;
 	this->ncol = ncol;
@@ -91,7 +93,9 @@ QryMsdcDatRef1NFile::StatShr::StatShr(
 			const uint ntot
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->ntot = ntot;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;
@@ -158,7 +162,9 @@ QryMsdcDatRef1NFile::StgIac::StgIac(
 			const uint jnum
 			, const uint jnumFirstload
 			, const uint nload
-		) : Block() {
+		) :
+			Block()
+		{
 	this->jnum = jnum;
 	this->jnumFirstload = jnumFirstload;
 	this->nload = nload;

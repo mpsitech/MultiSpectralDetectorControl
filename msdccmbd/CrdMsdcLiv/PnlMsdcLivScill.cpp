@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.cpp
   * job handler for job PnlMsdcLivScill (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -26,7 +26,9 @@ PnlMsdcLivScill::PnlMsdcLivScill(
 			, DbsMsdc* dbsmsdc
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
-		) : JobMsdc(xchg, VecMsdcVJob::PNLMSDCLIVSCILL, jrefSup, ixMsdcVLocale) {
+		) :
+			JobMsdc(xchg, VecMsdcVJob::PNLMSDCLIVSCILL, jrefSup, ixMsdcVLocale)
+		{
 
 	jref = xchg->addJob(this);
 

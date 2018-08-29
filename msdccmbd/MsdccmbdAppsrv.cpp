@@ -2,8 +2,8 @@
   * \file MsdccmbdAppsrv.cpp
   * application server for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "Msdccmbd.h"
@@ -187,7 +187,7 @@ int MsdccmbdAppsrv::MhdCallback(
 
 			} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::NOTIFY) {
 				// --- notify on dispatch in dispatch collector
-				req->jref = Scr::descramble(&(xchg->mScr), xchg->descr, s.substr(s.find("/notify/")+8));
+				req->jref = Scr::descramble(s.substr(s.find("/notify/")+8));
 				valid = (req->jref != 0);
 
 				if (valid) valid = validateIp(xchg, req);
@@ -229,11 +229,11 @@ int MsdccmbdAppsrv::MhdCallback(
 							dcol->req = req;
 
 							// note: when dcol with req != NULL is deleted, req->cReady will be broadcast
-							Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[1]");
+							req->cReady.lockMutex("MsdccmbdAppsrv", "MhdCallback[1]");
 							dcol->unlockAccess("MsdccmbdAppsrv", "MhdCallback[3]");
-							Cond::timedwait(&(req->cReady), &(req->mcReady), 15000000, "req->cReady", "MsdccmbdAppsrv", "MhdCallback");
+							req->cReady.timedwait(15000000, "MsdccmbdAppsrv", "MhdCallback");
 							// cout << "got one after timedwait" << endl;
-							Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[1]");
+							req->cReady.unlockMutex("MsdccmbdAppsrv", "MhdCallback[1]");
 
 							dcol = xchg->getDcolByJref(req->jref);
 							if (dcol) {
@@ -250,7 +250,7 @@ int MsdccmbdAppsrv::MhdCallback(
 						writeDpchEng(xchg, req);
 						req->ixVState = ReqMsdc::VecVState::REPLY;
 
-						// send reply ; note that the result of Cond::timedwait() doesn't matter
+						// send reply ; note that the result of timedwait() doesn't matter
 						response = MHD_create_response_from_buffer(req->replylen, req->reply, MHD_RESPMEM_PERSISTENT);
 						retval = MHD_queue_response(connection, MHD_HTTP_OK, response);
 						MHD_destroy_response(response);
@@ -280,7 +280,7 @@ int MsdccmbdAppsrv::MhdCallback(
 
 			} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::POLL) {
 				// --- send first dispatch available in dispatch collector
-				req->jref = Scr::descramble(&(xchg->mScr), xchg->descr, s.substr(s.find("/poll/")+6));
+				req->jref = Scr::descramble(s.substr(s.find("/poll/")+6));
 				valid = (req->jref != 0);
 
 				if (valid) valid = validateIp(xchg, req);
@@ -323,7 +323,7 @@ int MsdccmbdAppsrv::MhdCallback(
 				};
 
 			} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::UPLOAD) {
-				req->jref = Scr::descramble(&(xchg->mScr), xchg->descr, s.substr(s.find("/upload/")+8));
+				req->jref = Scr::descramble(s.substr(s.find("/upload/")+8));
 
 				// generate file in tmp directory, and open it
 				req->filename = xchg->stgmsdcpath.tmppath + "/" + Tmp::newfile(xchg->stgmsdcpath.tmppath, "");
@@ -332,7 +332,7 @@ int MsdccmbdAppsrv::MhdCallback(
 
 			} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::DOWNLOAD) {
 				// --- pass request to jobprc, to ask for filename in tmp directory ; then proceed sending - same procedure as for HTML
-				req->jref = Scr::descramble(&(xchg->mScr), xchg->descr, s.substr(s.find("/download/")+10));
+				req->jref = Scr::descramble(s.substr(s.find("/download/")+10));
 				valid = validateIp(xchg, req);
 
 				if (valid) {
@@ -341,9 +341,9 @@ int MsdccmbdAppsrv::MhdCallback(
 					xchg->addReq(req);
 
 					// wait for reply
-					Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[2]");
-					if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdAppsrv", "MhdCallback[1]");
-					Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[2]");
+					req->cReady.lockMutex("MsdccmbdAppsrv", "MhdCallback[2]");
+					if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdAppsrv", "MhdCallback[1]");
+					req->cReady.unlockMutex("MsdccmbdAppsrv", "MhdCallback[2]");
 
 					// cout << "preparing '" << req->filename << "' for download transfer" << endl;
 
@@ -418,9 +418,9 @@ int MsdccmbdAppsrv::MhdCallback(
 						xchg->addReq(req);
 
 						// wait for reply
-						Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[3]");
-						if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdAppsrv", "MhdCallback[2]");
-						Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[3]");
+						req->cReady.lockMutex("MsdccmbdAppsrv", "MhdCallback[3]");
+						if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdAppsrv", "MhdCallback[2]");
+						req->cReady.unlockMutex("MsdccmbdAppsrv", "MhdCallback[3]");
 
 						if (req->dpcheng) {
 							writeDpchEng(xchg, req);
@@ -450,9 +450,9 @@ int MsdccmbdAppsrv::MhdCallback(
 						xchg->addReq(req);
 
 						// wait for reply (usually empty)
-						Mutex::lock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[4]");
-						if (req->ixVState != ReqMsdc::VecVState::REPLY) Cond::wait(&(req->cReady), &(req->mcReady), "req->cReady", "MsdccmbdAppsrv", "MhdCallback[3]");
-						Mutex::unlock(&(req->mcReady), "req->mcReady", "MsdccmbdAppsrv", "MhdCallback[4]");
+						req->cReady.lockMutex("MsdccmbdAppsrv", "MhdCallback[4]");
+						if (req->ixVState != ReqMsdc::VecVState::REPLY) req->cReady.wait("MsdccmbdAppsrv", "MhdCallback[3]");
+						req->cReady.unlockMutex("MsdccmbdAppsrv", "MhdCallback[4]");
 
 						if (req->reply) {
 							response = MHD_create_response_from_buffer(req->replylen, req->reply, MHD_RESPMEM_PERSISTENT);
@@ -659,247 +659,247 @@ uint MsdccmbdAppsrv::readDpchApp(
 
 	if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPDLGMSDCFILDOWNLOADDO) {
 		req->dpchapp = new DlgMsdcFilDownload::DpchAppDo();
-		((DlgMsdcFilDownload::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DlgMsdcFilDownload::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDATA) {
 		req->dpchapp = new DlgMsdcNavLoaini::DpchAppData();
-		((DlgMsdcNavLoaini::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DlgMsdcNavLoaini::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPDLGMSDCNAVLOAINIDO) {
 		req->dpchapp = new DlgMsdcNavLoaini::DpchAppDo();
-		((DlgMsdcNavLoaini::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DlgMsdcNavLoaini::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCALERT) {
 		req->dpchapp = new DpchAppMsdcAlert();
-		((DpchAppMsdcAlert*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DpchAppMsdcAlert*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATAPARDATA) {
 		req->dpchapp = new PnlMsdcDatAPar::DpchAppData();
-		((PnlMsdcDatAPar::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatAPar::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATAPARDO) {
 		req->dpchapp = new PnlMsdcDatAPar::DpchAppDo();
-		((PnlMsdcDatAPar::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatAPar::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATDETAILDATA) {
 		req->dpchapp = new PnlMsdcDatDetail::DpchAppData();
-		((PnlMsdcDatDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATDETAILDO) {
 		req->dpchapp = new PnlMsdcDatDetail::DpchAppDo();
-		((PnlMsdcDatDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATDO) {
 		req->dpchapp = new CrdMsdcDat::DpchAppDo();
-		((CrdMsdcDat::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcDat::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATLISTDATA) {
 		req->dpchapp = new PnlMsdcDatList::DpchAppData();
-		((PnlMsdcDatList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATLISTDO) {
 		req->dpchapp = new PnlMsdcDatList::DpchAppDo();
-		((PnlMsdcDatList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATRECDO) {
 		req->dpchapp = new PnlMsdcDatRec::DpchAppDo();
-		((PnlMsdcDatRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATREF1NFILEDATA) {
 		req->dpchapp = new PnlMsdcDatRef1NFile::DpchAppData();
-		((PnlMsdcDatRef1NFile::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatRef1NFile::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCDATREF1NFILEDO) {
 		req->dpchapp = new PnlMsdcDatRef1NFile::DpchAppDo();
-		((PnlMsdcDatRef1NFile::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcDatRef1NFile::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILDETAILDATA) {
 		req->dpchapp = new PnlMsdcFilDetail::DpchAppData();
-		((PnlMsdcFilDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcFilDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILDETAILDO) {
 		req->dpchapp = new PnlMsdcFilDetail::DpchAppDo();
-		((PnlMsdcFilDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcFilDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILDO) {
 		req->dpchapp = new CrdMsdcFil::DpchAppDo();
-		((CrdMsdcFil::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcFil::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILLISTDATA) {
 		req->dpchapp = new PnlMsdcFilList::DpchAppData();
-		((PnlMsdcFilList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcFilList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILLISTDO) {
 		req->dpchapp = new PnlMsdcFilList::DpchAppDo();
-		((PnlMsdcFilList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcFilList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCFILRECDO) {
 		req->dpchapp = new PnlMsdcFilRec::DpchAppDo();
-		((PnlMsdcFilRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcFilRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCINIT) {
 		req->dpchapp = new DpchAppMsdcInit();
-		((DpchAppMsdcInit*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DpchAppMsdcInit*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDATA) {
 		req->dpchapp = new PnlMsdcLivAlign::DpchAppData();
-		((PnlMsdcLivAlign::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivAlign::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVALIGNDO) {
 		req->dpchapp = new PnlMsdcLivAlign::DpchAppDo();
-		((PnlMsdcLivAlign::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivAlign::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVDO) {
 		req->dpchapp = new CrdMsdcLiv::DpchAppDo();
-		((CrdMsdcLiv::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcLiv::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDATA) {
 		req->dpchapp = new PnlMsdcLivScill::DpchAppData();
-		((PnlMsdcLivScill::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivScill::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDO) {
 		req->dpchapp = new PnlMsdcLivScill::DpchAppDo();
-		((PnlMsdcLivScill::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivScill::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO) {
 		req->dpchapp = new PnlMsdcLivTrack::DpchAppDo();
-		((PnlMsdcLivTrack::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivTrack::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODATA) {
 		req->dpchapp = new PnlMsdcLivVideo::DpchAppData();
-		((PnlMsdcLivVideo::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivVideo::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVVIDEODO) {
 		req->dpchapp = new PnlMsdcLivVideo::DpchAppDo();
-		((PnlMsdcLivVideo::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcLivVideo::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVADMINDATA) {
 		req->dpchapp = new PnlMsdcNavAdmin::DpchAppData();
-		((PnlMsdcNavAdmin::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcNavAdmin::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVADMINDO) {
 		req->dpchapp = new PnlMsdcNavAdmin::DpchAppDo();
-		((PnlMsdcNavAdmin::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcNavAdmin::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVDO) {
 		req->dpchapp = new CrdMsdcNav::DpchAppDo();
-		((CrdMsdcNav::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcNav::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVOPRDATA) {
 		req->dpchapp = new PnlMsdcNavOpr::DpchAppData();
-		((PnlMsdcNavOpr::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcNavOpr::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVOPRDO) {
 		req->dpchapp = new PnlMsdcNavOpr::DpchAppDo();
-		((PnlMsdcNavOpr::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcNavOpr::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCNAVPREDO) {
 		req->dpchapp = new PnlMsdcNavPre::DpchAppDo();
-		((PnlMsdcNavPre::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcNavPre::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRD1NDATADATA) {
 		req->dpchapp = new PnlMsdcPrd1NData::DpchAppData();
-		((PnlMsdcPrd1NData::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrd1NData::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRD1NDATADO) {
 		req->dpchapp = new PnlMsdcPrd1NData::DpchAppDo();
-		((PnlMsdcPrd1NData::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrd1NData::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDATA) {
 		req->dpchapp = new PnlMsdcPrdDetail::DpchAppData();
-		((PnlMsdcPrdDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrdDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDDETAILDO) {
 		req->dpchapp = new PnlMsdcPrdDetail::DpchAppDo();
-		((PnlMsdcPrdDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrdDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDDO) {
 		req->dpchapp = new CrdMsdcPrd::DpchAppDo();
-		((CrdMsdcPrd::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcPrd::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDLISTDATA) {
 		req->dpchapp = new PnlMsdcPrdList::DpchAppData();
-		((PnlMsdcPrdList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrdList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDLISTDO) {
 		req->dpchapp = new PnlMsdcPrdList::DpchAppDo();
-		((PnlMsdcPrdList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrdList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRDRECDO) {
 		req->dpchapp = new PnlMsdcPrdRec::DpchAppDo();
-		((PnlMsdcPrdRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrdRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSDETAILDATA) {
 		req->dpchapp = new PnlMsdcPrsDetail::DpchAppData();
-		((PnlMsdcPrsDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrsDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSDETAILDO) {
 		req->dpchapp = new PnlMsdcPrsDetail::DpchAppDo();
-		((PnlMsdcPrsDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrsDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSDO) {
 		req->dpchapp = new CrdMsdcPrs::DpchAppDo();
-		((CrdMsdcPrs::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcPrs::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSLISTDATA) {
 		req->dpchapp = new PnlMsdcPrsList::DpchAppData();
-		((PnlMsdcPrsList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrsList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSLISTDO) {
 		req->dpchapp = new PnlMsdcPrsList::DpchAppDo();
-		((PnlMsdcPrsList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrsList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCPRSRECDO) {
 		req->dpchapp = new PnlMsdcPrsRec::DpchAppDo();
-		((PnlMsdcPrsRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcPrsRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCRESUME) {
 		req->dpchapp = new DpchAppMsdcResume();
-		((DpchAppMsdcResume*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((DpchAppMsdcResume*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDATA) {
 		req->dpchapp = new PnlMsdcScfAcquis::DpchAppData();
-		((PnlMsdcScfAcquis::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfAcquis::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFACQUISDO) {
 		req->dpchapp = new PnlMsdcScfAcquis::DpchAppDo();
-		((PnlMsdcScfAcquis::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfAcquis::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFACTUDATA) {
 		req->dpchapp = new PnlMsdcScfActu::DpchAppData();
-		((PnlMsdcScfActu::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfActu::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFACTUDO) {
 		req->dpchapp = new PnlMsdcScfActu::DpchAppDo();
-		((PnlMsdcScfActu::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfActu::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFDO) {
 		req->dpchapp = new CrdMsdcScf::DpchAppDo();
-		((CrdMsdcScf::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcScf::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFPRCCTLDO) {
 		req->dpchapp = new PnlMsdcScfPrcctl::DpchAppDo();
-		((PnlMsdcScfPrcctl::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfPrcctl::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDATA) {
 		req->dpchapp = new PnlMsdcScfSource::DpchAppData();
-		((PnlMsdcScfSource::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfSource::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCSCFSOURCEDO) {
 		req->dpchapp = new PnlMsdcScfSource::DpchAppDo();
-		((PnlMsdcScfSource::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcScfSource::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGAACCESSDATA) {
 		req->dpchapp = new PnlMsdcUsgAAccess::DpchAppData();
-		((PnlMsdcUsgAAccess::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgAAccess::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGAACCESSDO) {
 		req->dpchapp = new PnlMsdcUsgAAccess::DpchAppDo();
-		((PnlMsdcUsgAAccess::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgAAccess::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDATA) {
 		req->dpchapp = new PnlMsdcUsgDetail::DpchAppData();
-		((PnlMsdcUsgDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGDETAILDO) {
 		req->dpchapp = new PnlMsdcUsgDetail::DpchAppDo();
-		((PnlMsdcUsgDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGDO) {
 		req->dpchapp = new CrdMsdcUsg::DpchAppDo();
-		((CrdMsdcUsg::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcUsg::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGLISTDATA) {
 		req->dpchapp = new PnlMsdcUsgList::DpchAppData();
-		((PnlMsdcUsgList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGLISTDO) {
 		req->dpchapp = new PnlMsdcUsgList::DpchAppDo();
-		((PnlMsdcUsgList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGMNUSERDATA) {
 		req->dpchapp = new PnlMsdcUsgMNUser::DpchAppData();
-		((PnlMsdcUsgMNUser::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgMNUser::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGMNUSERDO) {
 		req->dpchapp = new PnlMsdcUsgMNUser::DpchAppDo();
-		((PnlMsdcUsgMNUser::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgMNUser::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSGRECDO) {
 		req->dpchapp = new PnlMsdcUsgRec::DpchAppDo();
-		((PnlMsdcUsgRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsgRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSR1NSESSIONDATA) {
 		req->dpchapp = new PnlMsdcUsr1NSession::DpchAppData();
-		((PnlMsdcUsr1NSession::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsr1NSession::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSR1NSESSIONDO) {
 		req->dpchapp = new PnlMsdcUsr1NSession::DpchAppDo();
-		((PnlMsdcUsr1NSession::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsr1NSession::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRAACCESSDATA) {
 		req->dpchapp = new PnlMsdcUsrAAccess::DpchAppData();
-		((PnlMsdcUsrAAccess::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrAAccess::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRAACCESSDO) {
 		req->dpchapp = new PnlMsdcUsrAAccess::DpchAppDo();
-		((PnlMsdcUsrAAccess::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrAAccess::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRDETAILDATA) {
 		req->dpchapp = new PnlMsdcUsrDetail::DpchAppData();
-		((PnlMsdcUsrDetail::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrDetail::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRDETAILDO) {
 		req->dpchapp = new PnlMsdcUsrDetail::DpchAppDo();
-		((PnlMsdcUsrDetail::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrDetail::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRDO) {
 		req->dpchapp = new CrdMsdcUsr::DpchAppDo();
-		((CrdMsdcUsr::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((CrdMsdcUsr::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRLISTDATA) {
 		req->dpchapp = new PnlMsdcUsrList::DpchAppData();
-		((PnlMsdcUsrList::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrList::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRLISTDO) {
 		req->dpchapp = new PnlMsdcUsrList::DpchAppDo();
-		((PnlMsdcUsrList::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrList::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDATA) {
 		req->dpchapp = new PnlMsdcUsrMNUsergroup::DpchAppData();
-		((PnlMsdcUsrMNUsergroup::DpchAppData*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrMNUsergroup::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRMNUSERGROUPDO) {
 		req->dpchapp = new PnlMsdcUsrMNUsergroup::DpchAppDo();
-		((PnlMsdcUsrMNUsergroup::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrMNUsergroup::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCUSRRECDO) {
 		req->dpchapp = new PnlMsdcUsrRec::DpchAppDo();
-		((PnlMsdcUsrRec::DpchAppDo*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((PnlMsdcUsrRec::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPROOTMSDCLOGIN) {
 		req->dpchapp = new RootMsdc::DpchAppLogin();
-		((RootMsdc::DpchAppLogin*) (req->dpchapp))->readXML(&(xchg->mScr), xchg->descr, docctx, "/", true);
+		((RootMsdc::DpchAppLogin*) (req->dpchapp))->readXML(docctx, "/", true);
 	};
 
 	if (docctx) xmlXPathFreeContext(docctx);
@@ -918,10 +918,10 @@ void MsdccmbdAppsrv::writeDpchEng(
 	startwriteBuffer(&wr, &buf);
 
 	if (req->dpcheng) {
-		req->dpcheng->writeXML(req->ixMsdcVLocale, &(xchg->mScr), xchg->scr, xchg->descr, wr);
+		req->dpcheng->writeXML(req->ixMsdcVLocale, wr);
 	} else {
 		DpchEngMsdcConfirm dpchconfirm(false, req->jref, "");
-		dpchconfirm.writeXML(req->ixMsdcVLocale, &(xchg->mScr), xchg->scr, xchg->descr, wr);
+		dpchconfirm.writeXML(req->ixMsdcVLocale, wr);
 	};
 
 	closewriteBuffer(wr);

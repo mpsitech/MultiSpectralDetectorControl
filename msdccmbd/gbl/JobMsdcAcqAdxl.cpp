@@ -2,8 +2,8 @@
   * \file JobMsdcAcqAdxl.cpp
   * job handler for job JobMsdcAcqAdxl (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #ifdef MSDCCMBD
@@ -22,7 +22,9 @@
  class JobMsdcAcqAdxl::Shrdat
  ******************************************************************************/
 
-JobMsdcAcqAdxl::Shrdat::Shrdat() : ShrdatMsdc("JobMsdcAcqAdxl", "Shrdat", "JobMsdcAcqAdxl::shrdat") {
+JobMsdcAcqAdxl::Shrdat::Shrdat() :
+			ShrdatMsdc("JobMsdcAcqAdxl", "Shrdat")
+		{
 };
 
 void JobMsdcAcqAdxl::Shrdat::init(
@@ -49,7 +51,9 @@ JobMsdcAcqAdxl::JobMsdcAcqAdxl(
 			, const ubigint jrefSup
 			, const uint ixMsdcVLocale
 			, const bool prefmast
-		) : MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQADXL, jrefSup, ixMsdcVLocale, prefmast) {
+		) :
+			MsjobMsdc(xchg, VecMsdcVJob::JOBMSDCACQADXL, jrefSup, ixMsdcVLocale, prefmast)
+		{
 
 	jref = xchg->addMsjob(dbsmsdc, this);
 
@@ -139,8 +143,6 @@ uint JobMsdcAcqAdxl::enterSgeRun(
 		) {
 	uint retval = VecVSge::RUN;
 	nextIxVSge = retval;
-
-	if (!reenter) wrefLast = xchg->addWakeup(jref, "mon", 250000, true);
 	// IP enterSgeRun --- IBEGIN
 
 	lockAccess("enterSgeRun");
@@ -158,7 +160,6 @@ uint JobMsdcAcqAdxl::enterSgeRun(
 void JobMsdcAcqAdxl::leaveSgeRun(
 			DbsMsdc* dbsmsdc
 		) {
-	invalidateWakeups();
 	// IP leaveSgeRun --- INSERT
 };
 
@@ -225,21 +226,6 @@ void JobMsdcAcqAdxl::handleRequest(
 		if (!req->retain) reqCmd = NULL;
 
 	} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::REGULAR) {
-
-	} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::TIMER) {
-		handleTimer(dbsmsdc, req->sref);
-	};
-};
-
-void JobMsdcAcqAdxl::handleTimer(
-			DbsMsdc* dbsmsdc
-			, const string& sref
-		) {
-	if ((ixVSge == VecVSge::RUN) && (sref == "run")) {
-		// IP handleTimer.run --- INSERT
-	} else if ((ixVSge == VecVSge::RUN) && (sref == "mon")) {
-		wrefLast = xchg->addWakeup(jref, "mon", 250000, true);
-		// IP handleTimer.run.mon --- INSERT
 	};
 };
 

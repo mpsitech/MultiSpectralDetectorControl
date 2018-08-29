@@ -2,8 +2,8 @@
   * \file ApiMsdc.java
   * Msdc Java API package global functionality
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 package apimsdc;
@@ -22,10 +22,10 @@ import sbecore.*;
 
 public class ApiMsdc {
 
-	public static final String MSDC_VERSION = "0.1.45";
+	public static final String MSDC_VERSION = "0.1.49";
 	public static final int MSDC_VERSION_MAJOR = 0;
 	public static final int MSDC_VERSION_MINOR = 1;
-	public static final int MSDC_VERSION_SUB = 45;
+	public static final int MSDC_VERSION_SUB = 49;
 
 	public static DpchEngMsdc readDpchEng(
 				String s

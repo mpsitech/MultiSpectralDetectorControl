@@ -2,8 +2,8 @@
   * \file MsdcMPeriod.cpp
   * database access for table TblMsdcMPeriod (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 15 Aug 2018
-  * \date modified: 15 Aug 2018
+  * \date created: 29 Aug 2018
+  * \date modified: 29 Aug 2018
   */
 
 #include "MsdcMPeriod.h"
@@ -235,7 +235,10 @@ ubigint TblMsdcMPeriod::loadRstByRefs(
  class LiteTblMsdcMPeriod
  ******************************************************************************/
 
-LiteTblMsdcMPeriod::LiteTblMsdcMPeriod() : TblMsdcMPeriod(), LiteTable() {
+LiteTblMsdcMPeriod::LiteTblMsdcMPeriod() :
+			TblMsdcMPeriod()
+			, LiteTable()
+		{
 	stmtInsertRec = NULL;
 	stmtUpdateRec = NULL;
 	stmtRemoveRecByRef = NULL;
