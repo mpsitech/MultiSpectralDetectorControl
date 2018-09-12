@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc combined daemon, release msdccmbd_ungenio
 # author Alexander Wirthmueller
-# date created: 29 Aug 2018
-# modified: 29 Aug 2018
+# date created: 12 Sep 2018
+# modified: 12 Sep 2018
 
 export set SRCROOT=/Users/mpsitech/src
 export set LIBROOT=/Users/mpsitech/lib
@@ -43,12 +43,6 @@ cp ../../msdccmbd/MsdccmbdJobprc.cpp $SRCROOT/msdccmbd/
 
 cp ../../msdccmbd/MsdccmbdOpprc.h $SRCROOT/msdccmbd/
 cp ../../msdccmbd/MsdccmbdOpprc.cpp $SRCROOT/msdccmbd/
-
-cp ../../msdccmbd/DDS/*.hpp $SRCROOT/msdccmbd/
-cp ../../msdccmbd/DDS/*.cpp $SRCROOT/msdccmbd/
-
-cp ../../msdccmbd/MsdccmbdDdspub.h $SRCROOT/msdccmbd/
-cp ../../msdccmbd/MsdccmbdDdspub.cpp $SRCROOT/msdccmbd/
 
 cp ../../msdccmbd/SDK_Configuration/*.h $SRCROOT/msdccmbd/
 

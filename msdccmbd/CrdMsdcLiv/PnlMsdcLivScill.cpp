@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.cpp
   * job handler for job PnlMsdcLivScill (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifdef MSDCCMBD
@@ -237,7 +237,6 @@ bool PnlMsdcLivScill::handleCallMsdcShrdatChg(
 	// IP handleCallMsdcShrdatChg --- IEND
 	return retval;
 };
-
 
 
 

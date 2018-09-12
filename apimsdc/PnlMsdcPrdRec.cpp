@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdRec.cpp
   * API code for job PnlMsdcPrdRec (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifdef _WIN32

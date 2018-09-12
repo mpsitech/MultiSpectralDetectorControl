@@ -2,8 +2,8 @@
   * \file JobMsdcActLed.cpp
   * job handler for job JobMsdcActLed (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifdef MSDCCMBD
@@ -248,7 +248,6 @@ bool JobMsdcActLed::handleCallMsdcShrdatChg(
 	// IP handleCallMsdcShrdatChg --- IEND
 	return retval;
 };
-
 
 
 

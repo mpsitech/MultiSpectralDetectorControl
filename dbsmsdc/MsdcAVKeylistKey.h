@@ -2,8 +2,8 @@
   * \file MsdcAVKeylistKey.h
   * database access for table TblMsdcAVKeylistKey (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifndef MSDCAVKEYLISTKEY_H

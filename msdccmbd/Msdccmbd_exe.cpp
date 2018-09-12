@@ -2,8 +2,8 @@
   * \file Msdccmbd_exe.cpp
   * Msdc combined daemon main (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #include "Msdccmbd.h"
@@ -83,9 +83,6 @@ Msdccmbd::Msdccmbd(
 	// 9. start web server
 	if (xchg->stgmsdccmbd.appsrv) appsrv = MsdccmbdAppsrv::start(xchg);
 
-	// 10. start DDS publisher
-	if (xchg->stgmsdccmbd.ddspub) pthread_create(&ddspub, &attr, &MsdccmbdDdspub::run, (void*) xchg);
-
 	// 11. start OPC UA server
 	if (xchg->stgmsdccmbd.uasrv) pthread_create(&uasrv, &attr, &MsdccmbdUasrv::run, (void*) xchg);
 
@@ -97,12 +94,6 @@ Msdccmbd::~Msdccmbd() {
 	if (xchg->stgmsdccmbd.uasrv) {
 		pthread_cancel(uasrv);
 		pthread_join(uasrv, NULL);
-	};
-
-	// 2. stop DDS publisher
-	if (xchg->stgmsdccmbd.ddspub) {
-		pthread_cancel(ddspub);
-		pthread_join(ddspub, NULL);
 	};
 
 	// 3. stop web server
@@ -164,7 +155,6 @@ void Msdccmbd::loadPref() {
 	if (checkUclcXPaths(docctx, basexpath, "/", "PrefMsdccmbd")) {
 		xchg->stgmsdccmbd.readXML(docctx, basexpath, true);
 		xchg->stgmsdcdatabase.readXML(docctx, basexpath, true);
-		xchg->stgmsdcddspub.readXML(docctx, basexpath, true);
 		xchg->stgmsdcpath.readXML(docctx, basexpath, true);
 		xchg->stgmsdcuasrv.readXML(docctx, basexpath, true);
 		JobMsdcAcqLwir::stg.readXML(docctx, basexpath, true);
@@ -189,7 +179,6 @@ void Msdccmbd::storePref() {
 	xmlTextWriterStartElement(wr, BAD_CAST "PrefMsdccmbd");
 		xchg->stgmsdccmbd.writeXML(wr);
 		xchg->stgmsdcdatabase.writeXML(wr);
-		xchg->stgmsdcddspub.writeXML(wr);
 		xchg->stgmsdcpath.writeXML(wr);
 		xchg->stgmsdcuasrv.writeXML(wr);
 		JobMsdcAcqLwir::stg.writeXML(wr);
@@ -489,7 +478,7 @@ int main(
 		xchg = msdccmbd->xchg;
 
 		// welcome message
-		cout << "Welcome to MultispectralDetectorControl 0.1.49!" << endl;
+		cout << "Welcome to MultispectralDetectorControl 0.1.51!" << endl;
 
 		if (nocp) {
 			// wait on a dummy condition

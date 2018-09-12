@@ -2,8 +2,8 @@
   * \file PnlMsdcScfActu.h
   * job handler for job PnlMsdcScfActu (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifndef PNLMSDCSCFACTU_H

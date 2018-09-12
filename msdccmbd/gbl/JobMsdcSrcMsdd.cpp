@@ -2,8 +2,8 @@
   * \file JobMsdcSrcMsdd.cpp
   * job handler for job JobMsdcSrcMsdd (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifdef MSDCCMBD
@@ -56,7 +56,7 @@ void JobMsdcSrcMsdd::Shrdat::init(
 #ifdef FPGA_BSS3
 		fpga.init(stg.path, 5000000);
 #endif
-		fpga.rxtxdump = false;
+		fpga.rxtxdump = true;
 		fpga.reset();
 
 	} catch (DbeException e) {
@@ -581,7 +581,8 @@ void* JobMsdcSrcMsdd::runLwir(
 		// - loop
 		while (true) {
 			if (shrdat.lwirdata.cancel) break;
-
+			///
+			shrdat.fpga.lockAccess("JobMsdcSrcMsdd::runLwir");
 			lwiracq_getInfo(tixVBufstate, _tkst, _min, _max);
 
 			if ((tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) || (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF)) {
@@ -593,6 +594,9 @@ void* JobMsdcSrcMsdd::runLwir(
 
 					if (tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) shrdat.fpga.readAbufFromLwiracq(sizeBuf, buf, datalen);
 					else if (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF) shrdat.fpga.readBbufFromLwiracq(sizeBuf, buf, datalen);
+
+					///
+					shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[1]");
 
 					if (shrdat.lwirdata.buf) {
 						if (!bigendian()) {
@@ -612,7 +616,14 @@ void* JobMsdcSrcMsdd::runLwir(
 					};
 
 				} catch (DbeException e) {
+					///
+					shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[2]");
+
 					shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[3]");
+
+					// sleep for a millisecond
+					deltat = {.tv_sec = 0, .tv_nsec = 1000000};
+					nanosleep(&deltat, NULL);
 
 					continue;
 				};
@@ -622,6 +633,10 @@ void* JobMsdcSrcMsdd::runLwir(
 				// sleep for 1/9Hz - 11ms = 100ms
 				deltat = {.tv_sec = 0, .tv_nsec = 100000000};
 				nanosleep(&deltat, NULL);
+
+			} else {
+				///
+				shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[3]");
 			};
 
 			// sleep for a millisecond
@@ -988,6 +1003,7 @@ string s;
 
 			cout << "reading from "	<< VecVMsddZedbLwiracqBufstate::getSref(tixVBufstate) << endl;
 
+			// Nretry in easy model devices is zero (the idea is to query info in between attempts)
 			if (tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) shrdat.fpga.readAbufFromLwiracq(reqlen, data, datalen);
 			else if (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF) shrdat.fpga.readBbufFromLwiracq(reqlen, data, datalen);
 
@@ -1031,7 +1047,6 @@ bool JobMsdcSrcMsdd::handleCallMsdcMastsgeChg(
 	// IP handleCallMsdcMastsgeChg --- IEND
 	return retval;
 };
-
 
 
 

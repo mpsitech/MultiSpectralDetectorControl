@@ -1,8 +1,8 @@
 # file Makefile
 # make file for Msdc database access library, release dbsmsdc_ungenio
 # author Alexander Wirthmueller
-# date created: 29 Aug 2018
-# modified: 29 Aug 2018
+# date created: 12 Sep 2018
+# modified: 12 Sep 2018
 
 LIBROOT = /Users/mpsitech/lib
 

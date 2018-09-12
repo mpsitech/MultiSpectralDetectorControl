@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrDetail.js
   * web client functionality for panel PnlMsdcUsrDetail
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 // IP cust --- INSERT

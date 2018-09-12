@@ -2,8 +2,8 @@
   * \file Msdc.cpp
   * Msdc global functionality (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #include "Msdc.h"
@@ -1772,7 +1772,6 @@ void DpchRetMsdc::writeXML(
 		writeUtinyint(wr, "pdone", pdone);
 	xmlTextWriterEndElement(wr);
 };
-
 
 
 

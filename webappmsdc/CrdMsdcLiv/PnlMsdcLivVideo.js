@@ -165,6 +165,8 @@ function initBD(bNotD) {
 	initCpt(hdrdoc, "Cpt", retrieveTi(srcdoc, "TagMsdcLivVideo", "Cpt"));
 	initCpt(contcontdoc, "CptSrc", retrieveTi(srcdoc, "TagMsdcLivVideo", "CptSrc"));
 	refreshPup(contcontdoc, srcdoc, "PupSrc", "", "FeedFPupSrc", retrieveCi(srcdoc, "ContIacMsdcLivVideo", "numFPupSrc"), true, false);
+	initCpt(contcontdoc, "CptRes", retrieveTi(srcdoc, "TagMsdcLivVideo", "CptRes"));
+	refreshPup(contcontdoc, srcdoc, "PupRes", "", "FeedFPupRes", retrieveCi(srcdoc, "ContIacMsdcLivVideo", "numFPupRes"), true, false);
 
 	doc.imgdat = contcontdoc.getElementById("cvs").getContext("2d").createImageData(640, 480);
 	// IP initBD --- REND

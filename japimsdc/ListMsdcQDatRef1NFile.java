@@ -2,8 +2,8 @@
   * \file ListMsdcQDatRef1NFile.java
   * Java API code for record set of table TblMsdcQDatRef1NFile
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 package apimsdc;

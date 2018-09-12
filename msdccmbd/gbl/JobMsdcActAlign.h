@@ -2,8 +2,8 @@
   * \file JobMsdcActAlign.h
   * job handler for job JobMsdcActAlign (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifndef JOBMSDCACTALIGN_H
@@ -146,7 +146,6 @@ public:
 };
 
 #endif
-
 
 
 

@@ -2,8 +2,8 @@
   * \file M2msessMsdc_blks.cpp
   * job handler for job M2msessMsdc (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 /******************************************************************************

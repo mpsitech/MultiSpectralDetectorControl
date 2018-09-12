@@ -2,8 +2,8 @@
   * \file QryMsdcDatRef1NFile_blks.cpp
   * job handler for job QryMsdcDatRef1NFile (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 /******************************************************************************

@@ -2,8 +2,8 @@
 # file make.sh
 # make script for Msdc combined daemon, release msdccmbd_ungenio
 # author Alexander Wirthmueller
-# date created: 29 Aug 2018
-# modified: 29 Aug 2018
+# date created: 12 Sep 2018
+# modified: 12 Sep 2018
 
 make Msdccmbd.h.gch
 if [ $? -ne 0 ]; then

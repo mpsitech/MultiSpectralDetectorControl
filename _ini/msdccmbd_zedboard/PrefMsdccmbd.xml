@@ -6,7 +6,6 @@
 		<Si sref="appsrvport"></Si>
 		<Si sref="https">false</Si>
 		<Si sref="appsrv">true</Si>
-		<Si sref="ddspub">true</Si>
 		<Si sref="uasrv">true</Si>
 		<Si sref="histlength">20</Si>
 	</StgMsdccmbd>
@@ -19,10 +18,6 @@
 		<Si sref="ip"></Si>
 		<Si sref="port"></Si>
 	</StgMsdcDatabase>
-	<StgMsdcDdspub>
-		<Si sref="username"></Si>
-		<Si sref="password"></Si>
-	</StgMsdcDdspub>
 	<StgMsdcPath>
 		<Si sref="acvpath"></Si>
 		<Si sref="keypath"></Si>

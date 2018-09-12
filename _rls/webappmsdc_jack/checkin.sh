@@ -2,8 +2,8 @@
 # file checkin.sh
 # checkin script for Msdc web-based UI, release webappmsdc_jack
 # author Alexander Wirthmueller
-# date created: 29 Aug 2018
-# modified: 29 Aug 2018
+# date created: 12 Sep 2018
+# modified: 12 Sep 2018
 
 export set REPROOT=/home/mpsitech/srcrep
 

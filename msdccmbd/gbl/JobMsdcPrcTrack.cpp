@@ -2,8 +2,8 @@
   * \file JobMsdcPrcTrack.cpp
   * job handler for job JobMsdcPrcTrack (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifdef MSDCCMBD
@@ -211,7 +211,6 @@ void JobMsdcPrcTrack::handleRequest(
 	} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::REGULAR) {
 	};
 };
-
 
 
 

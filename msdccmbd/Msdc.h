@@ -2,17 +2,17 @@
   * \file Msdc.h
   * Msdc global functionality (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 29 Aug 2018
-  * \date modified: 29 Aug 2018
+  * \date created: 12 Sep 2018
+  * \date modified: 12 Sep 2018
   */
 
 #ifndef MSDC_H
 #define MSDC_H
 
-#define MSDC_VERSION "0.1.49"
+#define MSDC_VERSION "0.1.51"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 49
+#define MSDC_VERSION_SUB 51
 
 // IP incl --- IBEGIN
 #define FPGA_ZEDB
@@ -369,7 +369,6 @@ public:
 };
 
 #endif
-
 
 
 
