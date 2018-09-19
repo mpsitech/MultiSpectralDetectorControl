@@ -167,6 +167,8 @@ public:
 	bool startLwir(unsigned char* buf0, void (*callback)(void*), void* argCallback);
 	void stopLwir();
 
+	static void setLwirBuf(unsigned char* buf);
+
 	static void* runLwir(void* arg);
 	static void cleanupLwir(void* arg);
 

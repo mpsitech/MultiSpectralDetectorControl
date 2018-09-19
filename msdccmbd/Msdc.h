@@ -133,14 +133,13 @@ public:
 
 	bool initdone;
 	void init(const unsigned int N, const unsigned int itemlen);
-	void term();
 
 public:
 	unsigned char* data;
 	unsigned int N;
 	unsigned int itemlen;
 
-	pthread_mutex_t mAccess;
+	Mutex mAccess;
 
 	ubigint brefseq;
 
@@ -181,7 +180,8 @@ public:
 
 	unsigned char* data;
 
-	pthread_mutex_t mAccess;
+	Mutex mAccess;
+
 	ubigint jrefClaim;
 
 public:

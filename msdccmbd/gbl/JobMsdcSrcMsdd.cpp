@@ -319,6 +319,16 @@ void JobMsdcSrcMsdd::stopLwir() {
 	};
 };
 
+void JobMsdcSrcMsdd::setLwirBuf(
+			unsigned char* buf
+		) {
+	shrdat.mLwir.lock("JobMsdcSrcMsdd", "setLwirBuf");
+
+	lwirdata.buf = buf;
+
+	shrdat.mLwir.unlock("JobMsdcSrcMsdd", "setLwirBuf");
+};
+
 // trigger
 bool JobMsdcSrcMsdd::setTriggerFps(
 			const float fps
@@ -581,7 +591,8 @@ void* JobMsdcSrcMsdd::runLwir(
 		// - loop
 		while (true) {
 			if (shrdat.lwirdata.cancel) break;
-			///
+
+			// lwiracq_getInfo + bufxf should not be interrupted by execution of unrelated command
 			shrdat.fpga.lockAccess("JobMsdcSrcMsdd::runLwir");
 			lwiracq_getInfo(tixVBufstate, _tkst, _min, _max);
 
@@ -595,7 +606,6 @@ void* JobMsdcSrcMsdd::runLwir(
 					if (tixVBufstate == VecVMsddZedbLwiracqBufstate::ABUF) shrdat.fpga.readAbufFromLwiracq(sizeBuf, buf, datalen);
 					else if (tixVBufstate == VecVMsddZedbLwiracqBufstate::BBUF) shrdat.fpga.readBbufFromLwiracq(sizeBuf, buf, datalen);
 
-					///
 					shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[1]");
 
 					if (shrdat.lwirdata.buf) {
@@ -616,7 +626,6 @@ void* JobMsdcSrcMsdd::runLwir(
 					};
 
 				} catch (DbeException e) {
-					///
 					shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[2]");
 
 					shrdat.mLwir.unlock("JobMsdcSrcMsdd", "runLwir[3]");
@@ -635,7 +644,6 @@ void* JobMsdcSrcMsdd::runLwir(
 				nanosleep(&deltat, NULL);
 
 			} else {
-				///
 				shrdat.fpga.unlockAccess("JobMsdcSrcMsdd::runLwir[3]");
 			};
 

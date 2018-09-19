@@ -471,7 +471,9 @@ void Imgbufitem::release(
  class Imgbuf
  ******************************************************************************/
 
-Imgbuf::Imgbuf() {
+Imgbuf::Imgbuf() :
+			mAccess("mAccess", "Imgbuf", "Imgbuf")
+		{
 	N = 0;
 	itemlen = 0;
 
@@ -481,25 +483,24 @@ Imgbuf::Imgbuf() {
 };
 
 Imgbuf::~Imgbuf() {
-	term();
+	if (initdone) {
+		delete[] data;
+		for (map<ubigint,Imgbufitem*>::iterator it=brefsItems.begin() ; it!=brefsItems.end() ; it++) delete(it->second);
+		
+		initdone = false;
+	};
+
+	mAccess.lock("Imgbuf", "~Imgbuf");
+	mAccess.unlock("Imgbuf", "~Imgbuf");
 };
 
 void Imgbuf::init(
 			const unsigned int N
 			, const unsigned int itemlen
 		) {
-	int res;
-	pthread_mutexattr_t attr;
-
-	pthread_mutexattr_init(&attr);
-	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-
 	data = new unsigned char[N*itemlen];
 	this->N = N;
 	this->itemlen = itemlen;
-
-	res = pthread_mutex_init(&mAccess, &attr);
-	if (res != 0) {cout << "Imgbuf::init() error initializing mutex mAccess (" << res << ")" << endl;};
 
 	brefseq = 0;
 
@@ -507,38 +508,8 @@ void Imgbuf::init(
 	brefs.resize(N, 0);
 
 	brefsItems.clear();
-
-	pthread_mutexattr_destroy(&attr);
 	
 	initdone = true;
-};
-
-void Imgbuf::term() {
-	int res;
-
-	if (initdone) {
-		res = pthread_mutex_lock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::term() error locking mutex mAccess (" << res << ")" << endl;};
-
-		res = pthread_mutex_unlock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::term() error unlocking mutex mAccess (" << res << ")" << endl;};
-
-		while (true) {
-			res = pthread_mutex_destroy(&mAccess);
-			if (res == EBUSY) {
-				res = pthread_mutex_unlock(&mAccess);
-				if (res != 0) {cout << "Imgbuf::term() error unlocking mutex mAccess (" << res << ")" << endl;};
-			} else {
-				if (res != 0) {cout << "Imgbuf::term() error destroying mutex mAccess (" << res << ")" << endl;};
-				break;
-			};
-		};
-
-		delete[] data;
-		for (map<ubigint,Imgbufitem*>::iterator it=brefsItems.begin() ; it!=brefsItems.end() ; it++) delete(it->second);
-		
-		initdone = false;
-	};
 };
 
 ubigint Imgbuf::getNewItem(
@@ -546,15 +517,13 @@ ubigint Imgbuf::getNewItem(
 			, const unsigned int seqno
 			, double t
 		) {
-	int res;
 	ubigint bref;
 
 	unsigned int ix;
 	bool found;
 
 	if (initdone) {
-		res = pthread_mutex_lock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::getNewItem() error locking mutex mAccess (" << res << ")" << endl;};
+		mAccess.lock("Imgbuf", "getNewItem");
 
 		// check for available slot
 		bref = 0;
@@ -585,8 +554,7 @@ ubigint Imgbuf::getNewItem(
 			brefsItems[bref] = new Imgbufitem(seqno, t, &(data[ix*itemlen]), itemlen, jref);
 		};
 
-		res = pthread_mutex_unlock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::getNewItem() error unlocking mutex mAccess (" << res << ")" << endl;};
+		mAccess.unlock("Imgbuf", "getNewItem");
 
 		return(bref);
 	};
@@ -613,19 +581,15 @@ void Imgbuf::claim(
 			const ubigint bref
 			, const ubigint jref
 		) {
-	int res;
-
 	Imgbufitem* item = NULL;
 
 	if (initdone) {
-		res = pthread_mutex_lock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::claim() error locking mutex mAccess (" << res << ")" << endl;};
+		mAccess.lock("Imgbuf", "claim");
 
 		item = getItem(bref);
 		if (item) item->claim(jref);
 
-		res = pthread_mutex_unlock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::claim() error unlocking mutex mAccess (" << res << ")" << endl;};
+		mAccess.unlock("Imgbuf", "claim");
 	};
 };
 
@@ -633,40 +597,32 @@ void Imgbuf::release(
 			const ubigint bref
 			, const ubigint jref
 		) {
-	int res;
-
 	Imgbufitem* item = NULL;
 
 	if (initdone) {
-		res = pthread_mutex_lock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::release() error locking mutex mAccess (" << res << ")" << endl;};
+		mAccess.lock("Imgbuf", "release");
 
 		item = getItem(bref);
 		if (item) item->release(jref);
 
-		res = pthread_mutex_unlock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::release() error unlocking mutex mAccess (" << res << ")" << endl;};
+		mAccess.unlock("Imgbuf", "release");
 	};
 };
 
 void Imgbuf::releaseByJref(
 			const ubigint jref
 		) {
-	int res;
-
 	Imgbufitem* item = NULL;
 
 	if (initdone) {
-		res = pthread_mutex_lock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::releaseByJref() error locking mutex mAccess (" << res << ")" << endl;};
+		mAccess.lock("Imgbuf", "releaseByJref");
 
 		for (map<ubigint,Imgbufitem*>::iterator it=brefsItems.begin() ; it!=brefsItems.end() ; it++) {
 			item = it->second;
 			item->release(jref);
 		};
 
-		res = pthread_mutex_unlock(&mAccess);
-		if (res != 0) {cout << "Imgbuf::releaseByJref() error unlocking mutex mAccess (" << res << ")" << endl;};
+		mAccess.unlock("Imgbuf", "releaseByJref");
 	};
 };
 
@@ -711,14 +667,10 @@ Snippet::Snippet(
 			, const unsigned int h
 			, const unsigned int x0
 			, const unsigned int y0
-		) {
-	int res;
-	pthread_mutexattr_t attr;
-
+		) :
+			mAccess("mAccess", "Snippet", "Snippet")
+		{
 	unsigned int wh;
-
-	pthread_mutexattr_init(&attr);
-	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 
 	this->ixMsdcVCamres = ixMsdcVCamres;
 	this->ixMsdcVChannel = ixMsdcVChannel;
@@ -736,35 +688,14 @@ Snippet::Snippet(
 	this->x0 = x0;
 	this->y0 = y0;
 
-	res = pthread_mutex_init(&mAccess, &attr);
-	if (res != 0) {cout << "Snippet::Snippet() error initializing mutex mAccess (" << res << ")" << endl;};
-
 	jrefClaim = 0;
-
-	pthread_mutexattr_destroy(&attr);
 };
 
 Snippet::~Snippet() {
-	int res;
-
-	res = pthread_mutex_lock(&mAccess);
-	if (res != 0) {cout << "Snippet::~Snippet() error locking mutex mAccess (" << res << ")" << endl;};
-
-	res = pthread_mutex_unlock(&mAccess);
-	if (res != 0) {cout << "Snippet::~Snippet() error unlocking mutex mAccess (" << res << ")" << endl;};
-
-	while (true) {
-		res = pthread_mutex_destroy(&mAccess);
-		if (res == EBUSY) {
-			res = pthread_mutex_unlock(&mAccess);
-			if (res != 0) {cout << "Snippet::~Snippet() error unlocking mutex mAccess (" << res << ")" << endl;};
-		} else {
-			if (res != 0) {cout << "Snippet::~Snippet() error destroying mutex mAccess (" << res << ")" << endl;};
-			break;
-		};
-	};
-
 	if (data) delete[] data;
+
+	mAccess.lock("Snippet", "~Snippet");
+	mAccess.unlock("Snippet", "~Snippet");
 };
 
 void Snippet::reposition(
@@ -786,32 +717,24 @@ bool Snippet::claim(
 		) {
 	bool retval;
 
-	int res;
-
-	res = pthread_mutex_lock(&mAccess);
-	if (res != 0) cout << "Snippet::claim() error locking mutex mAccess (" << res << ")" << endl;
+	mAccess.lock("Snippet", "claim");
 
 	if (jrefClaim == 0) {
 		jrefClaim = jref;
 		retval = true;
 	} else retval = false;
 
-	res = pthread_mutex_unlock(&mAccess);
-	if (res != 0) cout << "Snippet::claim() error unlocking mutex mAccess (" << res << ")" << endl;
+	mAccess.unlock("Snippet", "claim");
 
 	return retval;
 };
 
 void Snippet::release() {
-	int res;
-
-	res = pthread_mutex_lock(&mAccess);
-	if (res != 0) cout << "Snippet::release() error locking mutex mAccess (" << res << ")" << endl;
+	mAccess.lock("Snippet", "release");
 
 	jrefClaim = 0;
 
-	res = pthread_mutex_unlock(&mAccess);
-	if (res != 0) cout << "Snippet::release() error unlocking mutex mAccess (" << res << ")" << endl;
+	mAccess.unlock("Snippet", "release");
 };
 
 // IP cust --- IEND

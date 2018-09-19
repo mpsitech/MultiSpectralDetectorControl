@@ -149,11 +149,11 @@ void JobMsdcAcqLwir::MsddCallback(
 		shrdat.fill1Not0 = !shrdat.fill1Not0;
 
 		if (shrdat.fill1Not0) {
-			if (shrdat.read1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = NULL;
-			else JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray1;
+			if (shrdat.read1Not0) JobMsdcSrcMsdd::setLwirBuf(NULL);
+			else JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray1);
 		} else {
-			if (!shrdat.read1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = NULL;
-			else JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray0;
+			if (!shrdat.read1Not0) JobMsdcSrcMsdd::setLwirBuf(NULL);
+			else JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray0);
 		};
 
 		extcall->call->argInv.boolval = true;
@@ -242,7 +242,9 @@ uint JobMsdcAcqLwir::enterSgeIdle(
 		srcmsdd->stopLwir();
 	};
 
+	shrdat.wlockAccess(jref, "enterSgeIdle");
 	shrdat.gray.releaseByJref(jref);
+	shrdat.wunlockAccess(jref, "enterSgeIdle");
 
 	// IP enterSgeIdle --- IEND
 	return retval;
@@ -253,6 +255,8 @@ void JobMsdcAcqLwir::leaveSgeIdle(
 		) {
 	// IP leaveSgeIdle --- IBEGIN
 	if (getMastNotSlv()) {
+		shrdat.wlockAccess(jref, "leaveSgeIdle");
+
 		if (shrdat.extcall) delete shrdat.extcall;
 		shrdat.extcall = new ExtcallMsdc(xchg, new Call(VecMsdcVCall::CALLMSDCBUFRDY, jref, Arg()));
 
@@ -270,6 +274,8 @@ void JobMsdcAcqLwir::leaveSgeIdle(
 
 		// start acquisition
 		srcmsdd->startLwir((unsigned char*) shrdat.gray0, MsddCallback, (void*) shrdat.extcall);
+
+		shrdat.wunlockAccess(jref, "leaveSgeIdle");
 	};
 
 	bref = 0;
@@ -350,7 +356,7 @@ uint JobMsdcAcqLwir::enterSgeAcq(
 			min = shrdat.gray1Min;
 			max = shrdat.gray1Max;
 
-			if (shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray1;
+			if (shrdat.fill1Not0) JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray1);
 
 		} else {
 			Msdc::copytrfBuf((unsigned char*) shrdat.gray0, (unsigned char*) _g, 2, stg.width, stg.height, stg.ixMsdcVSqrgrp);
@@ -358,7 +364,7 @@ uint JobMsdcAcqLwir::enterSgeAcq(
 			min = shrdat.gray0Min;
 			max = shrdat.gray0Max;
 
-			if (!shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray0;
+			if (!shrdat.fill1Not0) JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray0);
 		};
 
 		// perform AGC
@@ -662,8 +668,8 @@ bool JobMsdcAcqLwir::handleCallMsdcBufrdy(
 			// drop frame
 			shrdat.wlockAccess(jref, "handleCallMsdcBufrdy");
 
-			if (shrdat.read1Not0 && shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray1;
-			else if (!shrdat.read1Not0 && !shrdat.fill1Not0) JobMsdcSrcMsdd::shrdat.lwirdata.buf = (unsigned char*) shrdat.gray0;
+			if (shrdat.read1Not0 && shrdat.fill1Not0) JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray1);
+			else if (!shrdat.read1Not0 && !shrdat.fill1Not0) JobMsdcSrcMsdd::setLwirBuf((unsigned char*) shrdat.gray0);
 
 			shrdat.read1Not0 = !shrdat.read1Not0;
 
