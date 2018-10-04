@@ -2,8 +2,8 @@
   * \file MsdcMUser_vecs.cpp
   * database access for table TblMsdcMUser (implementation of vectors)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 /******************************************************************************

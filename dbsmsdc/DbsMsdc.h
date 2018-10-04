@@ -2,17 +2,17 @@
   * \file DbsMsdc.h
   * C++ wrapper for database DbsMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef DBSMSDC_H
 #define DBSMSDC_H
 
-#define MSDC_VERSION "0.1.51"
+#define MSDC_VERSION "0.1.52"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 51
+#define MSDC_VERSION_SUB 52
 
 #include <sbecore/LiteDbs.h>
 

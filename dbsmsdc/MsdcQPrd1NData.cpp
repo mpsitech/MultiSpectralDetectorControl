@@ -2,8 +2,8 @@
   * \file MsdcQPrd1NData.cpp
   * Dbs and XML wrapper for table TblMsdcQPrd1NData (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "MsdcQPrd1NData.h"
@@ -440,6 +440,8 @@ bool LiteTblMsdcQPrd1NData::loadRecByQref(
 			ubigint qref
 			, MsdcQPrd1NData** rec
 		) {
+	if (qref == 0) return false;
+
 	sqlite3_bind_int64(stmtLoadRecByQref, 1, qref);
 
 	return loadRecByStmt(stmtLoadRecByQref, rec);

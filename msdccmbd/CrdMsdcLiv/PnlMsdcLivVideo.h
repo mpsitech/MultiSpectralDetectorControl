@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.h
   * job handler for job PnlMsdcLivVideo (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef PNLMSDCLIVVIDEO_H
@@ -355,6 +355,7 @@ public:
 };
 
 #endif
+
 
 
 

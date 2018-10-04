@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc database access library, release dbsmsdc_ungenio
 # author Alexander Wirthmueller
-# date created: 12 Sep 2018
-# modified: 12 Sep 2018
+# date created: 4 Oct 2018
+# modified: 4 Oct 2018
 
 export set SRCROOT=/Users/mpsitech/src
 

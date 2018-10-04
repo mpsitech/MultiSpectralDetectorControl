@@ -2,8 +2,8 @@
   * \file Msdccmbd.h
   * inter-thread exchange object for Msdc combined daemon (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef MSDCCMBD_H
@@ -210,11 +210,12 @@ public:
 	static const uint APPSRVPORT = 3;
 	static const uint HTTPS = 4;
 	static const uint APPSRV = 5;
-	static const uint UASRV = 6;
-	static const uint HISTLENGTH = 7;
+	static const uint DDSPUB = 6;
+	static const uint UASRV = 7;
+	static const uint HISTLENGTH = 8;
 
 public:
-	StgMsdccmbd(const usmallint jobprcn = 1, const usmallint opprcn = 1, const usmallint appsrvport = 0, const bool https = false, const bool appsrv = true, const bool uasrv = true, const usmallint histlength = 20);
+	StgMsdccmbd(const usmallint jobprcn = 1, const usmallint opprcn = 1, const usmallint appsrvport = 0, const bool https = false, const bool appsrv = true, const bool ddspub = true, const bool uasrv = true, const usmallint histlength = 20);
 
 public:
 	usmallint jobprcn;
@@ -222,6 +223,7 @@ public:
 	usmallint appsrvport;
 	bool https;
 	bool appsrv;
+	bool ddspub;
 	bool uasrv;
 	usmallint histlength;
 
@@ -263,6 +265,29 @@ public:
 	void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
 	set<uint> comm(const StgMsdcDatabase* comp);
 	set<uint> diff(const StgMsdcDatabase* comp);
+};
+
+/**
+	* StgMsdcDdspub
+	*/
+class StgMsdcDdspub : public Block {
+
+public:
+	static const uint USERNAME = 1;
+	static const uint PASSWORD = 2;
+
+public:
+	StgMsdcDdspub(const string& username = "", const string& password = "");
+
+public:
+	string username;
+	string password;
+
+public:
+	bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
+	void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
+	set<uint> comm(const StgMsdcDdspub* comp);
+	set<uint> diff(const StgMsdcDdspub* comp);
 };
 
 /**
@@ -723,6 +748,7 @@ public:
 public:
 	StgMsdccmbd stgmsdccmbd;
 	StgMsdcDatabase stgmsdcdatabase;
+	StgMsdcDdspub stgmsdcddspub;
 	StgMsdcPath stgmsdcpath;
 	StgMsdcUasrv stgmsdcuasrv;
 
@@ -759,6 +785,9 @@ public:
 
 	// condition for op processors
 	Cond cOpprcs;
+
+	// condition for DDS publisher
+	Cond cDdspub;
 
 	// condition for OPC UA server
 	Cond cUasrv;
@@ -797,6 +826,10 @@ public:
 	// master-slave job information
 	Rwmutex rwmMsjobinfos;
 	map<uint,Msjobinfo*> msjobinfos;
+
+	// DDS publisher call
+	Mutex mDdspubcall;
+	Call* ddspubcall;
 
 	// OPC UA server call
 	Mutex mUasrvcall;
@@ -865,6 +898,7 @@ public:
 	Clstn* addIxRefSrefClstn(const uint ixMsdcVCall, const ubigint jref, const uint ixVJobmask, const ubigint jrefTrig, const uint ixMask, const ubigint refMask, const string& srefMask, const uint ixVJactype = Clstn::VecVJactype::LOCK);
 
 	Clstn* addClstnStmgr(const uint ixMsdcVCall, const ubigint jref);
+	Clstn* addClstnDdspub(const ubigint jrefTrig, const string& srefMask);
 	Clstn* addClstnUasrv(const ubigint jrefTrig, const string& srefMask);
 
 	Clstn* getClstnByCref(const clstnref_t& cref);
@@ -943,6 +977,7 @@ public:
 	static void runExtcall(void* arg);
 };
 #endif
+
 
 
 

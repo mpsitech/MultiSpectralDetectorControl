@@ -2,8 +2,8 @@
   * \file MsdcQUsr1NSession.cpp
   * API code for table TblMsdcQUsr1NSession (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifdef _WIN32

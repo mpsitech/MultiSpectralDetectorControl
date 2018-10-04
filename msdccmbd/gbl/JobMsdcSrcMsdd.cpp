@@ -2,8 +2,8 @@
   * \file JobMsdcSrcMsdd.cpp
   * job handler for job JobMsdcSrcMsdd (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifdef MSDCCMBD
@@ -324,7 +324,7 @@ void JobMsdcSrcMsdd::setLwirBuf(
 		) {
 	shrdat.mLwir.lock("JobMsdcSrcMsdd", "setLwirBuf");
 
-	lwirdata.buf = buf;
+	shrdat.lwirdata.buf = buf;
 
 	shrdat.mLwir.unlock("JobMsdcSrcMsdd", "setLwirBuf");
 };
@@ -1055,6 +1055,7 @@ bool JobMsdcSrcMsdd::handleCallMsdcMastsgeChg(
 	// IP handleCallMsdcMastsgeChg --- IEND
 	return retval;
 };
+
 
 
 

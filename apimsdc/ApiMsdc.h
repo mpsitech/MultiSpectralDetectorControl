@@ -2,17 +2,17 @@
   * \file ApiMsdc.h
   * Msdc API library global functionality (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef APIMSDC_H
 #define APIMSDC_H
 
-#define MSDC_VERSION "0.1.51"
+#define MSDC_VERSION "0.1.52"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 51
+#define MSDC_VERSION_SUB 52
 
 #include "ApiMsdc_blks.h"
 

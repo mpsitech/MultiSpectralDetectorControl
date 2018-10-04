@@ -2,8 +2,8 @@
   * \file PnlMsdcPrd1NData.h
   * job handler for job PnlMsdcPrd1NData (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef PNLMSDCPRD1NDATA_H

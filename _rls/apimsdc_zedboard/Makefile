@@ -1,8 +1,8 @@
 # file Makefile
 # make file for Msdc API library, release apimsdc_zedboard
 # author Alexander Wirthmueller
-# date created: 12 Sep 2018
-# modified: 12 Sep 2018
+# date created: 4 Oct 2018
+# modified: 4 Oct 2018
 
 LIBROOT = /home/mpsitech/emb/zedboard/avnet-digilent-zedboard-2017.2/build/tmp/sysroots/plnx_arm/home/root/lib
 

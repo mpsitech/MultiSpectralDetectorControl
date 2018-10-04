@@ -2,8 +2,8 @@
   * \file MsdcAMUserAccess.cpp
   * database access for table TblMsdcAMUserAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "MsdcAMUserAccess.h"
@@ -474,6 +474,8 @@ bool LiteTblMsdcAMUserAccess::loadRecByRef(
 			ubigint ref
 			, MsdcAMUserAccess** rec
 		) {
+	if (ref == 0) return false;
+
 	sqlite3_bind_int64(stmtLoadRecByRef, 1, ref);
 
 	return loadRecByStmt(stmtLoadRecByRef, rec);

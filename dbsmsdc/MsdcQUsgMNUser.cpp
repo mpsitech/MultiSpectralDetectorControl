@@ -2,8 +2,8 @@
   * \file MsdcQUsgMNUser.cpp
   * Dbs and XML wrapper for table TblMsdcQUsgMNUser (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "MsdcQUsgMNUser.h"
@@ -468,6 +468,8 @@ bool LiteTblMsdcQUsgMNUser::loadRecByQref(
 			ubigint qref
 			, MsdcQUsgMNUser** rec
 		) {
+	if (qref == 0) return false;
+
 	sqlite3_bind_int64(stmtLoadRecByQref, 1, qref);
 
 	return loadRecByStmt(stmtLoadRecByQref, rec);

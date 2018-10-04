@@ -2,8 +2,8 @@
 	* \file MsdccmbdUasrv.cpp
 	* OPC UA server based on Matrikon FLEX OPC UA SDK for Msdc combined daemon (implementation)
 	* \author Alexander Wirthmueller
-	* \date created: 12 Sep 2018
-	* \date modified: 12 Sep 2018
+	* \date created: 4 Oct 2018
+	* \date modified: 4 Oct 2018
 	*/
 
 #include "Msdccmbd.h"

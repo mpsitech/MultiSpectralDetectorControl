@@ -2,8 +2,8 @@
   * \file CrdMsdcPrs_blks.cpp
   * job handler for job CrdMsdcPrs (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 /******************************************************************************

@@ -1,0 +1,233 @@
+/**
+  * \file Msdc.idl
+  * Msdc DDS publisher interface description for RTI Code Generator
+  * \author Alexander Wirthmueller
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
+  */
+
+typedef char tinyint;
+typedef octet utinyint;
+typedef short smallint;
+typedef unsigned short usmallint;
+typedef long int;
+typedef unsigned long uint;
+typedef long long bigint;
+typedef unsigned long long ubigint;
+typedef string<50> vecsref;
+
+module DdsJobMsdcAcqAdxl {
+	struct alphaBeta {
+		float alpha;
+		float beta;
+	};
+};
+
+module DdsJobMsdcAcqLwir {
+	struct setOutput_req {
+		vecsref ixMsdcVSqrgrp;
+	};
+
+	struct setOutput_reply {
+		boolean success;
+	};
+
+	struct start_req {
+		boolean dummy;
+	};
+
+	struct start_reply {
+		boolean success;
+	};
+
+	struct stop_req {
+		boolean dummy;
+	};
+
+	struct stop_reply {
+		boolean success;
+	};
+
+	struct seqnoTGray16 {
+		uint seqno;
+		double t;
+		sequence<unsigned short, 19200> gray16;
+	};
+};
+
+module DdsJobMsdcAcqVisl {
+	struct setFocus_req {
+		float focus;
+	};
+
+	struct setFocus_reply {
+		boolean success;
+	};
+
+	struct setOutput_req {
+		vecsref ixMsdcVCamres;
+		vecsref ixMsdcVSqrgrp;
+		boolean grayscale;
+	};
+
+	struct setOutput_reply {
+		boolean success;
+	};
+
+	struct setTint_req {
+		float Tint;
+	};
+
+	struct setTint_reply {
+		boolean success;
+	};
+
+	struct start_req {
+		boolean dummy;
+	};
+
+	struct start_reply {
+		boolean success;
+	};
+
+	struct stop_req {
+		boolean dummy;
+	};
+
+	struct stop_reply {
+		boolean success;
+	};
+
+	struct seqnoTRgbx8Gray8 {
+		uint seqno;
+		double t;
+		sequence<octet, 4915200> rgbx8;
+		sequence<octet, 1228800> gray8;
+	};
+};
+
+module DdsJobMsdcAcqVisr {
+	struct setFocus_req {
+		float focus;
+	};
+
+	struct setFocus_reply {
+		boolean success;
+	};
+
+	struct setOutput_req {
+		vecsref ixMsdcVCamres;
+		vecsref ixMsdcVSqrgrp;
+		boolean grayscale;
+	};
+
+	struct setOutput_reply {
+		boolean success;
+	};
+
+	struct setTint_req {
+		float Tint;
+	};
+
+	struct setTint_reply {
+		boolean success;
+	};
+
+	struct start_req {
+		boolean dummy;
+	};
+
+	struct start_reply {
+		boolean success;
+	};
+
+	struct stop_req {
+		boolean dummy;
+	};
+
+	struct stop_reply {
+		boolean success;
+	};
+
+	struct seqnoTRgbx8Gray8 {
+		uint seqno;
+		double t;
+		sequence<octet, 4915200> rgbx8;
+		sequence<octet, 1228800> gray8;
+	};
+};
+
+module DdsJobMsdcActAlign {
+	struct setWave_req {
+		vecsref ixVFunction;
+		utinyint N;
+		sequence<float, 32> seq;
+	};
+
+	struct setWave_reply {
+		boolean success;
+	};
+
+	struct start_req {
+		boolean dummy;
+	};
+
+	struct start_reply {
+		boolean success;
+	};
+
+	struct stop_req {
+		boolean dummy;
+	};
+
+	struct stop_reply {
+		boolean success;
+	};
+};
+
+module DdsJobMsdcActLed {
+	struct setFlood_req {
+		float flood;
+	};
+
+	struct setFlood_reply {
+		boolean success;
+	};
+
+	struct setSpot_req {
+		float spot;
+	};
+
+	struct setSpot_reply {
+		boolean success;
+	};
+
+	struct floodSpot {
+		float flood;
+		float spot;
+	};
+};
+
+module DdsJobMsdcActServo {
+	struct setPhi_req {
+		float phi;
+	};
+
+	struct setPhi_reply {
+		boolean success;
+	};
+
+	struct setTheta_req {
+		float theta;
+	};
+
+	struct setTheta_reply {
+		boolean success;
+	};
+
+	struct thetaPhi {
+		float theta;
+		float phi;
+	};
+};
+

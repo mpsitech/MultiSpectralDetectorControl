@@ -2,8 +2,8 @@
   * \file DlgMsdcFilDownload.cpp
   * job handler for job DlgMsdcFilDownload (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifdef MSDCCMBD
@@ -148,6 +148,7 @@ string DlgMsdcFilDownload::handleDownload(
 	return retval;
 	// IP handleDownload --- REND
 };
+
 
 
 

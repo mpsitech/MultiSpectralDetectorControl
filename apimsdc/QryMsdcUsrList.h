@@ -2,8 +2,8 @@
   * \file QryMsdcUsrList.h
   * API code for job QryMsdcUsrList (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifndef QRYMSDCUSRLIST_H

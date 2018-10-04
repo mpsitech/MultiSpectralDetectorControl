@@ -1,8 +1,8 @@
 # file Makefile
 # make file for Msdc database access library, release dbsmsdc_jack
 # author Alexander Wirthmueller
-# date created: 12 Sep 2018
-# modified: 12 Sep 2018
+# date created: 4 Oct 2018
+# modified: 4 Oct 2018
 
 LIBROOT = /home/mpsitech/lib
 

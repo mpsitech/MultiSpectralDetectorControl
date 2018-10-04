@@ -2,8 +2,8 @@
   * \file MsdcMUsergroup.cpp
   * database access for table TblMsdcMUsergroup (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "MsdcMUsergroup.h"
@@ -470,6 +470,8 @@ bool LiteTblMsdcMUsergroup::loadRecByRef(
 			ubigint ref
 			, MsdcMUsergroup** rec
 		) {
+	if (ref == 0) return false;
+
 	sqlite3_bind_int64(stmtLoadRecByRef, 1, ref);
 
 	return loadRecByStmt(stmtLoadRecByRef, rec);

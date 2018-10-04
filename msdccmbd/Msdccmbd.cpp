@@ -2,8 +2,8 @@
   * \file Msdccmbd.cpp
   * inter-thread exchange object for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "Msdccmbd.h"
@@ -346,6 +346,7 @@ StgMsdccmbd::StgMsdccmbd(
 			, const usmallint appsrvport
 			, const bool https
 			, const bool appsrv
+			, const bool ddspub
 			, const bool uasrv
 			, const usmallint histlength
 		) :
@@ -356,9 +357,10 @@ StgMsdccmbd::StgMsdccmbd(
 	this->appsrvport = appsrvport;
 	this->https = https;
 	this->appsrv = appsrv;
+	this->ddspub = ddspub;
 	this->uasrv = uasrv;
 	this->histlength = histlength;
-	mask = {JOBPRCN, OPPRCN, APPSRVPORT, HTTPS, APPSRV, UASRV, HISTLENGTH};
+	mask = {JOBPRCN, OPPRCN, APPSRVPORT, HTTPS, APPSRV, DDSPUB, UASRV, HISTLENGTH};
 };
 
 bool StgMsdccmbd::readXML(
@@ -383,6 +385,7 @@ bool StgMsdccmbd::readXML(
 		if (extractUsmallintAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "appsrvport", appsrvport)) add(APPSRVPORT);
 		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "https", https)) add(HTTPS);
 		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "appsrv", appsrv)) add(APPSRV);
+		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "ddspub", ddspub)) add(DDSPUB);
 		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "uasrv", uasrv)) add(UASRV);
 		if (extractUsmallintAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "histlength", histlength)) add(HISTLENGTH);
 	};
@@ -407,6 +410,7 @@ void StgMsdccmbd::writeXML(
 		writeUsmallintAttr(wr, itemtag, "sref", "appsrvport", appsrvport);
 		writeBoolAttr(wr, itemtag, "sref", "https", https);
 		writeBoolAttr(wr, itemtag, "sref", "appsrv", appsrv);
+		writeBoolAttr(wr, itemtag, "sref", "ddspub", ddspub);
 		writeBoolAttr(wr, itemtag, "sref", "uasrv", uasrv);
 		writeUsmallintAttr(wr, itemtag, "sref", "histlength", histlength);
 	xmlTextWriterEndElement(wr);
@@ -422,6 +426,7 @@ set<uint> StgMsdccmbd::comm(
 	if (appsrvport == comp->appsrvport) insert(items, APPSRVPORT);
 	if (https == comp->https) insert(items, HTTPS);
 	if (appsrv == comp->appsrv) insert(items, APPSRV);
+	if (ddspub == comp->ddspub) insert(items, DDSPUB);
 	if (uasrv == comp->uasrv) insert(items, UASRV);
 	if (histlength == comp->histlength) insert(items, HISTLENGTH);
 
@@ -436,7 +441,7 @@ set<uint> StgMsdccmbd::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {JOBPRCN, OPPRCN, APPSRVPORT, HTTPS, APPSRV, UASRV, HISTLENGTH};
+	diffitems = {JOBPRCN, OPPRCN, APPSRVPORT, HTTPS, APPSRV, DDSPUB, UASRV, HISTLENGTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -548,6 +553,87 @@ set<uint> StgMsdcDatabase::diff(
 	commitems = comm(comp);
 
 	diffitems = {IXDBSVDBSTYPE, DBSPATH, DBSNAME, USERNAME, PASSWORD, IP, PORT};
+	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
+
+	return(diffitems);
+};
+
+/******************************************************************************
+ class StgMsdcDdspub
+ ******************************************************************************/
+
+StgMsdcDdspub::StgMsdcDdspub(
+			const string& username
+			, const string& password
+		) :
+			Block()
+		{
+	this->username = username;
+	this->password = password;
+	mask = {USERNAME, PASSWORD};
+};
+
+bool StgMsdcDdspub::readXML(
+			xmlXPathContext* docctx
+			, string basexpath
+			, bool addbasetag
+		) {
+	clear();
+
+	bool basefound;
+
+	if (addbasetag)
+		basefound = checkUclcXPaths(docctx, basexpath, basexpath, "StgMsdcDdspub");
+	else
+		basefound = checkXPath(docctx, basexpath);
+
+	string itemtag = "StgitemMsdcDdspub";
+
+	if (basefound) {
+		if (extractStringAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "username", username)) add(USERNAME);
+		if (extractStringAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "password", password)) add(PASSWORD);
+	};
+
+	return basefound;
+};
+
+void StgMsdcDdspub::writeXML(
+			xmlTextWriter* wr
+			, string difftag
+			, bool shorttags
+		) {
+	if (difftag.length() == 0) difftag = "StgMsdcDdspub";
+
+	string itemtag;
+	if (shorttags) itemtag = "Si";
+	else itemtag = "StgitemMsdcDdspub";
+
+	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
+		writeStringAttr(wr, itemtag, "sref", "username", username);
+		writeStringAttr(wr, itemtag, "sref", "password", password);
+	xmlTextWriterEndElement(wr);
+};
+
+set<uint> StgMsdcDdspub::comm(
+			const StgMsdcDdspub* comp
+		) {
+	set<uint> items;
+
+	if (username == comp->username) insert(items, USERNAME);
+	if (password == comp->password) insert(items, PASSWORD);
+
+	return(items);
+};
+
+set<uint> StgMsdcDdspub::diff(
+			const StgMsdcDdspub* comp
+		) {
+	set<uint> commitems;
+	set<uint> diffitems;
+
+	commitems = comm(comp);
+
+	diffitems = {USERNAME, PASSWORD};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -765,13 +851,13 @@ DpchEngMsdcAlert* AlrMsdc::prepareAlrAbt(
 	continf.TxtCpt = StrMod::cap(continf.TxtCpt);
 
 	if (ixMsdcVLocale == VecMsdcVLocale::ENUS) {
-		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.51 released on 12-9-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.52 released on 4-10-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "contributors: Alexander Wirthmueller";
 		continf.TxtMsg6 = "libraries: png 1.5.12, jpeg 8, devmsdd 1.0.0 and spinnaker 1.13";
 		continf.TxtMsg8 = "MultispectralDetectorControl provides users and machines with access to the MPSI Technologies Stereo+LWIR detector vision demonstrator.";
 	} else if (ixMsdcVLocale == VecMsdcVLocale::DECH) {
-		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.51 ver\\u00f6ffentlicht am 12-9-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.52 ver\\u00f6ffentlicht am 4-10-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "Mitwirkende: Alexander Wirthmueller";
 		continf.TxtMsg6 = "Programmbibliotheken: png 1.5.12, jpeg 8, devmsdd 1.0.0 und spinnaker 1.13";
@@ -1451,8 +1537,8 @@ void StmgrMsdc::handleCall(
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCSESMENU);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCSESSTD);
 	} else if (call->ixVCall == VecMsdcVCall::CALLMSDCUSGUPD_REFEQ) {
-		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSGSTD);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCGRP);
+		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSGSTD);
 	} else if (call->ixVCall == VecMsdcVCall::CALLMSDCUSRUPD_REFEQ) {
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCUSRSTD);
 		insert(icsMsdcVStub, VecMsdcVStub::STUBMSDCOWN);
@@ -1629,6 +1715,7 @@ XchgMsdccmbd::XchgMsdccmbd() :
 			mLogfile("mLogfile", "XchgMsdccmbd", "XchgMsdccmbd")
 			, cJobprcs("cJobprcs", "XchgMsdccmbd", "XchgMsdccmbd")
 			, cOpprcs("cOpprcs", "XchgMsdccmbd", "XchgMsdccmbd")
+			, cDdspub("cDdspub", "XchgMsdccmbd", "XchgMsdccmbd")
 			, cUasrv("cUasrv", "XchgMsdccmbd", "XchgMsdccmbd")
 			, mReqs("mReqs", "XchgMsdccmbd", "XchgMsdccmbd")
 			, orefseq("orefseq")
@@ -1640,6 +1727,7 @@ XchgMsdccmbd::XchgMsdccmbd() :
 			, jrefseq("jrefseq")
 			, rwmJobs("rwmJobs", "XchgMsdccmbd", "XchgMsdccmbd")
 			, rwmMsjobinfos("rwmMsjobinfos", "XchgMsdccmbd", "XchgMsdccmbd")
+			, mDdspubcall("mDdspubcall", "XchgMsdccmbd", "XchgMsdccmbd")
 			, mUasrvcall("mUasrvcall", "XchgMsdccmbd", "XchgMsdccmbd")
 			, wrefseq("wrefseq")
 		{
@@ -1662,6 +1750,9 @@ XchgMsdccmbd::XchgMsdccmbd() :
 	msjobinfos[VecMsdcVJob::JOBMSDCPRCTRACK] = new Msjobinfo(VecMsdcVJob::JOBMSDCPRCTRACK);
 	msjobinfos[VecMsdcVJob::JOBMSDCSRCMSDD] = new Msjobinfo(VecMsdcVJob::JOBMSDCSRCMSDD);
 	msjobinfos[VecMsdcVJob::JOBMSDCSRCTRIGGER] = new Msjobinfo(VecMsdcVJob::JOBMSDCSRCTRIGGER);
+
+	// DDS publisher call
+	ddspubcall = NULL;
 
 	// OPC UA server call
 	uasrvcall = NULL;
@@ -1693,7 +1784,7 @@ void XchgMsdccmbd::startMon() {
 	Clstn* clstn = NULL;
 	Preset* preset = NULL;
 
-	mon.start("MultispectralDetectorControl 0.1.51", stgmsdcpath.monpath);
+	mon.start("MultispectralDetectorControl 0.1.52", stgmsdcpath.monpath);
 
 	rwmJobs.rlock("XchgMsdccmbd", "startMon");
 	for (auto it=jobs.begin();it!=jobs.end();it++) {
@@ -2308,6 +2399,32 @@ Clstn* XchgMsdccmbd::addClstnStmgr(
 	return(clstn);
 };
 
+Clstn* XchgMsdccmbd::addClstnDdspub(
+			const ubigint jrefTrig
+			, const string& srefMask
+		) {
+	clstnref_t cref(VecMsdcVCall::CALLMSDCSHRDATCHG, 1, Clstn::VecVTarget::DDSPUB, Clstn::VecVJobmask::SPEC, jrefTrig);
+	clstnref2_t cref2(cref);
+	Clstn* clstn;
+
+	// create new clstn and append to clstn list
+	clstn = getClstnByCref(cref);
+
+	if (!clstn) {
+		rwmClstns.wlock("XchgMsdccmbd", "addClstnDdspub");
+
+		clstn = new Clstn(cref, Arg(0, 0, {}, srefMask, 0, 0.0, false, "", Arg::SREF), Clstn::VecVJactype::LOCK);
+		clstns.insert(pair<clstnref_t,Clstn*>(cref, clstn));
+		cref2sClstns.insert(pair<clstnref2_t,clstnref_t>(cref2, cref));
+
+		rwmClstns.wunlock("XchgMsdccmbd", "addClstnDdspub");
+
+		mon.eventAddClstn(0, "CallMsdcShrdatChg", "ddspub", Clstn::VecVJobmask::getSref(Clstn::VecVJobmask::SPEC), jrefTrig, "sref='" + srefMask + "'", Clstn::VecVJactype::getSref(Clstn::VecVJactype::LOCK));
+	};
+
+	return(clstn);
+};
+
 Clstn* XchgMsdccmbd::addClstnUasrv(
 			const ubigint jrefTrig
 			, const string& srefMask
@@ -2610,6 +2727,22 @@ void XchgMsdccmbd::triggerCall(
 
 				stmgr->unlockAccess("XchgMsdccmbd", "triggerCall");
 			};
+
+		} else if (ixVTarget == Clstn::VecVTarget::DDSPUB) {
+			mDdspubcall.lock("XchgMsdccmbd", "triggerCall");
+
+			cDdspub.lockMutex("XchgMsdccmbd", "triggerCall[1]");
+			ddspubcall = call;
+			cDdspub.unlockMutex("XchgMsdccmbd", "triggerCall[1]");
+
+			mon.eventHandleCall(eref, jref);
+			cDdspub.signal("XchgMsdccmbd", "triggerCall");
+
+			cDdspub.lockMutex("XchgMsdccmbd", "triggerCall[2]");
+			if (ddspubcall) cDdspub.wait("XchgMsdccmbd", "triggerCall");
+			cDdspub.unlockMutex("XchgMsdccmbd", "triggerCall[2]");
+
+			mDdspubcall.unlock("XchgMsdccmbd", "triggerCall");
 
 		} else if (ixVTarget == Clstn::VecVTarget::UASRV) {
 			mUasrvcall.lock("XchgMsdccmbd", "triggerCall");
@@ -3756,6 +3889,7 @@ void XchgMsdccmbd::runExtcall(
 
 	extcall->xchg->addReq(req);
 };
+
 
 
 

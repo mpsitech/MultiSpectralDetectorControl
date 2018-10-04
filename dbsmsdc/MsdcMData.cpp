@@ -2,8 +2,8 @@
   * \file MsdcMData.cpp
   * database access for table TblMsdcMData (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #include "MsdcMData.h"
@@ -471,6 +471,8 @@ bool LiteTblMsdcMData::loadRecByRef(
 			ubigint ref
 			, MsdcMData** rec
 		) {
+	if (ref == 0) return false;
+
 	sqlite3_bind_int64(stmtLoadRecByRef, 1, ref);
 
 	return loadRecByStmt(stmtLoadRecByRef, rec);

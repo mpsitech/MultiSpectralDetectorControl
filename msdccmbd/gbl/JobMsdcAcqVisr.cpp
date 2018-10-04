@@ -2,8 +2,8 @@
   * \file JobMsdcAcqVisr.cpp
   * job handler for job JobMsdcAcqVisr (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 12 Sep 2018
-  * \date modified: 12 Sep 2018
+  * \date created: 4 Oct 2018
+  * \date modified: 4 Oct 2018
   */
 
 #ifdef MSDCCMBD
@@ -146,7 +146,6 @@ void JobMsdcAcqVisr::changeCamtype(
 					delete[] shrdat.red0; shrdat.red0 = NULL;
 					delete[] shrdat.green0; shrdat.green0 = NULL;
 					delete[] shrdat.blue0; shrdat.blue0 = NULL;
-					shrdat.rgb.term();
 				};
 			};
 		};
@@ -1426,6 +1425,7 @@ bool JobMsdcAcqVisr::handleCallMsdcMastsrdChg(
 	// IP handleCallMsdcMastsrdChg --- IEND
 	return retval;
 };
+
 
 
 

@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc web-based UI, release webappmsdc_jack
 # author Alexander Wirthmueller
-# date created: 12 Sep 2018
-# modified: 12 Sep 2018
+# date created: 4 Oct 2018
+# modified: 4 Oct 2018
 
 export set WEBROOT=/home/mpsitech/web
 
