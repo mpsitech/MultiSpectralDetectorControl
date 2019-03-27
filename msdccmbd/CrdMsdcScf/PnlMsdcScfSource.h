@@ -2,8 +2,8 @@
   * \file PnlMsdcScfSource.h
   * job handler for job PnlMsdcScfSource (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCSCFSOURCE_H

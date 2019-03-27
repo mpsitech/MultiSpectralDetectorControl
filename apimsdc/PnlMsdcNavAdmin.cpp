@@ -2,8 +2,8 @@
   * \file PnlMsdcNavAdmin.cpp
   * API code for job PnlMsdcNavAdmin (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -127,7 +127,7 @@ set<uint> PnlMsdcNavAdmin::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, NUMFLSTUSR, NUMFLSTPRS};
+	diffitems = {NUMFLSTUSG, NUMFLSTUSR, NUMFLSTPRS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

@@ -9,8 +9,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the RTI Connext manual.
 */
 
-#ifndef DdsMsdcPlugin_1182983940_h
-#define DdsMsdcPlugin_1182983940_h
+#ifndef DdsMsdcPlugin_1182984104_h
+#define DdsMsdcPlugin_1182984104_h
 
 #include "DdsMsdc.hpp"
 
@@ -1342,6 +1342,637 @@ NDDSUSERDllExport extern RTIBool
 ubigintPlugin_serialized_sample_to_key(
     PRESTypePluginEndpointData endpoint_data,
     ubigint *sample,
+    struct RTICdrStream *stream, 
+    RTIBool deserialize_encapsulation,  
+    RTIBool deserialize_key, 
+    void *endpoint_plugin_qos);
+
+#define DdsFloatmatPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample 
+#define DdsFloatmatPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
+#define DdsFloatmatPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer 
+
+#define DdsFloatmatPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
+#define DdsFloatmatPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
+
+/* --------------------------------------------------------------------------------------
+Support functions:
+* -------------------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern DdsFloatmat*
+DdsFloatmatPluginSupport_create_data_w_params(
+    const struct DDS_TypeAllocationParams_t * alloc_params);
+
+NDDSUSERDllExport extern DdsFloatmat*
+DdsFloatmatPluginSupport_create_data_ex(RTIBool allocate_pointers);
+
+NDDSUSERDllExport extern DdsFloatmat*
+DdsFloatmatPluginSupport_create_data(void);
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPluginSupport_copy_data(
+    DdsFloatmat *out,
+    const DdsFloatmat *in);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPluginSupport_destroy_data_w_params(
+    DdsFloatmat *sample,
+    const struct DDS_TypeDeallocationParams_t * dealloc_params);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPluginSupport_destroy_data_ex(
+    DdsFloatmat *sample,RTIBool deallocate_pointers);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPluginSupport_destroy_data(
+    DdsFloatmat *sample);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPluginSupport_print_data(
+    const DdsFloatmat *sample,
+    const char *desc,
+    unsigned int indent);
+
+/* ----------------------------------------------------------------------------
+Callback functions:
+* ---------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern PRESTypePluginParticipantData 
+DdsFloatmatPlugin_on_participant_attached(
+    void *registration_data, 
+    const struct PRESTypePluginParticipantInfo *participant_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context,
+    RTICdrTypeCode *typeCode);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPlugin_on_participant_detached(
+    PRESTypePluginParticipantData participant_data);
+
+NDDSUSERDllExport extern PRESTypePluginEndpointData 
+DdsFloatmatPlugin_on_endpoint_attached(
+    PRESTypePluginParticipantData participant_data,
+    const struct PRESTypePluginEndpointInfo *endpoint_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context);
+
+NDDSUSERDllExport extern void 
+DdsFloatmatPlugin_on_endpoint_detached(
+    PRESTypePluginEndpointData endpoint_data);
+
+NDDSUSERDllExport extern void    
+DdsFloatmatPlugin_return_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat *sample,
+    void *handle);    
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_copy_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat *out,
+    const DdsFloatmat *in);
+
+/* ----------------------------------------------------------------------------
+(De)Serialize functions:
+* ------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_serialize(
+    PRESTypePluginEndpointData endpoint_data,
+    const DdsFloatmat *sample,
+    struct RTICdrStream *stream, 
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_deserialize_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat *sample, 
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsFloatmatPlugin_serialize_to_cdr_buffer(
+    char * buffer,
+    unsigned int * length,
+    const DdsFloatmat *sample); 
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_deserialize(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat **sample, 
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsFloatmatPlugin_deserialize_from_cdr_buffer(
+    DdsFloatmat *sample,
+    const char * buffer,
+    unsigned int length);    
+
+NDDSUSERDllExport extern RTIBool
+DdsFloatmatPlugin_skip(
+    PRESTypePluginEndpointData endpoint_data,
+    struct RTICdrStream *stream, 
+    RTIBool skip_encapsulation,  
+    RTIBool skip_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern unsigned int 
+DdsFloatmatPlugin_get_serialized_sample_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);    
+
+NDDSUSERDllExport extern unsigned int 
+DdsFloatmatPlugin_get_serialized_sample_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+DdsFloatmatPlugin_get_serialized_sample_min_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int
+DdsFloatmatPlugin_get_serialized_sample_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment,
+    const DdsFloatmat * sample);
+
+/* --------------------------------------------------------------------------------------
+Key Management functions:
+* -------------------------------------------------------------------------------------- */
+NDDSUSERDllExport extern PRESTypePluginKeyKind 
+DdsFloatmatPlugin_get_key_kind(void);
+
+NDDSUSERDllExport extern unsigned int 
+DdsFloatmatPlugin_get_serialized_key_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+DdsFloatmatPlugin_get_serialized_key_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_serialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    const DdsFloatmat *sample,
+    struct RTICdrStream *stream,
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_deserialize_key_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat * sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsFloatmatPlugin_deserialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat ** sample,
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsFloatmatPlugin_serialized_sample_to_key(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsFloatmat *sample,
+    struct RTICdrStream *stream, 
+    RTIBool deserialize_encapsulation,  
+    RTIBool deserialize_key, 
+    void *endpoint_plugin_qos);
+
+/* Plugin Functions */
+NDDSUSERDllExport extern struct PRESTypePlugin*
+DdsFloatmatPlugin_new(void);
+
+NDDSUSERDllExport extern void
+DdsFloatmatPlugin_delete(struct PRESTypePlugin *);
+
+#define DdsDoublematPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample 
+#define DdsDoublematPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
+#define DdsDoublematPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer 
+
+#define DdsDoublematPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
+#define DdsDoublematPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
+
+/* --------------------------------------------------------------------------------------
+Support functions:
+* -------------------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern DdsDoublemat*
+DdsDoublematPluginSupport_create_data_w_params(
+    const struct DDS_TypeAllocationParams_t * alloc_params);
+
+NDDSUSERDllExport extern DdsDoublemat*
+DdsDoublematPluginSupport_create_data_ex(RTIBool allocate_pointers);
+
+NDDSUSERDllExport extern DdsDoublemat*
+DdsDoublematPluginSupport_create_data(void);
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPluginSupport_copy_data(
+    DdsDoublemat *out,
+    const DdsDoublemat *in);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPluginSupport_destroy_data_w_params(
+    DdsDoublemat *sample,
+    const struct DDS_TypeDeallocationParams_t * dealloc_params);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPluginSupport_destroy_data_ex(
+    DdsDoublemat *sample,RTIBool deallocate_pointers);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPluginSupport_destroy_data(
+    DdsDoublemat *sample);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPluginSupport_print_data(
+    const DdsDoublemat *sample,
+    const char *desc,
+    unsigned int indent);
+
+/* ----------------------------------------------------------------------------
+Callback functions:
+* ---------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern PRESTypePluginParticipantData 
+DdsDoublematPlugin_on_participant_attached(
+    void *registration_data, 
+    const struct PRESTypePluginParticipantInfo *participant_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context,
+    RTICdrTypeCode *typeCode);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPlugin_on_participant_detached(
+    PRESTypePluginParticipantData participant_data);
+
+NDDSUSERDllExport extern PRESTypePluginEndpointData 
+DdsDoublematPlugin_on_endpoint_attached(
+    PRESTypePluginParticipantData participant_data,
+    const struct PRESTypePluginEndpointInfo *endpoint_info,
+    RTIBool top_level_registration, 
+    void *container_plugin_context);
+
+NDDSUSERDllExport extern void 
+DdsDoublematPlugin_on_endpoint_detached(
+    PRESTypePluginEndpointData endpoint_data);
+
+NDDSUSERDllExport extern void    
+DdsDoublematPlugin_return_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat *sample,
+    void *handle);    
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_copy_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat *out,
+    const DdsDoublemat *in);
+
+/* ----------------------------------------------------------------------------
+(De)Serialize functions:
+* ------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_serialize(
+    PRESTypePluginEndpointData endpoint_data,
+    const DdsDoublemat *sample,
+    struct RTICdrStream *stream, 
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_deserialize_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat *sample, 
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsDoublematPlugin_serialize_to_cdr_buffer(
+    char * buffer,
+    unsigned int * length,
+    const DdsDoublemat *sample); 
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_deserialize(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat **sample, 
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsDoublematPlugin_deserialize_from_cdr_buffer(
+    DdsDoublemat *sample,
+    const char * buffer,
+    unsigned int length);    
+
+NDDSUSERDllExport extern RTIBool
+DdsDoublematPlugin_skip(
+    PRESTypePluginEndpointData endpoint_data,
+    struct RTICdrStream *stream, 
+    RTIBool skip_encapsulation,  
+    RTIBool skip_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern unsigned int 
+DdsDoublematPlugin_get_serialized_sample_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);    
+
+NDDSUSERDllExport extern unsigned int 
+DdsDoublematPlugin_get_serialized_sample_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+DdsDoublematPlugin_get_serialized_sample_min_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int
+DdsDoublematPlugin_get_serialized_sample_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment,
+    const DdsDoublemat * sample);
+
+/* --------------------------------------------------------------------------------------
+Key Management functions:
+* -------------------------------------------------------------------------------------- */
+NDDSUSERDllExport extern PRESTypePluginKeyKind 
+DdsDoublematPlugin_get_key_kind(void);
+
+NDDSUSERDllExport extern unsigned int 
+DdsDoublematPlugin_get_serialized_key_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+DdsDoublematPlugin_get_serialized_key_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_serialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    const DdsDoublemat *sample,
+    struct RTICdrStream *stream,
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_deserialize_key_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat * sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+DdsDoublematPlugin_deserialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat ** sample,
+    RTIBool * drop_sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+DdsDoublematPlugin_serialized_sample_to_key(
+    PRESTypePluginEndpointData endpoint_data,
+    DdsDoublemat *sample,
+    struct RTICdrStream *stream, 
+    RTIBool deserialize_encapsulation,  
+    RTIBool deserialize_key, 
+    void *endpoint_plugin_qos);
+
+/* Plugin Functions */
+NDDSUSERDllExport extern struct PRESTypePlugin*
+DdsDoublematPlugin_new(void);
+
+NDDSUSERDllExport extern void
+DdsDoublematPlugin_delete(struct PRESTypePlugin *);
+
+#define stringvecPlugin_get_sample PRESTypePluginDefaultEndpointData_getSample 
+#define stringvecPlugin_get_buffer PRESTypePluginDefaultEndpointData_getBuffer 
+#define stringvecPlugin_return_buffer PRESTypePluginDefaultEndpointData_returnBuffer 
+
+#define stringvecPlugin_create_sample PRESTypePluginDefaultEndpointData_createSample 
+#define stringvecPlugin_destroy_sample PRESTypePluginDefaultEndpointData_deleteSample 
+
+/* --------------------------------------------------------------------------------------
+Support functions:
+* -------------------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern stringvec*
+stringvecPluginSupport_create_data_w_params(
+    const struct DDS_TypeAllocationParams_t * alloc_params);
+
+NDDSUSERDllExport extern stringvec*
+stringvecPluginSupport_create_data_ex(RTIBool allocate_pointers);
+
+NDDSUSERDllExport extern stringvec*
+stringvecPluginSupport_create_data(void);
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPluginSupport_copy_data(
+    stringvec *out,
+    const stringvec *in);
+
+NDDSUSERDllExport extern void 
+stringvecPluginSupport_destroy_data_w_params(
+    stringvec *sample,
+    const struct DDS_TypeDeallocationParams_t * dealloc_params);
+
+NDDSUSERDllExport extern void 
+stringvecPluginSupport_destroy_data_ex(
+    stringvec *sample,RTIBool deallocate_pointers);
+
+NDDSUSERDllExport extern void 
+stringvecPluginSupport_destroy_data(
+    stringvec *sample);
+
+NDDSUSERDllExport extern void 
+stringvecPluginSupport_print_data(
+    const stringvec *sample,
+    const char *desc,
+    unsigned int indent);
+
+/* ----------------------------------------------------------------------------
+Callback functions:
+* ---------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPlugin_copy_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    stringvec *out,
+    const stringvec *in);
+
+/* ----------------------------------------------------------------------------
+(De)Serialize functions:
+* ------------------------------------------------------------------------- */
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPlugin_serialize(
+    PRESTypePluginEndpointData endpoint_data,
+    const stringvec *sample,
+    struct RTICdrStream *stream, 
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPlugin_deserialize_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    stringvec *sample, 
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+stringvecPlugin_skip(
+    PRESTypePluginEndpointData endpoint_data,
+    struct RTICdrStream *stream, 
+    RTIBool skip_encapsulation,  
+    RTIBool skip_sample, 
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern unsigned int 
+stringvecPlugin_get_serialized_sample_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);    
+
+NDDSUSERDllExport extern unsigned int 
+stringvecPlugin_get_serialized_sample_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+stringvecPlugin_get_serialized_sample_min_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int
+stringvecPlugin_get_serialized_sample_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment,
+    const stringvec * sample);
+
+/* --------------------------------------------------------------------------------------
+Key Management functions:
+* -------------------------------------------------------------------------------------- */
+NDDSUSERDllExport extern PRESTypePluginKeyKind 
+stringvecPlugin_get_key_kind(void);
+
+NDDSUSERDllExport extern unsigned int 
+stringvecPlugin_get_serialized_key_max_size_ex(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool * overflow,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern unsigned int 
+stringvecPlugin_get_serialized_key_max_size(
+    PRESTypePluginEndpointData endpoint_data,
+    RTIBool include_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    unsigned int current_alignment);
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPlugin_serialize_key(
+    PRESTypePluginEndpointData endpoint_data,
+    const stringvec *sample,
+    struct RTICdrStream *stream,
+    RTIBool serialize_encapsulation,
+    RTIEncapsulationId encapsulation_id,
+    RTIBool serialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool 
+stringvecPlugin_deserialize_key_sample(
+    PRESTypePluginEndpointData endpoint_data,
+    stringvec * sample,
+    struct RTICdrStream *stream,
+    RTIBool deserialize_encapsulation,
+    RTIBool deserialize_key,
+    void *endpoint_plugin_qos);
+
+NDDSUSERDllExport extern RTIBool
+stringvecPlugin_serialized_sample_to_key(
+    PRESTypePluginEndpointData endpoint_data,
+    stringvec *sample,
     struct RTICdrStream *stream, 
     RTIBool deserialize_encapsulation,  
     RTIBool deserialize_key, 
@@ -12259,5 +12890,5 @@ namespace DdsJobMsdcActServo {
 #define NDDSUSERDllExport
 #endif
 
-#endif /* DdsMsdcPlugin_1182983940_h */
+#endif /* DdsMsdcPlugin_1182984104_h */
 

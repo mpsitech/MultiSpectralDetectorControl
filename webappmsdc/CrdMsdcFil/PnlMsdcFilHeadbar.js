@@ -2,8 +2,8 @@
   * \file PnlMsdcFilHeadbar.js
   * web client functionality for panel PnlMsdcFilHeadbar
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 // --- view initialization

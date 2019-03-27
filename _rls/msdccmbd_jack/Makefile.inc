@@ -1,8 +1,8 @@
 # file Makefile.inc
 # make file paths for Msdc combined daemon, release msdccmbd_jack
 # author Alexander Wirthmueller
-# date created: 4 Oct 2018
-# modified: 4 Oct 2018
+# date created: 18 Dec 2018
+# modified: 18 Dec 2018
 
 SRCROOT = /home/mpsitech/src
 LIBROOT = /home/mpsitech/lib

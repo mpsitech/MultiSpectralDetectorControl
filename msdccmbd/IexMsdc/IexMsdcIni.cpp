@@ -2,8 +2,8 @@
   * \file IexMsdcIni.cpp
   * import/export handler for database DbsMsdc (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -254,6 +254,7 @@ void IexMsdcIni::import(
 			dbsmsdc->tblmsdcrmusermusergroup->insertRec(&uru);
 
 			usr->refRUsergroup = uru.ref;
+			usr->refMsdcMUsergroup = usg->ref;
 			dbsmsdc->tblmsdcmuser->updateRec(usr);
 		};
 	};
@@ -581,7 +582,6 @@ void IexMsdcIni::handleCall(
 			, Call* call
 		) {
 };
-
 
 
 

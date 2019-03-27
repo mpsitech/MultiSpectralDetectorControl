@@ -2,8 +2,8 @@
 # file start.sh
 # start script for Msdc combined daemon, release msdccmbd_zedboard
 # author Alexander Wirthmueller
-# date created: 4 Oct 2018
-# modified: 4 Oct 2018
+# date created: 18 Dec 2018
+# modified: 18 Dec 2018
 
 nohup ./Msdccmbd -nocp &
 disown

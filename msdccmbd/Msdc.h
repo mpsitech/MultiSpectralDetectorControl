@@ -2,17 +2,17 @@
   * \file Msdc.h
   * Msdc global functionality (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef MSDC_H
 #define MSDC_H
 
-#define MSDC_VERSION "0.1.52"
+#define MSDC_VERSION "0.1.58"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 52
+#define MSDC_VERSION_SUB 58
 
 // IP incl --- IBEGIN
 #define FPGA_ZEDB
@@ -40,10 +40,7 @@ using namespace std;
 #include "VecMsdcVExpstate.h"
 #include "VecMsdcVIop.h"
 #include "VecMsdcVJob.h"
-#include "VecMsdcVLat.h"
-#include "VecMsdcVLop.h"
 #include "VecMsdcVMimetype.h"
-#include "VecMsdcVOolop.h"
 #include "VecMsdcVOpengtype.h"
 #include "VecMsdcVOppack.h"
 #include "VecMsdcVQrystate.h"
@@ -369,7 +366,6 @@ public:
 };
 
 #endif
-
 
 
 

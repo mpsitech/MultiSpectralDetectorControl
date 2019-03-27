@@ -2,8 +2,8 @@
   * \file CrdMsdcUsg.js
   * web client functionality for card CrdMsdcUsg
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 function getInitdone(pnlshort) {
@@ -337,7 +337,7 @@ function changeHeight(pnlshort, height) {
 // --- view initialization and refresh
 function refresh() {
 
-	doc.title = retrieveCi(srcdoc, "ContInfMsdcUsg", "MtxCrdUsg") + " - MultispectralDetectorControl 0.1.52";
+	doc.title = retrieveCi(srcdoc, "ContInfMsdcUsg", "MtxCrdUsg") + " - MultispectralDetectorControl 0.1.58";
 };
 
 // --- event handlers

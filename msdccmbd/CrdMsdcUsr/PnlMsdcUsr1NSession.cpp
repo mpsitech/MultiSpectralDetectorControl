@@ -2,8 +2,8 @@
   * \file PnlMsdcUsr1NSession.cpp
   * job handler for job PnlMsdcUsr1NSession (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD

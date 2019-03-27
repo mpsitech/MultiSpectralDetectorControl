@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrList.cpp
   * API code for job PnlMsdcUsrList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -115,7 +115,7 @@ set<uint> PnlMsdcUsrList::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFTOS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -180,7 +180,7 @@ set<uint> PnlMsdcUsrList::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, NUMFCSIQST};
+	diffitems = {BUTFILTERON, NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -352,7 +352,7 @@ set<uint> PnlMsdcUsrList::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCOSRFWIDTH, TCOUSGWIDTH, TCOSTEWIDTH, TCOLCLWIDTH, TCOULVWIDTH};
+	diffitems = {TCOPRSWIDTH, TCOSRFWIDTH, TCOUSGWIDTH, TCOSTEWIDTH, TCOLCLWIDTH, TCOULVWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

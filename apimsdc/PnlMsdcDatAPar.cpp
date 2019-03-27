@@ -2,8 +2,8 @@
   * \file PnlMsdcDatAPar.cpp
   * API code for job PnlMsdcDatAPar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -95,7 +95,7 @@ set<uint> PnlMsdcDatAPar::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -335,7 +335,7 @@ set<uint> PnlMsdcDatAPar::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCOKEYWIDTH, TCOFILWIDTH, TCOVALWIDTH, TCOBINWIDTH};
+	diffitems = {TCOSTAWIDTH, TCOKEYWIDTH, TCOFILWIDTH, TCOVALWIDTH, TCOBINWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

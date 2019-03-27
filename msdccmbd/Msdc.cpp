@@ -2,8 +2,8 @@
   * \file Msdc.cpp
   * Msdc global functionality (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "Msdc.h"
@@ -683,7 +683,10 @@ Snippet::Snippet(
 	wh = this->w * this->h;
 
 	if (wh == 0) data = NULL;
-	else data = new unsigned char[wh];
+	else {
+		if (ixMsdcVChannel == VecMsdcVChannel::GRAY16) data = new unsigned char[2*wh];
+		else data = new unsigned char[wh];
+	};
 
 	this->x0 = x0;
 	this->y0 = y0;
@@ -1695,7 +1698,6 @@ void DpchRetMsdc::writeXML(
 		writeUtinyint(wr, "pdone", pdone);
 	xmlTextWriterEndElement(wr);
 };
-
 
 
 

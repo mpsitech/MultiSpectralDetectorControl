@@ -2,8 +2,8 @@
   * \file CrdMsdcLiv.h
   * API code for job CrdMsdcLiv (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef CRDMSDCLIV_H
@@ -126,11 +126,11 @@ namespace CrdMsdcLiv {
 		StatShr(const string& scrJrefVideo = "", const string& scrJrefAlign = "", const string& scrJrefScill = "", const string& scrJrefTrack = "", const string& scrJrefHeadbar = "");
 
 	public:
-		ubigint jrefVideo;
-		ubigint jrefAlign;
-		ubigint jrefScill;
-		ubigint jrefTrack;
-		ubigint jrefHeadbar;
+		string scrJrefVideo;
+		string scrJrefAlign;
+		string scrJrefScill;
+		string scrJrefTrack;
+		string scrJrefHeadbar;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);

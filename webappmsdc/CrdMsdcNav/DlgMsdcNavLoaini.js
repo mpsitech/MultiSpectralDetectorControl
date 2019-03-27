@@ -2,8 +2,8 @@
   * \file DlgMsdcNavLoaini.js
   * web client functionality for dialog DlgMsdcNavLoaini
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 // IP cust --- INSERT

@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.cpp
   * job handler for job PnlMsdcLivVideo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -15,6 +15,7 @@
 #include "PnlMsdcLivVideo.h"
 
 #include "PnlMsdcLivVideo_blks.cpp"
+#include "PnlMsdcLivVideo_evals.cpp"
 
 /******************************************************************************
  class PnlMsdcLivVideo
@@ -31,6 +32,7 @@ PnlMsdcLivVideo::PnlMsdcLivVideo(
 
 	jref = xchg->addJob(this);
 
+	feedFLstFst.tag = "FeedFLstFst";
 	feedFPupRes.tag = "FeedFPupRes";
 	feedFPupSrc.tag = "FeedFPupSrc";
 	VecVSource::fillFeed(ixMsdcVLocale, feedFPupSrc);
@@ -41,6 +43,9 @@ PnlMsdcLivVideo::PnlMsdcLivVideo(
 	prcstereo = NULL;
 
 	// IP constructor.cust1 --- IBEGIN
+///
+	VecMsdcVCamres::fillFeed(ixMsdcVLocale, feedFPupRes);
+
 	ixVSource = 0;
 
 	red = NULL;
@@ -52,10 +57,10 @@ PnlMsdcLivVideo::PnlMsdcLivVideo(
 	fps = 0.0;
 	// IP constructor.cust1 --- IEND
 
-	acqlwir = new JobMsdcAcqLwir(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	prcstereo = new JobMsdcPrcStereo(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	acqlwir = new JobMsdcAcqLwir(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	prcstereo = new JobMsdcPrcStereo(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- IBEGIN
 	changeSource(dbsmsdc, VecVSource::VOID);
@@ -107,7 +112,6 @@ void PnlMsdcLivVideo::changeSource(
 			blue = new Snippet(VecMsdcVCamres::_640, VecMsdcVChannel::BLUE8);
 
 			acqvisl->snippets = {red,green,blue};
-			acqvisl->start(dbsmsdc);
 
 		} else if (_ixVSource == VecVSource::VISR) {
 			if (red) delete red;
@@ -118,14 +122,12 @@ void PnlMsdcLivVideo::changeSource(
 			blue = new Snippet(VecMsdcVCamres::_640, VecMsdcVChannel::BLUE8);
 
 			acqvisr->snippets = {red,green,blue};
-			acqvisr->start(dbsmsdc);
 
 		} else if (_ixVSource == VecVSource::LWIR) {
 			if (gray) delete gray;
 			gray = new Snippet(VecMsdcVCamres::_160, VecMsdcVChannel::GRAY16);
 
 			acqlwir->snippets = {gray};
-			acqlwir->start(dbsmsdc);
 		};
 
 		ixVSource = _ixVSource;
@@ -183,7 +185,7 @@ DpchEngMsdc* PnlMsdcLivVideo::getNewDpchEng(
 		dpcheng = new DpchEngMsdcConfirm(true, jref, "");
 	} else {
 		insert(items, DpchEngData::JREF);
-		dpcheng = new DpchEngData(jref, &contiac, &continf, &feedFPupRes, &feedFPupSrc, &statshr, items);
+		dpcheng = new DpchEngData(jref, &contiac, &continf, &feedFLstFst, &feedFPupRes, &feedFPupSrc, &statshr, items);
 	};
 
 	return dpcheng;
@@ -195,16 +197,43 @@ void PnlMsdcLivVideo::refresh(
 		) {
 	StatShr oldStatshr(statshr);
 
-	// IP refresh --- BEGIN
+	// IP refresh --- RBEGIN
+
+	// contiac
+	ContIac oldContiac(contiac);
+
+	if (ixVSource == VecVSource::VISL) contiac.numFPupRes = feedFPupRes.getNumByIx(VecMsdcVCamres::_640);
+	else if (ixVSource == VecVSource::VISR) contiac.numFPupRes = feedFPupRes.getNumByIx(VecMsdcVCamres::_640);
+	else if (ixVSource == VecVSource::LWIR) contiac.numFPupRes = feedFPupRes.getNumByIx(VecMsdcVCamres::_160);
+	else contiac.numFPupRes = feedFPupRes.getNumByIx(VecMsdcVCamres::OFF);
+
+	contiac.SldExt = 0.7;
+	contiac.SldFcs = 0.5;
+
+	if (contiac.diff(&oldContiac).size() != 0) insert(moditems, DpchEngData::CONTIAC);
+
+	// continf
+	ContInf oldContinf(continf);
+
+	if (ixVSource == VecVSource::VISL) continf.ButMasterOn = xchg->getMsjobMastNotSlv(acqvisl);
+	else if (ixVSource == VecVSource::VISR) continf.ButMasterOn = xchg->getMsjobMastNotSlv(acqvisr);
+	else if (ixVSource == VecVSource::LWIR) continf.ButMasterOn = xchg->getMsjobMastNotSlv(acqlwir);
+	else continf.ButMasterOn = true;
+
+	if (continf.diff(&oldContinf).size() != 0) insert(moditems, DpchEngData::CONTINF);
+
 	// statshr
-	//statshr.PupResAvail = CUSTOM;
-	//statshr.ButPlayActive = CUSTOM;
-	//statshr.ButStopActive = CUSTOM;
-	//statshr.SldExtAvail = CUSTOM;
-	//statshr.SldExtActive = CUSTOM;
-	//statshr.SldFcsAvail = CUSTOM;
-	//statshr.SldFcsActive = CUSTOM;
-	// IP refresh --- END
+	statshr.PupResAvail = ((ixVSource == VecVSource::VISL) || (ixVSource == VecVSource::VISR));
+
+	statshr.ButStopActive = started();
+	statshr.ButPlayActive = ((ixVSource == VecVSource::VISL) || (ixVSource == VecVSource::VISR) || (ixVSource == VecVSource::LWIR)) && !statshr.ButStopActive;
+
+	statshr.SldExtAvail = ((ixVSource == VecVSource::VISL) || (ixVSource == VecVSource::VISR));
+	statshr.SldExtActive = continf.ButMasterOn;
+
+	statshr.SldFcsAvail = (((ixVSource == VecVSource::VISL) && (acqvisl->stg.ixMsdcVCamtype == VecMsdcVCamtype::MSLIFE)) || ((ixVSource == VecVSource::VISR) && (acqvisr->stg.ixMsdcVCamtype == VecMsdcVCamtype::MSLIFE)));
+	statshr.SldFcsActive = continf.ButMasterOn;
+	// IP refresh --- REND
 
 	if (statshr.diff(&oldStatshr).size() != 0) insert(moditems, DpchEngData::STATSHR);
 };
@@ -239,7 +268,11 @@ void PnlMsdcLivVideo::handleRequest(
 			DpchAppDo* dpchappdo = (DpchAppDo*) (req->dpchapp);
 
 			if (dpchappdo->ixVDo != 0) {
-				if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
+				if (dpchappdo->ixVDo == VecVDo::BUTREGULARIZECLICK) {
+					handleDpchAppDoButRegularizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMINIMIZECLICK) {
+					handleDpchAppDoButMinimizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
 					handleDpchAppDoButMasterClick(dbsmsdc, &(req->dpcheng));
 				} else if (dpchappdo->ixVDo == VecVDo::BUTPLAYCLICK) {
 					handleDpchAppDoButPlayClick(dbsmsdc, &(req->dpcheng));
@@ -290,6 +323,26 @@ void PnlMsdcLivVideo::handleDpchAppDataContiac(
 	*dpcheng = getNewDpchEng(moditems);
 };
 
+void PnlMsdcLivVideo::handleDpchAppDoButRegularizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButRegularizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::REGD;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButRegularizeClick --- END
+};
+
+void PnlMsdcLivVideo::handleDpchAppDoButMinimizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButMinimizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::MIND;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButMinimizeClick --- END
+};
+
 void PnlMsdcLivVideo::handleDpchAppDoButMasterClick(
 			DbsMsdc* dbsmsdc
 			, DpchEngMsdc** dpcheng
@@ -311,14 +364,34 @@ void PnlMsdcLivVideo::handleDpchAppDoButPlayClick(
 			DbsMsdc* dbsmsdc
 			, DpchEngMsdc** dpcheng
 		) {
-	// IP handleDpchAppDoButPlayClick --- INSERT
+	// IP handleDpchAppDoButPlayClick --- IBEGIN
+	muteRefresh = true;
+
+	if (ixVSource == VecVSource::VISL) acqvisl->start(dbsmsdc);
+	else if (ixVSource == VecVSource::VISR) acqvisr->start(dbsmsdc);
+	else if (ixVSource == VecVSource::LWIR) acqlwir->start(dbsmsdc);
+
+	refreshWithDpchEng(dbsmsdc, dpcheng);
+
+	muteRefresh = false;
+	// IP handleDpchAppDoButPlayClick --- IEND
 };
 
 void PnlMsdcLivVideo::handleDpchAppDoButStopClick(
 			DbsMsdc* dbsmsdc
 			, DpchEngMsdc** dpcheng
 		) {
-	// IP handleDpchAppDoButStopClick --- INSERT
+	// IP handleDpchAppDoButStopClick --- IBEGIN
+	muteRefresh = true;
+
+	if (ixVSource == VecVSource::VISL) acqvisl->stop(dbsmsdc);
+	else if (ixVSource == VecVSource::VISR) acqvisr->stop(dbsmsdc);
+	else if (ixVSource == VecVSource::LWIR) acqlwir->stop(dbsmsdc);
+
+	refreshWithDpchEng(dbsmsdc, dpcheng);
+
+	muteRefresh = false;
+	// IP handleDpchAppDoButStopClick --- IEND
 };
 
 void PnlMsdcLivVideo::handleCall(
@@ -433,7 +506,6 @@ bool PnlMsdcLivVideo::handleCallMsdcSgeChg(
 	// IP handleCallMsdcSgeChg --- IEND
 	return retval;
 };
-
 
 
 

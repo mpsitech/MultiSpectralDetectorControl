@@ -2,8 +2,8 @@
   * \file CrdMsdcScf.h
   * API code for job CrdMsdcScf (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef CRDMSDCSCF_H
@@ -126,11 +126,11 @@ namespace CrdMsdcScf {
 		StatShr(const string& scrJrefSource = "", const string& scrJrefAcquis = "", const string& scrJrefActu = "", const string& scrJrefPrcctl = "", const string& scrJrefHeadbar = "");
 
 	public:
-		ubigint jrefSource;
-		ubigint jrefAcquis;
-		ubigint jrefActu;
-		ubigint jrefPrcctl;
-		ubigint jrefHeadbar;
+		string scrJrefSource;
+		string scrJrefAcquis;
+		string scrJrefActu;
+		string scrJrefPrcctl;
+		string scrJrefHeadbar;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);

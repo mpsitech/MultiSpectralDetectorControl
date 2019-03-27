@@ -2,8 +2,8 @@
   * \file PnlMsdcLivTrack.cpp
   * job handler for job PnlMsdcLivTrack (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -15,6 +15,7 @@
 #include "PnlMsdcLivTrack.h"
 
 #include "PnlMsdcLivTrack_blks.cpp"
+#include "PnlMsdcLivTrack_evals.cpp"
 
 /******************************************************************************
  class PnlMsdcLivTrack
@@ -31,11 +32,13 @@ PnlMsdcLivTrack::PnlMsdcLivTrack(
 
 	jref = xchg->addJob(this);
 
+	feedFPupAmf.tag = "FeedFPupAmf";
+
 	prctrack = NULL;
 
 	// IP constructor.cust1 --- INSERT
 
-	prctrack = new JobMsdcPrcTrack(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	prctrack = new JobMsdcPrcTrack(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -68,7 +71,7 @@ DpchEngMsdc* PnlMsdcLivTrack::getNewDpchEng(
 		dpcheng = new DpchEngMsdcConfirm(true, jref, "");
 	} else {
 		insert(items, DpchEngData::JREF);
-		dpcheng = new DpchEngData(jref, &continf, items);
+		dpcheng = new DpchEngData(jref, &contiac, &continf, &feedFPupAmf, &statshr, items);
 	};
 
 	return dpcheng;
@@ -78,14 +81,17 @@ void PnlMsdcLivTrack::refresh(
 			DbsMsdc* dbsmsdc
 			, set<uint>& moditems
 		) {
-	// IP refresh --- IBEGIN
-	// continf
-	ContInf oldContinf(continf);
+	StatShr oldStatshr(statshr);
 
-	continf.ButMasterOn = xchg->getMsjobMastNotSlv(prctrack);
+	// IP refresh --- BEGIN
+	// statshr
+	statshr.PupAmfActive = evalPupAmfActive(dbsmsdc);
+	statshr.UpdAprActive = evalUpdAprActive(dbsmsdc);
+	statshr.ChkVidActive = evalChkVidActive(dbsmsdc);
+	statshr.ChkWidActive = evalChkWidActive(dbsmsdc);
+	// IP refresh --- END
 
-	if (continf.diff(&oldContinf).size() != 0) insert(moditems, DpchEngData::CONTINF);
-	// IP refresh --- IEND
+	if (statshr.diff(&oldStatshr).size() != 0) insert(moditems, DpchEngData::STATSHR);
 };
 
 void PnlMsdcLivTrack::handleRequest(
@@ -107,11 +113,22 @@ void PnlMsdcLivTrack::handleRequest(
 		if (req->dpchapp->ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCINIT) {
 			handleDpchAppMsdcInit(dbsmsdc, (DpchAppMsdcInit*) (req->dpchapp), &(req->dpcheng));
 
+		} else if (req->dpchapp->ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDATA) {
+			DpchAppData* dpchappdata = (DpchAppData*) (req->dpchapp);
+
+			if (dpchappdata->has(DpchAppData::CONTIAC)) {
+				handleDpchAppDataContiac(dbsmsdc, &(dpchappdata->contiac), &(req->dpcheng));
+			};
+
 		} else if (req->dpchapp->ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO) {
 			DpchAppDo* dpchappdo = (DpchAppDo*) (req->dpchapp);
 
 			if (dpchappdo->ixVDo != 0) {
-				if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
+				if (dpchappdo->ixVDo == VecVDo::BUTREGULARIZECLICK) {
+					handleDpchAppDoButRegularizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMINIMIZECLICK) {
+					handleDpchAppDoButMinimizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
 					handleDpchAppDoButMasterClick(dbsmsdc, &(req->dpcheng));
 				};
 
@@ -127,6 +144,40 @@ void PnlMsdcLivTrack::handleDpchAppMsdcInit(
 			, DpchEngMsdc** dpcheng
 		) {
 	*dpcheng = getNewDpchEng({DpchEngData::ALL});
+};
+
+void PnlMsdcLivTrack::handleDpchAppDataContiac(
+			DbsMsdc* dbsmsdc
+			, ContIac* _contiac
+			, DpchEngMsdc** dpcheng
+		) {
+	set<uint> diffitems;
+	set<uint> moditems;
+
+	diffitems = _contiac->diff(&contiac);
+	// IP handleDpchAppDataContiac --- INSERT
+	insert(moditems, DpchEngData::CONTIAC);
+	*dpcheng = getNewDpchEng(moditems);
+};
+
+void PnlMsdcLivTrack::handleDpchAppDoButRegularizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButRegularizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::REGD;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButRegularizeClick --- END
+};
+
+void PnlMsdcLivTrack::handleDpchAppDoButMinimizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButMinimizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::MIND;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButMinimizeClick --- END
 };
 
 void PnlMsdcLivTrack::handleDpchAppDoButMasterClick(
@@ -179,7 +230,6 @@ bool PnlMsdcLivTrack::handleCallMsdcSgeChg(
 	// IP handleCallMsdcSgeChg --- IEND
 	return retval;
 };
-
 
 
 

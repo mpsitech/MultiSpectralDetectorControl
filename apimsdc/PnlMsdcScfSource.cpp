@@ -2,8 +2,8 @@
   * \file PnlMsdcScfSource.cpp
   * API code for job PnlMsdcScfSource (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -145,7 +145,7 @@ set<uint> PnlMsdcScfSource::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, SLDFXA, SLDFA0, SLDFB0, UPDFAM, SLDFSA, SLDFT0, SLDFP0, SLDTRP};
+	diffitems = {TXFFPP, SLDFXA, SLDFA0, SLDFB0, UPDFAM, SLDFSA, SLDFT0, SLDFP0, SLDTRP};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -206,7 +206,7 @@ set<uint> PnlMsdcScfSource::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {BUTMASTERON};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

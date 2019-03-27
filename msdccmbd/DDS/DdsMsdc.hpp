@@ -9,8 +9,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the RTI Connext manual.
 */
 
-#ifndef DdsMsdc_1182983940_hpp
-#define DdsMsdc_1182983940_hpp
+#ifndef DdsMsdc_1182984104_hpp
+#define DdsMsdc_1182984104_hpp
 
 #include <iosfwd>
 
@@ -78,6 +78,129 @@ struct bigint_AliasTag_t {};
 
 typedef rti::core::uint64 ubigint;
 struct ubigint_AliasTag_t {};
+
+#if (defined(RTI_WIN32) || defined (RTI_WINCE)) && defined(NDDS_USER_DLL_EXPORT)
+// On Windows, dll-export template instantiations of standard types used by
+// other dll-exported types
+template class NDDSUSERDllExport std::allocator<float>;
+template class NDDSUSERDllExport std::vector<float >;
+#endif
+class NDDSUSERDllExport DdsFloatmat {
+
+  public:
+    DdsFloatmat();
+
+    DdsFloatmat(
+        const rti::core::bounded_sequence<float, 100>& vec,
+        const uint& M,
+        const uint& N);
+
+    #ifdef RTI_CXX11_RVALUE_REFERENCES
+    #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+    DdsFloatmat (DdsFloatmat&&) = default;
+    DdsFloatmat& operator=(DdsFloatmat&&) = default;
+    DdsFloatmat& operator=(const DdsFloatmat&) = default;
+    DdsFloatmat(const DdsFloatmat&) = default;
+    #else
+    DdsFloatmat(DdsFloatmat&& other_) OMG_NOEXCEPT;  
+    DdsFloatmat& operator=(DdsFloatmat&&  other_) OMG_NOEXCEPT;
+    #endif
+    #endif 
+
+    rti::core::bounded_sequence<float, 100>& vec() OMG_NOEXCEPT; 
+    const rti::core::bounded_sequence<float, 100>& vec() const OMG_NOEXCEPT;
+    void vec(const rti::core::bounded_sequence<float, 100>& value);
+
+    uint& M() OMG_NOEXCEPT; 
+    const uint& M() const OMG_NOEXCEPT;
+    void M(const uint& value);
+
+    uint& N() OMG_NOEXCEPT; 
+    const uint& N() const OMG_NOEXCEPT;
+    void N(const uint& value);
+
+    bool operator == (const DdsFloatmat& other_) const;
+    bool operator != (const DdsFloatmat& other_) const;
+
+    void swap(DdsFloatmat& other_) OMG_NOEXCEPT ;
+
+  private:
+
+    rti::core::bounded_sequence<float, 100> m_vec_;
+    uint m_M_;
+    uint m_N_;
+
+};
+
+inline void swap(DdsFloatmat& a, DdsFloatmat& b)  OMG_NOEXCEPT 
+{
+    a.swap(b);
+}
+
+NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const DdsFloatmat& sample);
+
+#if (defined(RTI_WIN32) || defined (RTI_WINCE)) && defined(NDDS_USER_DLL_EXPORT)
+// On Windows, dll-export template instantiations of standard types used by
+// other dll-exported types
+template class NDDSUSERDllExport std::allocator<double>;
+template class NDDSUSERDllExport std::vector<double >;
+#endif
+class NDDSUSERDllExport DdsDoublemat {
+
+  public:
+    DdsDoublemat();
+
+    DdsDoublemat(
+        const rti::core::bounded_sequence<double, 100>& vec,
+        const uint& M,
+        const uint& N);
+
+    #ifdef RTI_CXX11_RVALUE_REFERENCES
+    #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+    DdsDoublemat (DdsDoublemat&&) = default;
+    DdsDoublemat& operator=(DdsDoublemat&&) = default;
+    DdsDoublemat& operator=(const DdsDoublemat&) = default;
+    DdsDoublemat(const DdsDoublemat&) = default;
+    #else
+    DdsDoublemat(DdsDoublemat&& other_) OMG_NOEXCEPT;  
+    DdsDoublemat& operator=(DdsDoublemat&&  other_) OMG_NOEXCEPT;
+    #endif
+    #endif 
+
+    rti::core::bounded_sequence<double, 100>& vec() OMG_NOEXCEPT; 
+    const rti::core::bounded_sequence<double, 100>& vec() const OMG_NOEXCEPT;
+    void vec(const rti::core::bounded_sequence<double, 100>& value);
+
+    uint& M() OMG_NOEXCEPT; 
+    const uint& M() const OMG_NOEXCEPT;
+    void M(const uint& value);
+
+    uint& N() OMG_NOEXCEPT; 
+    const uint& N() const OMG_NOEXCEPT;
+    void N(const uint& value);
+
+    bool operator == (const DdsDoublemat& other_) const;
+    bool operator != (const DdsDoublemat& other_) const;
+
+    void swap(DdsDoublemat& other_) OMG_NOEXCEPT ;
+
+  private:
+
+    rti::core::bounded_sequence<double, 100> m_vec_;
+    uint m_M_;
+    uint m_N_;
+
+};
+
+inline void swap(DdsDoublemat& a, DdsDoublemat& b)  OMG_NOEXCEPT 
+{
+    a.swap(b);
+}
+
+NDDSUSERDllExport std::ostream& operator<<(std::ostream& o, const DdsDoublemat& sample);
+
+typedef std::string stringvec;
+struct stringvec_AliasTag_t {};
 
 typedef std::string vecsref;
 struct vecsref_AliasTag_t {};
@@ -1445,12 +1568,6 @@ namespace DdsJobMsdcAcqVisr {
 } // namespace DdsJobMsdcAcqVisr  
 namespace DdsJobMsdcActAlign {
 
-    #if (defined(RTI_WIN32) || defined (RTI_WINCE)) && defined(NDDS_USER_DLL_EXPORT)
-    // On Windows, dll-export template instantiations of standard types used by
-    // other dll-exported types
-    template class NDDSUSERDllExport std::allocator<float>;
-    template class NDDSUSERDllExport std::vector<float >;
-    #endif
     class NDDSUSERDllExport setWave_req {
 
       public:
@@ -1459,7 +1576,7 @@ namespace DdsJobMsdcActAlign {
         setWave_req(
             const vecsref& ixVFunction,
             const utinyint& N,
-            const rti::core::bounded_sequence<float, 32>& seq);
+            const rti::core::bounded_sequence<float, 100>& seq);
 
         #ifdef RTI_CXX11_RVALUE_REFERENCES
         #ifndef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
@@ -1481,9 +1598,9 @@ namespace DdsJobMsdcActAlign {
         const utinyint& N() const OMG_NOEXCEPT;
         void N(const utinyint& value);
 
-        rti::core::bounded_sequence<float, 32>& seq() OMG_NOEXCEPT; 
-        const rti::core::bounded_sequence<float, 32>& seq() const OMG_NOEXCEPT;
-        void seq(const rti::core::bounded_sequence<float, 32>& value);
+        rti::core::bounded_sequence<float, 100>& seq() OMG_NOEXCEPT; 
+        const rti::core::bounded_sequence<float, 100>& seq() const OMG_NOEXCEPT;
+        void seq(const rti::core::bounded_sequence<float, 100>& value);
 
         bool operator == (const setWave_req& other_) const;
         bool operator != (const setWave_req& other_) const;
@@ -1494,7 +1611,7 @@ namespace DdsJobMsdcActAlign {
 
         vecsref m_ixVFunction_;
         utinyint m_N_;
-        rti::core::bounded_sequence<float, 32> m_seq_;
+        rti::core::bounded_sequence<float, 100> m_seq_;
 
     };
 
@@ -2156,6 +2273,74 @@ namespace DdsJobMsdcActServo {
 } // namespace DdsJobMsdcActServo  
 namespace dds { 
     namespace topic {
+
+        template<>
+        struct topic_type_name<DdsFloatmat> {
+            NDDSUSERDllExport static std::string value() {
+                return "DdsFloatmat";
+            }
+        };
+
+        template<>
+        struct is_topic_type<DdsFloatmat> : public dds::core::true_type {};
+
+        template<>
+        struct topic_type_support<DdsFloatmat> {
+            NDDSUSERDllExport 
+            static void register_type(
+                dds::domain::DomainParticipant& participant,
+                const std::string & type_name);
+
+            NDDSUSERDllExport 
+            static std::vector<char>& to_cdr_buffer(
+                std::vector<char>& buffer, const DdsFloatmat& sample);
+
+            NDDSUSERDllExport 
+            static void from_cdr_buffer(DdsFloatmat& sample, const std::vector<char>& buffer);
+
+            NDDSUSERDllExport 
+            static void reset_sample(DdsFloatmat& sample);
+
+            NDDSUSERDllExport 
+            static void allocate_sample(DdsFloatmat& sample, int, int);
+
+            static const rti::topic::TypePluginKind::type type_plugin_kind = 
+            rti::topic::TypePluginKind::STL;
+        };
+
+        template<>
+        struct topic_type_name<DdsDoublemat> {
+            NDDSUSERDllExport static std::string value() {
+                return "DdsDoublemat";
+            }
+        };
+
+        template<>
+        struct is_topic_type<DdsDoublemat> : public dds::core::true_type {};
+
+        template<>
+        struct topic_type_support<DdsDoublemat> {
+            NDDSUSERDllExport 
+            static void register_type(
+                dds::domain::DomainParticipant& participant,
+                const std::string & type_name);
+
+            NDDSUSERDllExport 
+            static std::vector<char>& to_cdr_buffer(
+                std::vector<char>& buffer, const DdsDoublemat& sample);
+
+            NDDSUSERDllExport 
+            static void from_cdr_buffer(DdsDoublemat& sample, const std::vector<char>& buffer);
+
+            NDDSUSERDllExport 
+            static void reset_sample(DdsDoublemat& sample);
+
+            NDDSUSERDllExport 
+            static void allocate_sample(DdsDoublemat& sample, int, int);
+
+            static const rti::topic::TypePluginKind::type type_plugin_kind = 
+            rti::topic::TypePluginKind::STL;
+        };
 
         template<>
         struct topic_type_name<DdsJobMsdcAcqAdxl::alphaBeta> {
@@ -3775,6 +3960,36 @@ namespace rti {
         };
 
         template<>
+        struct dynamic_type<DdsFloatmat> {
+            typedef dds::core::xtypes::StructType type;
+            NDDSUSERDllExport static const dds::core::xtypes::StructType& get();
+        };
+
+        template <>
+        struct extensibility<DdsFloatmat> {
+            static const dds::core::xtypes::ExtensibilityKind::type kind =
+            dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
+        template<>
+        struct dynamic_type<DdsDoublemat> {
+            typedef dds::core::xtypes::StructType type;
+            NDDSUSERDllExport static const dds::core::xtypes::StructType& get();
+        };
+
+        template <>
+        struct extensibility<DdsDoublemat> {
+            static const dds::core::xtypes::ExtensibilityKind::type kind =
+            dds::core::xtypes::ExtensibilityKind::EXTENSIBLE;                
+        };
+
+        template<>
+        struct dynamic_type<stringvec_AliasTag_t> {
+            typedef dds::core::xtypes::AliasType type;
+            NDDSUSERDllExport static const dds::core::xtypes::AliasType& get();
+        };
+
+        template<>
         struct dynamic_type<vecsref_AliasTag_t> {
             typedef dds::core::xtypes::AliasType type;
             NDDSUSERDllExport static const dds::core::xtypes::AliasType& get();
@@ -4342,5 +4557,5 @@ namespace rti {
 #define NDDSUSERDllExport
 #endif
 
-#endif // DdsMsdc_1182983940_hpp
+#endif // DdsMsdc_1182984104_hpp
 

@@ -2,8 +2,8 @@
   * \file MsdcAMUsergroupAccess.cpp
   * database access for table TblMsdcAMUsergroupAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "MsdcAMUsergroupAccess.h"
@@ -474,7 +474,10 @@ bool LiteTblMsdcAMUsergroupAccess::loadRecByRef(
 			ubigint ref
 			, MsdcAMUsergroupAccess** rec
 		) {
-	if (ref == 0) return false;
+	if (ref == 0) {
+		*rec = NULL;
+		return false;
+	};
 
 	sqlite3_bind_int64(stmtLoadRecByRef, 1, ref);
 

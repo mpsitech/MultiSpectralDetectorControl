@@ -2,8 +2,8 @@
   * \file PnlMsdcFilDetail.cpp
   * API code for job PnlMsdcFilDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -167,7 +167,7 @@ set<uint> PnlMsdcFilDetail::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, NUMFLSTCLU, NUMFPUPRET, NUMFPUPCNT, TXFCNT, TXFACV, TXFANM, NUMFPUPMIM, TXFMIM, TXFSIZ, TXFCMT};
+	diffitems = {TXFFNM, NUMFLSTCLU, NUMFPUPRET, NUMFPUPCNT, TXFCNT, TXFACV, TXFANM, NUMFPUPMIM, TXFMIM, TXFSIZ, TXFCMT};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -232,7 +232,7 @@ set<uint> PnlMsdcFilDetail::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXTREU};
+	diffitems = {TXTCLU, TXTREU};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

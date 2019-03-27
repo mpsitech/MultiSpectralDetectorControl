@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo_blks.cpp
   * job handler for job PnlMsdcLivVideo (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 /******************************************************************************
@@ -15,6 +15,8 @@ uint PnlMsdcLivVideo::VecVDo::getIx(
 		) {
 	string s = StrMod::lc(sref);
 
+	if (s == "butregularizeclick") return BUTREGULARIZECLICK;
+	if (s == "butminimizeclick") return BUTMINIMIZECLICK;
 	if (s == "butmasterclick") return BUTMASTERCLICK;
 	if (s == "butplayclick") return BUTPLAYCLICK;
 	if (s == "butstopclick") return BUTSTOPCLICK;
@@ -25,6 +27,8 @@ uint PnlMsdcLivVideo::VecVDo::getIx(
 string PnlMsdcLivVideo::VecVDo::getSref(
 			const uint ix
 		) {
+	if (ix == BUTREGULARIZECLICK) return("ButRegularizeClick");
+	if (ix == BUTMINIMIZECLICK) return("ButMinimizeClick");
 	if (ix == BUTMASTERCLICK) return("ButMasterClick");
 	if (ix == BUTPLAYCLICK) return("ButPlayClick");
 	if (ix == BUTSTOPCLICK) return("ButStopClick");
@@ -97,17 +101,23 @@ void PnlMsdcLivVideo::VecVSource::fillFeed(
 PnlMsdcLivVideo::ContIac::ContIac(
 			const uint numFPupSrc
 			, const uint numFPupRes
+			, const bool ChkGrs
 			, const double SldExt
 			, const double SldFcs
+			, const bool ChkTcp
+			, const uint numFLstFst
 		) :
 			Block()
 		{
 	this->numFPupSrc = numFPupSrc;
 	this->numFPupRes = numFPupRes;
+	this->ChkGrs = ChkGrs;
 	this->SldExt = SldExt;
 	this->SldFcs = SldFcs;
+	this->ChkTcp = ChkTcp;
+	this->numFLstFst = numFLstFst;
 
-	mask = {NUMFPUPSRC, NUMFPUPRES, SLDEXT, SLDFCS};
+	mask = {NUMFPUPSRC, NUMFPUPRES, CHKGRS, SLDEXT, SLDFCS, CHKTCP, NUMFLSTFST};
 };
 
 bool PnlMsdcLivVideo::ContIac::readXML(
@@ -129,8 +139,11 @@ bool PnlMsdcLivVideo::ContIac::readXML(
 	if (basefound) {
 		if (extractUintAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "numFPupSrc", numFPupSrc)) add(NUMFPUPSRC);
 		if (extractUintAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "numFPupRes", numFPupRes)) add(NUMFPUPRES);
+		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "ChkGrs", ChkGrs)) add(CHKGRS);
 		if (extractDoubleAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "SldExt", SldExt)) add(SLDEXT);
 		if (extractDoubleAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "SldFcs", SldFcs)) add(SLDFCS);
+		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "ChkTcp", ChkTcp)) add(CHKTCP);
+		if (extractUintAttrUclc(docctx, basexpath, itemtag, "Ci", "sref", "numFLstFst", numFLstFst)) add(NUMFLSTFST);
 	};
 
 	return basefound;
@@ -150,8 +163,11 @@ void PnlMsdcLivVideo::ContIac::writeXML(
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
 		writeUintAttr(wr, itemtag, "sref", "numFPupSrc", numFPupSrc);
 		writeUintAttr(wr, itemtag, "sref", "numFPupRes", numFPupRes);
+		writeBoolAttr(wr, itemtag, "sref", "ChkGrs", ChkGrs);
 		writeDoubleAttr(wr, itemtag, "sref", "SldExt", SldExt);
 		writeDoubleAttr(wr, itemtag, "sref", "SldFcs", SldFcs);
+		writeBoolAttr(wr, itemtag, "sref", "ChkTcp", ChkTcp);
+		writeUintAttr(wr, itemtag, "sref", "numFLstFst", numFLstFst);
 	xmlTextWriterEndElement(wr);
 };
 
@@ -162,8 +178,11 @@ set<uint> PnlMsdcLivVideo::ContIac::comm(
 
 	if (numFPupSrc == comp->numFPupSrc) insert(items, NUMFPUPSRC);
 	if (numFPupRes == comp->numFPupRes) insert(items, NUMFPUPRES);
+	if (ChkGrs == comp->ChkGrs) insert(items, CHKGRS);
 	if (compareDouble(SldExt, comp->SldExt) < 1.0e-4) insert(items, SLDEXT);
 	if (compareDouble(SldFcs, comp->SldFcs) < 1.0e-4) insert(items, SLDFCS);
+	if (ChkTcp == comp->ChkTcp) insert(items, CHKTCP);
+	if (numFLstFst == comp->numFLstFst) insert(items, NUMFLSTFST);
 
 	return(items);
 };
@@ -176,7 +195,7 @@ set<uint> PnlMsdcLivVideo::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {NUMFPUPSRC, NUMFPUPRES, SLDEXT, SLDFCS};
+	diffitems = {NUMFPUPSRC, NUMFPUPRES, CHKGRS, SLDEXT, SLDFCS, CHKTCP, NUMFLSTFST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -244,7 +263,7 @@ void PnlMsdcLivVideo::StatApp::writeXML(
 			xmlTextWriter* wr
 			, string difftag
 			, bool shorttags
-			, const uint ixMsdcVExpstate
+			, const uint LstFstNumFirstdisp
 		) {
 	if (difftag.length() == 0) difftag = "StatAppMsdcLivVideo";
 
@@ -253,7 +272,7 @@ void PnlMsdcLivVideo::StatApp::writeXML(
 	else itemtag = "StatitemAppMsdcLivVideo";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
+		writeUintAttr(wr, itemtag, "sref", "LstFstNumFirstdisp", LstFstNumFirstdisp);
 	xmlTextWriterEndElement(wr);
 };
 
@@ -262,7 +281,9 @@ void PnlMsdcLivVideo::StatApp::writeXML(
  ******************************************************************************/
 
 PnlMsdcLivVideo::StatShr::StatShr(
-			const bool PupResAvail
+			const uint ixMsdcVExpstate
+			, const bool PupResAvail
+			, const bool ChkGrsAvail
 			, const bool ButPlayActive
 			, const bool ButStopActive
 			, const bool SldExtAvail
@@ -274,10 +295,14 @@ PnlMsdcLivVideo::StatShr::StatShr(
 			, const bool SldFcsActive
 			, const double SldFcsMin
 			, const double SldFcsMax
+			, const bool ChkTcpAvail
+			, const bool LstFstActive
 		) :
 			Block()
 		{
+	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->PupResAvail = PupResAvail;
+	this->ChkGrsAvail = ChkGrsAvail;
 	this->ButPlayActive = ButPlayActive;
 	this->ButStopActive = ButStopActive;
 	this->SldExtAvail = SldExtAvail;
@@ -289,8 +314,10 @@ PnlMsdcLivVideo::StatShr::StatShr(
 	this->SldFcsActive = SldFcsActive;
 	this->SldFcsMin = SldFcsMin;
 	this->SldFcsMax = SldFcsMax;
+	this->ChkTcpAvail = ChkTcpAvail;
+	this->LstFstActive = LstFstActive;
 
-	mask = {PUPRESAVAIL, BUTPLAYACTIVE, BUTSTOPACTIVE, SLDEXTAVAIL, SLDEXTACTIVE, SLDEXTMIN, SLDEXTMAX, SLDEXTRAST, SLDFCSAVAIL, SLDFCSACTIVE, SLDFCSMIN, SLDFCSMAX};
+	mask = {IXMSDCVEXPSTATE, PUPRESAVAIL, CHKGRSAVAIL, BUTPLAYACTIVE, BUTSTOPACTIVE, SLDEXTAVAIL, SLDEXTACTIVE, SLDEXTMIN, SLDEXTMAX, SLDEXTRAST, SLDFCSAVAIL, SLDFCSACTIVE, SLDFCSMIN, SLDFCSMAX, CHKTCPAVAIL, LSTFSTACTIVE};
 };
 
 void PnlMsdcLivVideo::StatShr::writeXML(
@@ -305,7 +332,9 @@ void PnlMsdcLivVideo::StatShr::writeXML(
 	else itemtag = "StatitemShrMsdcLivVideo";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
+		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
 		writeBoolAttr(wr, itemtag, "sref", "PupResAvail", PupResAvail);
+		writeBoolAttr(wr, itemtag, "sref", "ChkGrsAvail", ChkGrsAvail);
 		writeBoolAttr(wr, itemtag, "sref", "ButPlayActive", ButPlayActive);
 		writeBoolAttr(wr, itemtag, "sref", "ButStopActive", ButStopActive);
 		writeBoolAttr(wr, itemtag, "sref", "SldExtAvail", SldExtAvail);
@@ -317,6 +346,8 @@ void PnlMsdcLivVideo::StatShr::writeXML(
 		writeBoolAttr(wr, itemtag, "sref", "SldFcsActive", SldFcsActive);
 		writeDoubleAttr(wr, itemtag, "sref", "SldFcsMin", SldFcsMin);
 		writeDoubleAttr(wr, itemtag, "sref", "SldFcsMax", SldFcsMax);
+		writeBoolAttr(wr, itemtag, "sref", "ChkTcpAvail", ChkTcpAvail);
+		writeBoolAttr(wr, itemtag, "sref", "LstFstActive", LstFstActive);
 	xmlTextWriterEndElement(wr);
 };
 
@@ -325,7 +356,9 @@ set<uint> PnlMsdcLivVideo::StatShr::comm(
 		) {
 	set<uint> items;
 
+	if (ixMsdcVExpstate == comp->ixMsdcVExpstate) insert(items, IXMSDCVEXPSTATE);
 	if (PupResAvail == comp->PupResAvail) insert(items, PUPRESAVAIL);
+	if (ChkGrsAvail == comp->ChkGrsAvail) insert(items, CHKGRSAVAIL);
 	if (ButPlayActive == comp->ButPlayActive) insert(items, BUTPLAYACTIVE);
 	if (ButStopActive == comp->ButStopActive) insert(items, BUTSTOPACTIVE);
 	if (SldExtAvail == comp->SldExtAvail) insert(items, SLDEXTAVAIL);
@@ -337,6 +370,8 @@ set<uint> PnlMsdcLivVideo::StatShr::comm(
 	if (SldFcsActive == comp->SldFcsActive) insert(items, SLDFCSACTIVE);
 	if (compareDouble(SldFcsMin, comp->SldFcsMin) < 1.0e-4) insert(items, SLDFCSMIN);
 	if (compareDouble(SldFcsMax, comp->SldFcsMax) < 1.0e-4) insert(items, SLDFCSMAX);
+	if (ChkTcpAvail == comp->ChkTcpAvail) insert(items, CHKTCPAVAIL);
+	if (LstFstActive == comp->LstFstActive) insert(items, LSTFSTACTIVE);
 
 	return(items);
 };
@@ -349,7 +384,7 @@ set<uint> PnlMsdcLivVideo::StatShr::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {PUPRESAVAIL, BUTPLAYACTIVE, BUTSTOPACTIVE, SLDEXTAVAIL, SLDEXTACTIVE, SLDEXTMIN, SLDEXTMAX, SLDEXTRAST, SLDFCSAVAIL, SLDFCSACTIVE, SLDFCSMIN, SLDFCSMAX};
+	diffitems = {IXMSDCVEXPSTATE, PUPRESAVAIL, CHKGRSAVAIL, BUTPLAYACTIVE, BUTSTOPACTIVE, SLDEXTAVAIL, SLDEXTACTIVE, SLDEXTMIN, SLDEXTMAX, SLDEXTRAST, SLDFCSAVAIL, SLDFCSACTIVE, SLDFCSMIN, SLDFCSMAX, CHKTCPAVAIL, LSTFSTACTIVE};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -376,14 +411,20 @@ void PnlMsdcLivVideo::Tag::writeXML(
 			writeStringAttr(wr, itemtag, "sref", "Cpt", "Video");
 			writeStringAttr(wr, itemtag, "sref", "CptSrc", "source");
 			writeStringAttr(wr, itemtag, "sref", "CptRes", "resolution");
+			writeStringAttr(wr, itemtag, "sref", "CptGrs", "grayscale");
 			writeStringAttr(wr, itemtag, "sref", "CptExt", "exposure time [ms]");
 			writeStringAttr(wr, itemtag, "sref", "CptFcs", "focus");
+			writeStringAttr(wr, itemtag, "sref", "CptTcp", "transfer compression");
+			writeStringAttr(wr, itemtag, "sref", "CptFst", "frame statistics");
 		} else if (ixMsdcVLocale == VecMsdcVLocale::DECH) {
 			writeStringAttr(wr, itemtag, "sref", "Cpt", "Video");
 			writeStringAttr(wr, itemtag, "sref", "CptSrc", "Quelle");
 			writeStringAttr(wr, itemtag, "sref", "CptRes", "Aufl\\u00f6sung");
+			writeStringAttr(wr, itemtag, "sref", "CptGrs", "Graustufen");
 			writeStringAttr(wr, itemtag, "sref", "CptExt", "Belichtungszeit [ms]");
 			writeStringAttr(wr, itemtag, "sref", "CptFcs", "Fokus");
+			writeStringAttr(wr, itemtag, "sref", "CptTcp", "Komprimierung f\\u00fcr Transfer");
+			writeStringAttr(wr, itemtag, "sref", "CptFst", "Frame-Statistik");
 		};
 	xmlTextWriterEndElement(wr);
 };
@@ -496,6 +537,7 @@ PnlMsdcLivVideo::DpchEngData::DpchEngData(
 			const ubigint jref
 			, ContIac* contiac
 			, ContInf* continf
+			, Feed* feedFLstFst
 			, Feed* feedFPupRes
 			, Feed* feedFPupSrc
 			, StatShr* statshr
@@ -503,11 +545,12 @@ PnlMsdcLivVideo::DpchEngData::DpchEngData(
 		) :
 			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVVIDEODATA, jref)
 		{
-	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFPUPRES, FEEDFPUPSRC, STATAPP, STATSHR, TAG};
+	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, FEEDFLSTFST, FEEDFPUPRES, FEEDFPUPSRC, STATAPP, STATSHR, TAG};
 	else this->mask = mask;
 
 	if (find(this->mask, CONTIAC) && contiac) this->contiac = *contiac;
 	if (find(this->mask, CONTINF) && continf) this->continf = *continf;
+	if (find(this->mask, FEEDFLSTFST) && feedFLstFst) this->feedFLstFst = *feedFLstFst;
 	if (find(this->mask, FEEDFPUPRES) && feedFPupRes) this->feedFPupRes = *feedFPupRes;
 	if (find(this->mask, FEEDFPUPSRC) && feedFPupSrc) this->feedFPupSrc = *feedFPupSrc;
 	if (find(this->mask, STATSHR) && statshr) this->statshr = *statshr;
@@ -520,6 +563,7 @@ string PnlMsdcLivVideo::DpchEngData::getSrefsMask() {
 	if (has(JREF)) ss.push_back("jref");
 	if (has(CONTIAC)) ss.push_back("contiac");
 	if (has(CONTINF)) ss.push_back("continf");
+	if (has(FEEDFLSTFST)) ss.push_back("feedFLstFst");
 	if (has(FEEDFPUPRES)) ss.push_back("feedFPupRes");
 	if (has(FEEDFPUPSRC)) ss.push_back("feedFPupSrc");
 	if (has(STATAPP)) ss.push_back("statapp");
@@ -539,6 +583,7 @@ void PnlMsdcLivVideo::DpchEngData::merge(
 	if (src->has(JREF)) {jref = src->jref; add(JREF);};
 	if (src->has(CONTIAC)) {contiac = src->contiac; add(CONTIAC);};
 	if (src->has(CONTINF)) {continf = src->continf; add(CONTINF);};
+	if (src->has(FEEDFLSTFST)) {feedFLstFst = src->feedFLstFst; add(FEEDFLSTFST);};
 	if (src->has(FEEDFPUPRES)) {feedFPupRes = src->feedFPupRes; add(FEEDFPUPRES);};
 	if (src->has(FEEDFPUPSRC)) {feedFPupSrc = src->feedFPupSrc; add(FEEDFPUPSRC);};
 	if (src->has(STATAPP)) add(STATAPP);
@@ -555,6 +600,7 @@ void PnlMsdcLivVideo::DpchEngData::writeXML(
 		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
+		if (has(FEEDFLSTFST)) feedFLstFst.writeXML(wr);
 		if (has(FEEDFPUPRES)) feedFPupRes.writeXML(wr);
 		if (has(FEEDFPUPSRC)) feedFPupSrc.writeXML(wr);
 		if (has(STATAPP)) StatApp::writeXML(wr);

@@ -2,8 +2,8 @@
   * \file Msdc.idl
   * Msdc DDS publisher interface description for RTI Code Generator
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 typedef char tinyint;
@@ -14,6 +14,20 @@ typedef long int;
 typedef unsigned long uint;
 typedef long long bigint;
 typedef unsigned long long ubigint;
+
+struct DdsFloatmat {
+	sequence<float> vec;
+	uint M;
+	uint N;
+};
+
+struct DdsDoublemat {
+	sequence<double> vec;
+	uint M;
+	uint N;
+};
+
+typedef string<65536> stringvec;
 typedef string<50> vecsref;
 
 module DdsJobMsdcAcqAdxl {
@@ -161,7 +175,7 @@ module DdsJobMsdcActAlign {
 	struct setWave_req {
 		vecsref ixVFunction;
 		utinyint N;
-		sequence<float, 32> seq;
+		sequence<float> seq;
 	};
 
 	struct setWave_reply {

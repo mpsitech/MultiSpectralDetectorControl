@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.h
   * API code for job PnlMsdcLivScill (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCLIVSCILL_H
@@ -15,7 +15,6 @@
 
 #define ContIacMsdcLivScill PnlMsdcLivScill::ContIac
 #define ContInfMsdcLivScill PnlMsdcLivScill::ContInf
-#define StatAppMsdcLivScill PnlMsdcLivScill::StatApp
 #define StatShrMsdcLivScill PnlMsdcLivScill::StatShr
 #define TagMsdcLivScill PnlMsdcLivScill::Tag
 
@@ -33,7 +32,9 @@ namespace PnlMsdcLivScill {
 	class VecVDo {
 
 	public:
-		static const uint BUTMASTERCLICK = 1;
+		static const uint BUTREGULARIZECLICK = 1;
+		static const uint BUTMINIMIZECLICK = 2;
+		static const uint BUTMASTERCLICK = 3;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);
@@ -83,42 +84,24 @@ namespace PnlMsdcLivScill {
 	};
 
 	/**
-	  * StatApp (full: StatAppMsdcLivScill)
-	  */
-	class StatApp : public Block {
-
-	public:
-		static const uint IXMSDCVEXPSTATE = 1;
-
-	public:
-		StatApp(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND);
-
-	public:
-		uint ixMsdcVExpstate;
-
-	public:
-		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
-		set<uint> comm(const StatApp* comp);
-		set<uint> diff(const StatApp* comp);
-	};
-
-	/**
 	  * StatShr (full: StatShrMsdcLivScill)
 	  */
 	class StatShr : public Block {
 
 	public:
-		static const uint SLDFLDACTIVE = 1;
-		static const uint SLDFLDMIN = 2;
-		static const uint SLDFLDMAX = 3;
-		static const uint SLDSPTACTIVE = 4;
-		static const uint SLDSPTMIN = 5;
-		static const uint SLDSPTMAX = 6;
+		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint SLDFLDACTIVE = 2;
+		static const uint SLDFLDMIN = 3;
+		static const uint SLDFLDMAX = 4;
+		static const uint SLDSPTACTIVE = 5;
+		static const uint SLDSPTMIN = 6;
+		static const uint SLDSPTMAX = 7;
 
 	public:
-		StatShr(const bool SldFldActive = true, const double SldFldMin = 0.0, const double SldFldMax = 1.0, const bool SldSptActive = true, const double SldSptMin = 0.0, const double SldSptMax = 1.0);
+		StatShr(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND, const bool SldFldActive = true, const double SldFldMin = 0.0, const double SldFldMax = 1.0, const bool SldSptActive = true, const double SldSptMin = 0.0, const double SldSptMax = 1.0);
 
 	public:
+		uint ixMsdcVExpstate;
 		bool SldFldActive;
 		double SldFldMin;
 		double SldFldMax;
@@ -207,9 +190,8 @@ namespace PnlMsdcLivScill {
 		static const uint SCRJREF = 1;
 		static const uint CONTIAC = 2;
 		static const uint CONTINF = 3;
-		static const uint STATAPP = 4;
-		static const uint STATSHR = 5;
-		static const uint TAG = 6;
+		static const uint STATSHR = 4;
+		static const uint TAG = 5;
 
 	public:
 		DpchEngData();
@@ -217,7 +199,6 @@ namespace PnlMsdcLivScill {
 	public:
 		ContIac contiac;
 		ContInf continf;
-		StatApp statapp;
 		StatShr statshr;
 		Tag tag;
 

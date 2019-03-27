@@ -2,8 +2,8 @@
   * \file CrdMsdcNav.h
   * API code for job CrdMsdcNav (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef CRDMSDCNAV_H
@@ -157,13 +157,13 @@ namespace CrdMsdcNav {
 		StatShr(const string& scrJrefDlgloaini = "", const string& scrJrefHeadbar = "", const string& scrJrefPre = "", const bool pnlpreAvail = false, const string& scrJrefAdmin = "", const bool pnladminAvail = false, const string& scrJrefOpr = "", const bool pnloprAvail = false, const bool MspCrd1Avail = true, const bool MitCrdUsgAvail = true, const bool MitCrdUsrAvail = true, const bool MitCrdPrsAvail = true, const bool MitCrdScfAvail = true, const bool MspCrd2Avail = true, const bool MitCrdLivAvail = true, const bool MitCrdPrdAvail = true, const bool MitCrdDatAvail = true, const bool MitCrdDatActive = true, const bool MitCrdFilAvail = true, const bool MspApp2Avail = true, const bool MitAppLoiAvail = true);
 
 	public:
-		ubigint jrefDlgloaini;
-		ubigint jrefHeadbar;
-		ubigint jrefPre;
+		string scrJrefDlgloaini;
+		string scrJrefHeadbar;
+		string scrJrefPre;
 		bool pnlpreAvail;
-		ubigint jrefAdmin;
+		string scrJrefAdmin;
 		bool pnladminAvail;
-		ubigint jrefOpr;
+		string scrJrefOpr;
 		bool pnloprAvail;
 		bool MspCrd1Avail;
 		bool MitCrdUsgAvail;

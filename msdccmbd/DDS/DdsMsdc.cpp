@@ -19,6 +19,220 @@ or consult the RTI Connext manual.
 
 #include <rti/util/ostream_operators.hpp>
 
+// ---- DdsFloatmat: 
+
+DdsFloatmat::DdsFloatmat()  {
+    m_M_ = rti::topic::cdr::alias_helper<uint>::default_value();
+    m_N_ = rti::topic::cdr::alias_helper<uint>::default_value();
+}   
+
+DdsFloatmat::DdsFloatmat (
+    const rti::core::bounded_sequence<float, 100>& vec,
+    const uint& M,
+    const uint& N)
+    :
+        m_vec_( vec ),
+        m_M_( M ),
+        m_N_( N ) {
+}
+
+#ifdef RTI_CXX11_RVALUE_REFERENCES
+#ifdef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+DdsFloatmat::DdsFloatmat(DdsFloatmat&& other_) OMG_NOEXCEPT  :m_vec_ (std::move(other_.m_vec_))
+,
+m_M_ (std::move(other_.m_M_))
+,
+m_N_ (std::move(other_.m_N_))
+{
+} 
+
+DdsFloatmat& DdsFloatmat::operator=(DdsFloatmat&&  other_) OMG_NOEXCEPT {
+    DdsFloatmat tmp(std::move(other_));
+    swap(tmp); 
+    return *this;
+}
+#endif
+#endif   
+
+void DdsFloatmat::swap(DdsFloatmat& other_)  OMG_NOEXCEPT 
+{
+    using std::swap;
+    swap(m_vec_, other_.m_vec_);
+    swap(m_M_, other_.m_M_);
+    swap(m_N_, other_.m_N_);
+}  
+
+bool DdsFloatmat::operator == (const DdsFloatmat& other_) const {
+    if (m_vec_ != other_.m_vec_) {
+        return false;
+    }
+    if (m_M_ != other_.m_M_) {
+        return false;
+    }
+    if (m_N_ != other_.m_N_) {
+        return false;
+    }
+    return true;
+}
+bool DdsFloatmat::operator != (const DdsFloatmat& other_) const {
+    return !this->operator ==(other_);
+}
+
+// --- Getters and Setters: -------------------------------------------------
+rti::core::bounded_sequence<float, 100>& DdsFloatmat::vec() OMG_NOEXCEPT {
+    return m_vec_;
+}
+
+const rti::core::bounded_sequence<float, 100>& DdsFloatmat::vec() const OMG_NOEXCEPT {
+    return m_vec_;
+}
+
+void DdsFloatmat::vec(const rti::core::bounded_sequence<float, 100>& value) {
+    m_vec_ = value;
+}
+
+uint& DdsFloatmat::M() OMG_NOEXCEPT {
+    return m_M_;
+}
+
+const uint& DdsFloatmat::M() const OMG_NOEXCEPT {
+    return m_M_;
+}
+
+void DdsFloatmat::M(const uint& value) {
+    m_M_ = value;
+}
+
+uint& DdsFloatmat::N() OMG_NOEXCEPT {
+    return m_N_;
+}
+
+const uint& DdsFloatmat::N() const OMG_NOEXCEPT {
+    return m_N_;
+}
+
+void DdsFloatmat::N(const uint& value) {
+    m_N_ = value;
+}
+
+std::ostream& operator << (std::ostream& o,const DdsFloatmat& sample)
+{
+    rti::util::StreamFlagSaver flag_saver (o);
+    o <<"[";
+    o << "vec: " << sample.vec()<<", ";
+    o << "M: " << sample.M()<<", ";
+    o << "N: " << sample.N() ;
+    o <<"]";
+    return o;
+}
+
+// ---- DdsDoublemat: 
+
+DdsDoublemat::DdsDoublemat()  {
+    m_M_ = rti::topic::cdr::alias_helper<uint>::default_value();
+    m_N_ = rti::topic::cdr::alias_helper<uint>::default_value();
+}   
+
+DdsDoublemat::DdsDoublemat (
+    const rti::core::bounded_sequence<double, 100>& vec,
+    const uint& M,
+    const uint& N)
+    :
+        m_vec_( vec ),
+        m_M_( M ),
+        m_N_( N ) {
+}
+
+#ifdef RTI_CXX11_RVALUE_REFERENCES
+#ifdef RTI_CXX11_NO_IMPLICIT_MOVE_OPERATIONS
+DdsDoublemat::DdsDoublemat(DdsDoublemat&& other_) OMG_NOEXCEPT  :m_vec_ (std::move(other_.m_vec_))
+,
+m_M_ (std::move(other_.m_M_))
+,
+m_N_ (std::move(other_.m_N_))
+{
+} 
+
+DdsDoublemat& DdsDoublemat::operator=(DdsDoublemat&&  other_) OMG_NOEXCEPT {
+    DdsDoublemat tmp(std::move(other_));
+    swap(tmp); 
+    return *this;
+}
+#endif
+#endif   
+
+void DdsDoublemat::swap(DdsDoublemat& other_)  OMG_NOEXCEPT 
+{
+    using std::swap;
+    swap(m_vec_, other_.m_vec_);
+    swap(m_M_, other_.m_M_);
+    swap(m_N_, other_.m_N_);
+}  
+
+bool DdsDoublemat::operator == (const DdsDoublemat& other_) const {
+    if (m_vec_ != other_.m_vec_) {
+        return false;
+    }
+    if (m_M_ != other_.m_M_) {
+        return false;
+    }
+    if (m_N_ != other_.m_N_) {
+        return false;
+    }
+    return true;
+}
+bool DdsDoublemat::operator != (const DdsDoublemat& other_) const {
+    return !this->operator ==(other_);
+}
+
+// --- Getters and Setters: -------------------------------------------------
+rti::core::bounded_sequence<double, 100>& DdsDoublemat::vec() OMG_NOEXCEPT {
+    return m_vec_;
+}
+
+const rti::core::bounded_sequence<double, 100>& DdsDoublemat::vec() const OMG_NOEXCEPT {
+    return m_vec_;
+}
+
+void DdsDoublemat::vec(const rti::core::bounded_sequence<double, 100>& value) {
+    m_vec_ = value;
+}
+
+uint& DdsDoublemat::M() OMG_NOEXCEPT {
+    return m_M_;
+}
+
+const uint& DdsDoublemat::M() const OMG_NOEXCEPT {
+    return m_M_;
+}
+
+void DdsDoublemat::M(const uint& value) {
+    m_M_ = value;
+}
+
+uint& DdsDoublemat::N() OMG_NOEXCEPT {
+    return m_N_;
+}
+
+const uint& DdsDoublemat::N() const OMG_NOEXCEPT {
+    return m_N_;
+}
+
+void DdsDoublemat::N(const uint& value) {
+    m_N_ = value;
+}
+
+std::ostream& operator << (std::ostream& o,const DdsDoublemat& sample)
+{
+    rti::util::StreamFlagSaver flag_saver (o);
+    o <<"[";
+    o << "vec: " << sample.vec()<<", ";
+    o << "M: " << sample.M()<<", ";
+    o << "N: " << sample.N() ;
+    o <<"]";
+    return o;
+}
+
 namespace DdsJobMsdcAcqAdxl {
 
     // ---- alphaBeta: 
@@ -2238,7 +2452,7 @@ namespace DdsJobMsdcActAlign {
     setWave_req::setWave_req (
         const vecsref& ixVFunction,
         const utinyint& N,
-        const rti::core::bounded_sequence<float, 32>& seq)
+        const rti::core::bounded_sequence<float, 100>& seq)
         :
             m_ixVFunction_( ixVFunction ),
             m_N_( N ),
@@ -2312,15 +2526,15 @@ namespace DdsJobMsdcActAlign {
         m_N_ = value;
     }
 
-    rti::core::bounded_sequence<float, 32>& DdsJobMsdcActAlign::setWave_req::seq() OMG_NOEXCEPT {
+    rti::core::bounded_sequence<float, 100>& DdsJobMsdcActAlign::setWave_req::seq() OMG_NOEXCEPT {
         return m_seq_;
     }
 
-    const rti::core::bounded_sequence<float, 32>& DdsJobMsdcActAlign::setWave_req::seq() const OMG_NOEXCEPT {
+    const rti::core::bounded_sequence<float, 100>& DdsJobMsdcActAlign::setWave_req::seq() const OMG_NOEXCEPT {
         return m_seq_;
     }
 
-    void DdsJobMsdcActAlign::setWave_req::seq(const rti::core::bounded_sequence<float, 32>& value) {
+    void DdsJobMsdcActAlign::setWave_req::seq(const rti::core::bounded_sequence<float, 100>& value) {
         m_seq_ = value;
     }
 
@@ -3670,6 +3884,252 @@ namespace rti {
             return static_cast<const dds::core::xtypes::AliasType&>(
                 rti::core::native_conversions::cast_from_native<dds::core::xtypes::DynamicType>(
                     *(native_type_code<ubigint_AliasTag_t>::get())));
+        }
+
+        template<>
+        struct native_type_code<DdsFloatmat> {
+            static DDS_TypeCode * get()
+            {
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static DDS_TypeCode DdsFloatmat_g_tc_vec_sequence = DDS_INITIALIZE_SEQUENCE_TYPECODE((100),NULL);
+                static DDS_TypeCode_Member DdsFloatmat_g_tc_members[3]=
+                {
+
+                    {
+                        (char *)"vec",/* Member name */
+                        {
+                            0,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }, 
+                    {
+                        (char *)"M",/* Member name */
+                        {
+                            1,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }, 
+                    {
+                        (char *)"N",/* Member name */
+                        {
+                            2,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }
+                };
+
+                static DDS_TypeCode DdsFloatmat_g_tc =
+                {{
+                        DDS_TK_STRUCT,/* Kind */
+                        DDS_BOOLEAN_FALSE, /* Ignored */
+                        -1, /*Ignored*/
+                        (char *)"DdsFloatmat", /* Name */
+                        NULL, /* Ignored */      
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        3, /* Number of members */
+                        DdsFloatmat_g_tc_members, /* Members */
+                        DDS_VM_NONE  /* Ignored */         
+                    }}; /* Type code for DdsFloatmat*/
+
+                if (is_initialized) {
+                    return &DdsFloatmat_g_tc;
+                }
+
+                DdsFloatmat_g_tc_vec_sequence._data._typeCode = (RTICdrTypeCode *)&DDS_g_tc_float;
+
+                DdsFloatmat_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)& DdsFloatmat_g_tc_vec_sequence;
+                DdsFloatmat_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&rti::topic::dynamic_type<uint_AliasTag_t>::get().native();
+
+                DdsFloatmat_g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)&rti::topic::dynamic_type<uint_AliasTag_t>::get().native();
+
+                is_initialized = RTI_TRUE;
+
+                return &DdsFloatmat_g_tc;
+            }
+        }; // native_type_code
+
+        const dds::core::xtypes::StructType& dynamic_type<DdsFloatmat>::get()
+        {
+            return static_cast<const dds::core::xtypes::StructType&>(
+                rti::core::native_conversions::cast_from_native<dds::core::xtypes::DynamicType>(
+                    *(native_type_code<DdsFloatmat>::get())));
+        }
+
+        template<>
+        struct native_type_code<DdsDoublemat> {
+            static DDS_TypeCode * get()
+            {
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static DDS_TypeCode DdsDoublemat_g_tc_vec_sequence = DDS_INITIALIZE_SEQUENCE_TYPECODE((100),NULL);
+                static DDS_TypeCode_Member DdsDoublemat_g_tc_members[3]=
+                {
+
+                    {
+                        (char *)"vec",/* Member name */
+                        {
+                            0,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }, 
+                    {
+                        (char *)"M",/* Member name */
+                        {
+                            1,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }, 
+                    {
+                        (char *)"N",/* Member name */
+                        {
+                            2,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
+                    }
+                };
+
+                static DDS_TypeCode DdsDoublemat_g_tc =
+                {{
+                        DDS_TK_STRUCT,/* Kind */
+                        DDS_BOOLEAN_FALSE, /* Ignored */
+                        -1, /*Ignored*/
+                        (char *)"DdsDoublemat", /* Name */
+                        NULL, /* Ignored */      
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        3, /* Number of members */
+                        DdsDoublemat_g_tc_members, /* Members */
+                        DDS_VM_NONE  /* Ignored */         
+                    }}; /* Type code for DdsDoublemat*/
+
+                if (is_initialized) {
+                    return &DdsDoublemat_g_tc;
+                }
+
+                DdsDoublemat_g_tc_vec_sequence._data._typeCode = (RTICdrTypeCode *)&DDS_g_tc_double;
+
+                DdsDoublemat_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)& DdsDoublemat_g_tc_vec_sequence;
+                DdsDoublemat_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&rti::topic::dynamic_type<uint_AliasTag_t>::get().native();
+
+                DdsDoublemat_g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)&rti::topic::dynamic_type<uint_AliasTag_t>::get().native();
+
+                is_initialized = RTI_TRUE;
+
+                return &DdsDoublemat_g_tc;
+            }
+        }; // native_type_code
+
+        const dds::core::xtypes::StructType& dynamic_type<DdsDoublemat>::get()
+        {
+            return static_cast<const dds::core::xtypes::StructType&>(
+                rti::core::native_conversions::cast_from_native<dds::core::xtypes::DynamicType>(
+                    *(native_type_code<DdsDoublemat>::get())));
+        }
+
+        template<>
+        struct native_type_code<stringvec_AliasTag_t> {
+            static DDS_TypeCode * get()
+            {
+                static RTIBool is_initialized = RTI_FALSE;
+
+                static DDS_TypeCode stringvec_g_tc_string = DDS_INITIALIZE_STRING_TYPECODE((65536));
+
+                static DDS_TypeCode stringvec_g_tc =
+                {{
+                        DDS_TK_ALIAS, /* Kind*/
+                        DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                        -1, /* Ignored */
+                        (char *)"stringvec", /* Name */
+                        NULL, /* Content type code is assigned later */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        DDS_VM_NONE /* Ignored */
+                    }}; /* Type code for  stringvec */
+
+                if (is_initialized) {
+                    return &stringvec_g_tc;
+                }
+
+                stringvec_g_tc._data._typeCode =  (RTICdrTypeCode *)&stringvec_g_tc_string;
+
+                is_initialized = RTI_TRUE;
+
+                return &stringvec_g_tc;
+            }
+        }; // native_type_code
+
+        const dds::core::xtypes::AliasType& dynamic_type<stringvec_AliasTag_t>::get()
+        {
+            return static_cast<const dds::core::xtypes::AliasType&>(
+                rti::core::native_conversions::cast_from_native<dds::core::xtypes::DynamicType>(
+                    *(native_type_code<stringvec_AliasTag_t>::get())));
         }
 
         template<>
@@ -5840,7 +6300,7 @@ namespace rti {
             {
                 static RTIBool is_initialized = RTI_FALSE;
 
-                static DDS_TypeCode setWave_req_g_tc_seq_sequence = DDS_INITIALIZE_SEQUENCE_TYPECODE((32),NULL);
+                static DDS_TypeCode setWave_req_g_tc_seq_sequence = DDS_INITIALIZE_SEQUENCE_TYPECODE((100),NULL);
                 static DDS_TypeCode_Member setWave_req_g_tc_members[3]=
                 {
 
@@ -6910,6 +7370,134 @@ namespace rti {
 
 namespace dds { 
     namespace topic {
+        void topic_type_support<DdsFloatmat>:: register_type(
+            dds::domain::DomainParticipant& participant,
+            const std::string& type_name) 
+        {
+
+            rti::domain::register_type_plugin(
+                participant,
+                type_name,
+                DdsFloatmatPlugin_new,
+                DdsFloatmatPlugin_delete);
+        }
+
+        std::vector<char>& topic_type_support<DdsFloatmat>::to_cdr_buffer(
+            std::vector<char>& buffer, const DdsFloatmat& sample)
+        {
+            // First get the length of the buffer
+            unsigned int length = 0;
+            RTIBool ok = DdsFloatmatPlugin_serialize_to_cdr_buffer(
+                NULL, 
+                &length,
+                &sample);
+            rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to calculate cdr buffer size");
+
+            // Create a vector with that size and copy the cdr buffer into it
+            buffer.resize(length);
+            ok = DdsFloatmatPlugin_serialize_to_cdr_buffer(
+                &buffer[0], 
+                &length, 
+                &sample);
+            rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to copy cdr buffer");
+
+            return buffer;
+        }
+
+        void topic_type_support<DdsFloatmat>::from_cdr_buffer(DdsFloatmat& sample, 
+        const std::vector<char>& buffer)
+        {
+
+            RTIBool ok  = DdsFloatmatPlugin_deserialize_from_cdr_buffer(
+                &sample, 
+                &buffer[0], 
+                static_cast<unsigned int>(buffer.size()));
+            rti::core::check_return_code(ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+            "Failed to create DdsFloatmat from cdr buffer");
+        }
+
+        void topic_type_support<DdsFloatmat>::reset_sample(DdsFloatmat& sample) 
+        {
+            rti::topic::reset_sample(sample.vec());
+            rti::topic::reset_sample(sample.M());
+            rti::topic::reset_sample(sample.N());
+        }
+
+        void topic_type_support<DdsFloatmat>::allocate_sample(DdsFloatmat& sample, int, int) 
+        {
+            rti::topic::allocate_sample(sample.vec(),  100, -1);
+            rti::topic::allocate_sample(sample.M(),  -1, -1);
+            rti::topic::allocate_sample(sample.N(),  -1, -1);
+        }
+
+        void topic_type_support<DdsDoublemat>:: register_type(
+            dds::domain::DomainParticipant& participant,
+            const std::string& type_name) 
+        {
+
+            rti::domain::register_type_plugin(
+                participant,
+                type_name,
+                DdsDoublematPlugin_new,
+                DdsDoublematPlugin_delete);
+        }
+
+        std::vector<char>& topic_type_support<DdsDoublemat>::to_cdr_buffer(
+            std::vector<char>& buffer, const DdsDoublemat& sample)
+        {
+            // First get the length of the buffer
+            unsigned int length = 0;
+            RTIBool ok = DdsDoublematPlugin_serialize_to_cdr_buffer(
+                NULL, 
+                &length,
+                &sample);
+            rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to calculate cdr buffer size");
+
+            // Create a vector with that size and copy the cdr buffer into it
+            buffer.resize(length);
+            ok = DdsDoublematPlugin_serialize_to_cdr_buffer(
+                &buffer[0], 
+                &length, 
+                &sample);
+            rti::core::check_return_code(
+                ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+                "Failed to copy cdr buffer");
+
+            return buffer;
+        }
+
+        void topic_type_support<DdsDoublemat>::from_cdr_buffer(DdsDoublemat& sample, 
+        const std::vector<char>& buffer)
+        {
+
+            RTIBool ok  = DdsDoublematPlugin_deserialize_from_cdr_buffer(
+                &sample, 
+                &buffer[0], 
+                static_cast<unsigned int>(buffer.size()));
+            rti::core::check_return_code(ok ? DDS_RETCODE_OK : DDS_RETCODE_ERROR,
+            "Failed to create DdsDoublemat from cdr buffer");
+        }
+
+        void topic_type_support<DdsDoublemat>::reset_sample(DdsDoublemat& sample) 
+        {
+            rti::topic::reset_sample(sample.vec());
+            rti::topic::reset_sample(sample.M());
+            rti::topic::reset_sample(sample.N());
+        }
+
+        void topic_type_support<DdsDoublemat>::allocate_sample(DdsDoublemat& sample, int, int) 
+        {
+            rti::topic::allocate_sample(sample.vec(),  100, -1);
+            rti::topic::allocate_sample(sample.M(),  -1, -1);
+            rti::topic::allocate_sample(sample.N(),  -1, -1);
+        }
+
         void topic_type_support<DdsJobMsdcAcqAdxl::alphaBeta>:: register_type(
             dds::domain::DomainParticipant& participant,
             const std::string& type_name) 
@@ -8767,7 +9355,7 @@ namespace dds {
         {
             rti::topic::allocate_sample(sample.ixVFunction(),  -1, 50);
             rti::topic::allocate_sample(sample.N(),  -1, -1);
-            rti::topic::allocate_sample(sample.seq(),  32, -1);
+            rti::topic::allocate_sample(sample.seq(),  100, -1);
         }
 
         void topic_type_support<DdsJobMsdcActAlign::setWave_reply>:: register_type(

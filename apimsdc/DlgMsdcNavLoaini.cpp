@@ -2,8 +2,8 @@
   * \file DlgMsdcNavLoaini.cpp
   * API code for job DlgMsdcNavLoaini (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -191,7 +191,7 @@ set<uint> DlgMsdcNavLoaini::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFDSE};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -252,7 +252,7 @@ set<uint> DlgMsdcNavLoaini::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFSGE};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -313,7 +313,7 @@ set<uint> DlgMsdcNavLoaini::ContInfImp::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {TXTPRG};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -374,7 +374,7 @@ set<uint> DlgMsdcNavLoaini::ContInfLfi::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {DLD};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

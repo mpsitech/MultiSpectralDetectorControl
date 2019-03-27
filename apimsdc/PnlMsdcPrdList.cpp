@@ -2,8 +2,8 @@
   * \file PnlMsdcPrdList.cpp
   * API code for job PnlMsdcPrdList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -115,7 +115,7 @@ set<uint> PnlMsdcPrdList::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFTOS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -180,7 +180,7 @@ set<uint> PnlMsdcPrdList::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, NUMFCSIQST};
+	diffitems = {BUTFILTERON, NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -332,7 +332,7 @@ set<uint> PnlMsdcPrdList::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCOSTOWIDTH};
+	diffitems = {TCOSTAWIDTH, TCOSTOWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

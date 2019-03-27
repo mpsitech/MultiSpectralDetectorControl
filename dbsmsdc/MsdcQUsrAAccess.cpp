@@ -2,8 +2,8 @@
   * \file MsdcQUsrAAccess.cpp
   * Dbs and XML wrapper for table TblMsdcQUsrAAccess (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "MsdcQUsrAAccess.h"
@@ -484,7 +484,10 @@ bool LiteTblMsdcQUsrAAccess::loadRecByQref(
 			ubigint qref
 			, MsdcQUsrAAccess** rec
 		) {
-	if (qref == 0) return false;
+	if (qref == 0) {
+		*rec = NULL;
+		return false;
+	};
 
 	sqlite3_bind_int64(stmtLoadRecByQref, 1, qref);
 

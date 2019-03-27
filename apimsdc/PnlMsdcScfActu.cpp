@@ -2,8 +2,8 @@
   * \file PnlMsdcScfActu.cpp
   * API code for job PnlMsdcScfActu (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -120,7 +120,7 @@ set<uint> PnlMsdcScfActu::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, SLDSTX, SLDSPM, SLDSPX};
+	diffitems = {SLDSTM, SLDSTX, SLDSPM, SLDSPX};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -181,7 +181,7 @@ set<uint> PnlMsdcScfActu::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {BUTMASTERON};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

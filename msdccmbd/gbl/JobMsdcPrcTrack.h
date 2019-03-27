@@ -2,8 +2,8 @@
   * \file JobMsdcPrcTrack.h
   * job handler for job JobMsdcPrcTrack (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef JOBMSDCPRCTRACK_H
@@ -12,7 +12,7 @@
 // IP custInclude --- INSERT
 
 #include "JobMsdcAcqVisl.h"
-#include "JobMsdcActServo.h"
+#include "JobMsdcAcqVisr.h"
 #include "JobMsdcActAlign.h"
 
 #define VecVJobMsdcPrcTrackSge JobMsdcPrcTrack::VecVSge
@@ -67,7 +67,7 @@ public:
 	static Shrdat shrdat;
 
 	JobMsdcAcqVisl* acqvisl;
-	JobMsdcActServo* actservo;
+	JobMsdcAcqVisr* acqvisr;
 	JobMsdcActAlign* actalign;
 
 	// IP specVar --- INSERT

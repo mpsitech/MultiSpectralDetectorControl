@@ -2,8 +2,8 @@
   * \file PnlMsdcUsgDetail.cpp
   * API code for job PnlMsdcUsgDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -105,7 +105,7 @@ set<uint> PnlMsdcUsgDetail::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {TXFCMT};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -166,7 +166,7 @@ set<uint> PnlMsdcUsgDetail::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {TXTSRF};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

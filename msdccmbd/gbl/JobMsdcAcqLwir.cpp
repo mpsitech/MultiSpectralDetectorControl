@@ -2,8 +2,8 @@
   * \file JobMsdcAcqLwir.cpp
   * job handler for job JobMsdcAcqLwir (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -31,26 +31,26 @@ void JobMsdcAcqLwir::Shrdat::init(
 			XchgMsdc* xchg
 			, DbsMsdc* dbsmsdc
 		) {
-		// IP Shrdat.init --- IBEGIN
-		ixMsdcVCamste = VecMsdcVCamste::NC;
+	// IP Shrdat.init --- IBEGIN
+	ixMsdcVCamste = VecMsdcVCamste::NC;
 
-		extcall = NULL;
+	extcall = NULL;
 
-		seqno = 0;
+	seqno = 0;
 
-		fill1Not0 = false;
-		read1Not0 = false;
+	fill1Not0 = false;
+	read1Not0 = false;
 
-		gray0 = NULL;
-		gray0Tkst = 0;
-		gray0Min = 0;
-		gray0Max = 0;
+	gray0 = NULL;
+	gray0Tkst = 0;
+	gray0Min = 0;
+	gray0Max = 0;
 
-		gray1 = NULL;
-		gray1Tkst = 0;
-		gray1Min = 0;
-		gray1Max = 0;
-		// IP Shrdat.init --- IEND
+	gray1 = NULL;
+	gray1Tkst = 0;
+	gray1Min = 0;
+	gray1Max = 0;
+	// IP Shrdat.init --- IEND
 };
 
 void JobMsdcAcqLwir::Shrdat::term() {
@@ -719,7 +719,6 @@ bool JobMsdcAcqLwir::handleCallMsdcMastsrdChg(
 	// IP handleCallMsdcMastsrdChg --- IEND
 	return retval;
 };
-
 
 
 

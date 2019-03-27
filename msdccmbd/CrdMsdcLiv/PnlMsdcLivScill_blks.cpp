@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill_blks.cpp
   * job handler for job PnlMsdcLivScill (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 /******************************************************************************
@@ -15,6 +15,8 @@ uint PnlMsdcLivScill::VecVDo::getIx(
 		) {
 	string s = StrMod::lc(sref);
 
+	if (s == "butregularizeclick") return BUTREGULARIZECLICK;
+	if (s == "butminimizeclick") return BUTMINIMIZECLICK;
 	if (s == "butmasterclick") return BUTMASTERCLICK;
 
 	return(0);
@@ -23,6 +25,8 @@ uint PnlMsdcLivScill::VecVDo::getIx(
 string PnlMsdcLivScill::VecVDo::getSref(
 			const uint ix
 		) {
+	if (ix == BUTREGULARIZECLICK) return("ButRegularizeClick");
+	if (ix == BUTMINIMIZECLICK) return("ButMinimizeClick");
 	if (ix == BUTMASTERCLICK) return("ButMasterClick");
 
 	return("");
@@ -165,32 +169,12 @@ set<uint> PnlMsdcLivScill::ContInf::diff(
 };
 
 /******************************************************************************
- class PnlMsdcLivScill::StatApp
- ******************************************************************************/
-
-void PnlMsdcLivScill::StatApp::writeXML(
-			xmlTextWriter* wr
-			, string difftag
-			, bool shorttags
-			, const uint ixMsdcVExpstate
-		) {
-	if (difftag.length() == 0) difftag = "StatAppMsdcLivScill";
-
-	string itemtag;
-	if (shorttags) itemtag = "Si";
-	else itemtag = "StatitemAppMsdcLivScill";
-
-	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
-		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
-	xmlTextWriterEndElement(wr);
-};
-
-/******************************************************************************
  class PnlMsdcLivScill::StatShr
  ******************************************************************************/
 
 PnlMsdcLivScill::StatShr::StatShr(
-			const bool SldFldActive
+			const uint ixMsdcVExpstate
+			, const bool SldFldActive
 			, const double SldFldMin
 			, const double SldFldMax
 			, const bool SldSptActive
@@ -199,6 +183,7 @@ PnlMsdcLivScill::StatShr::StatShr(
 		) :
 			Block()
 		{
+	this->ixMsdcVExpstate = ixMsdcVExpstate;
 	this->SldFldActive = SldFldActive;
 	this->SldFldMin = SldFldMin;
 	this->SldFldMax = SldFldMax;
@@ -206,7 +191,7 @@ PnlMsdcLivScill::StatShr::StatShr(
 	this->SldSptMin = SldSptMin;
 	this->SldSptMax = SldSptMax;
 
-	mask = {SLDFLDACTIVE, SLDFLDMIN, SLDFLDMAX, SLDSPTACTIVE, SLDSPTMIN, SLDSPTMAX};
+	mask = {IXMSDCVEXPSTATE, SLDFLDACTIVE, SLDFLDMIN, SLDFLDMAX, SLDSPTACTIVE, SLDSPTMIN, SLDSPTMAX};
 };
 
 void PnlMsdcLivScill::StatShr::writeXML(
@@ -221,6 +206,7 @@ void PnlMsdcLivScill::StatShr::writeXML(
 	else itemtag = "StatitemShrMsdcLivScill";
 
 	xmlTextWriterStartElement(wr, BAD_CAST difftag.c_str());
+		writeStringAttr(wr, itemtag, "sref", "srefIxMsdcVExpstate", VecMsdcVExpstate::getSref(ixMsdcVExpstate));
 		writeBoolAttr(wr, itemtag, "sref", "SldFldActive", SldFldActive);
 		writeDoubleAttr(wr, itemtag, "sref", "SldFldMin", SldFldMin);
 		writeDoubleAttr(wr, itemtag, "sref", "SldFldMax", SldFldMax);
@@ -235,6 +221,7 @@ set<uint> PnlMsdcLivScill::StatShr::comm(
 		) {
 	set<uint> items;
 
+	if (ixMsdcVExpstate == comp->ixMsdcVExpstate) insert(items, IXMSDCVEXPSTATE);
 	if (SldFldActive == comp->SldFldActive) insert(items, SLDFLDACTIVE);
 	if (compareDouble(SldFldMin, comp->SldFldMin) < 1.0e-4) insert(items, SLDFLDMIN);
 	if (compareDouble(SldFldMax, comp->SldFldMax) < 1.0e-4) insert(items, SLDFLDMAX);
@@ -253,7 +240,7 @@ set<uint> PnlMsdcLivScill::StatShr::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {SLDFLDACTIVE, SLDFLDMIN, SLDFLDMAX, SLDSPTACTIVE, SLDSPTMIN, SLDSPTMAX};
+	diffitems = {IXMSDCVEXPSTATE, SLDFLDACTIVE, SLDFLDMIN, SLDFLDMAX, SLDSPTACTIVE, SLDSPTMIN, SLDSPTMAX};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -401,7 +388,7 @@ PnlMsdcLivScill::DpchEngData::DpchEngData(
 		) :
 			DpchEngMsdc(VecMsdcVDpch::DPCHENGMSDCLIVSCILLDATA, jref)
 		{
-	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, STATAPP, STATSHR, TAG};
+	if (find(mask, ALL)) this->mask = {JREF, CONTIAC, CONTINF, STATSHR, TAG};
 	else this->mask = mask;
 
 	if (find(this->mask, CONTIAC) && contiac) this->contiac = *contiac;
@@ -416,7 +403,6 @@ string PnlMsdcLivScill::DpchEngData::getSrefsMask() {
 	if (has(JREF)) ss.push_back("jref");
 	if (has(CONTIAC)) ss.push_back("contiac");
 	if (has(CONTINF)) ss.push_back("continf");
-	if (has(STATAPP)) ss.push_back("statapp");
 	if (has(STATSHR)) ss.push_back("statshr");
 	if (has(TAG)) ss.push_back("tag");
 
@@ -433,7 +419,6 @@ void PnlMsdcLivScill::DpchEngData::merge(
 	if (src->has(JREF)) {jref = src->jref; add(JREF);};
 	if (src->has(CONTIAC)) {contiac = src->contiac; add(CONTIAC);};
 	if (src->has(CONTINF)) {continf = src->continf; add(CONTINF);};
-	if (src->has(STATAPP)) add(STATAPP);
 	if (src->has(STATSHR)) {statshr = src->statshr; add(STATSHR);};
 	if (src->has(TAG)) add(TAG);
 };
@@ -447,7 +432,6 @@ void PnlMsdcLivScill::DpchEngData::writeXML(
 		if (has(JREF)) writeString(wr, "scrJref", Scr::scramble(jref));
 		if (has(CONTIAC)) contiac.writeXML(wr);
 		if (has(CONTINF)) continf.writeXML(wr);
-		if (has(STATAPP)) StatApp::writeXML(wr);
 		if (has(STATSHR)) statshr.writeXML(wr);
 		if (has(TAG)) Tag::writeXML(ixMsdcVLocale, wr);
 	xmlTextWriterEndElement(wr);

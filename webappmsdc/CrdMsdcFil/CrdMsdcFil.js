@@ -2,8 +2,8 @@
   * \file CrdMsdcFil.js
   * web client functionality for card CrdMsdcFil
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 function getInitdone(pnlshort) {
@@ -353,7 +353,7 @@ function refresh() {
 		if (scrJrefDlg != scrJrefDlgdownload) showDlg("DlgMsdcFilDownload", scrJrefDlgdownload);
 	} else if (scrJrefDlg != "") hideDlg();
 
-	doc.title = retrieveCi(srcdoc, "ContInfMsdcFil", "MtxCrdFil") + " - MultispectralDetectorControl 0.1.52";
+	doc.title = retrieveCi(srcdoc, "ContInfMsdcFil", "MtxCrdFil") + " - MultispectralDetectorControl 0.1.58";
 };
 
 // --- event handlers

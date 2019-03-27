@@ -2,8 +2,8 @@
   * \file CrdMsdcFil.h
   * API code for job CrdMsdcFil (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef CRDMSDCFIL_H
@@ -126,10 +126,10 @@ namespace CrdMsdcFil {
 		StatShr(const string& scrJrefDlgdownload = "", const string& scrJrefHeadbar = "", const string& scrJrefList = "", const string& scrJrefRec = "", const bool MitCrdDldAvail = true, const bool MitCrdDldActive = true);
 
 	public:
-		ubigint jrefDlgdownload;
-		ubigint jrefHeadbar;
-		ubigint jrefList;
-		ubigint jrefRec;
+		string scrJrefDlgdownload;
+		string scrJrefHeadbar;
+		string scrJrefList;
+		string scrJrefRec;
 		bool MitCrdDldAvail;
 		bool MitCrdDldActive;
 

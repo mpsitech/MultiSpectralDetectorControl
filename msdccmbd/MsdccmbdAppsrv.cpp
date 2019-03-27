@@ -2,8 +2,8 @@
   * \file MsdccmbdAppsrv.cpp
   * application server for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "Msdccmbd.h"
@@ -735,6 +735,9 @@ uint MsdccmbdAppsrv::readDpchApp(
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVSCILLDO) {
 		req->dpchapp = new PnlMsdcLivScill::DpchAppDo();
 		((PnlMsdcLivScill::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);
+	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDATA) {
+		req->dpchapp = new PnlMsdcLivTrack::DpchAppData();
+		((PnlMsdcLivTrack::DpchAppData*) (req->dpchapp))->readXML(docctx, "/", true);
 	} else if (ixMsdcVDpch == VecMsdcVDpch::DPCHAPPMSDCLIVTRACKDO) {
 		req->dpchapp = new PnlMsdcLivTrack::DpchAppDo();
 		((PnlMsdcLivTrack::DpchAppDo*) (req->dpchapp))->readXML(docctx, "/", true);

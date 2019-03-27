@@ -2,8 +2,8 @@
 # file checkout.sh
 # checkout script for Msdc API library, release apimsdc_jack
 # author Alexander Wirthmueller
-# date created: 4 Oct 2018
-# modified: 4 Oct 2018
+# date created: 18 Dec 2018
+# modified: 18 Dec 2018
 
 export set SRCROOT=/home/mpsitech/src
 

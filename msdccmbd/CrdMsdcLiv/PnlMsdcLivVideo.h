@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.h
   * job handler for job PnlMsdcLivVideo (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCLIVVIDEO_H
@@ -42,9 +42,11 @@ public:
 	class VecVDo {
 
 	public:
-		static const uint BUTMASTERCLICK = 1;
-		static const uint BUTPLAYCLICK = 2;
-		static const uint BUTSTOPCLICK = 3;
+		static const uint BUTREGULARIZECLICK = 1;
+		static const uint BUTMINIMIZECLICK = 2;
+		static const uint BUTMASTERCLICK = 3;
+		static const uint BUTPLAYCLICK = 4;
+		static const uint BUTSTOPCLICK = 5;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);
@@ -77,17 +79,23 @@ public:
 	public:
 		static const uint NUMFPUPSRC = 1;
 		static const uint NUMFPUPRES = 2;
-		static const uint SLDEXT = 3;
-		static const uint SLDFCS = 4;
+		static const uint CHKGRS = 3;
+		static const uint SLDEXT = 4;
+		static const uint SLDFCS = 5;
+		static const uint CHKTCP = 6;
+		static const uint NUMFLSTFST = 7;
 
 	public:
-		ContIac(const uint numFPupSrc = 1, const uint numFPupRes = 1, const double SldExt = 0.0, const double SldFcs = 0.0);
+		ContIac(const uint numFPupSrc = 1, const uint numFPupRes = 1, const bool ChkGrs = false, const double SldExt = 0.0, const double SldFcs = 0.0, const bool ChkTcp = false, const uint numFLstFst = 1);
 
 	public:
 		uint numFPupSrc;
 		uint numFPupRes;
+		bool ChkGrs;
 		double SldExt;
 		double SldFcs;
+		bool ChkTcp;
+		uint numFLstFst;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
@@ -122,7 +130,7 @@ public:
 	class StatApp {
 
 	public:
-		static void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true, const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND);
+		static void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true, const uint LstFstNumFirstdisp = 1);
 	};
 
 	/**
@@ -131,24 +139,30 @@ public:
 	class StatShr : public Block {
 
 	public:
-		static const uint PUPRESAVAIL = 1;
-		static const uint BUTPLAYACTIVE = 2;
-		static const uint BUTSTOPACTIVE = 3;
-		static const uint SLDEXTAVAIL = 4;
-		static const uint SLDEXTACTIVE = 5;
-		static const uint SLDEXTMIN = 6;
-		static const uint SLDEXTMAX = 7;
-		static const uint SLDEXTRAST = 8;
-		static const uint SLDFCSAVAIL = 9;
-		static const uint SLDFCSACTIVE = 10;
-		static const uint SLDFCSMIN = 11;
-		static const uint SLDFCSMAX = 12;
+		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint PUPRESAVAIL = 2;
+		static const uint CHKGRSAVAIL = 3;
+		static const uint BUTPLAYACTIVE = 4;
+		static const uint BUTSTOPACTIVE = 5;
+		static const uint SLDEXTAVAIL = 6;
+		static const uint SLDEXTACTIVE = 7;
+		static const uint SLDEXTMIN = 8;
+		static const uint SLDEXTMAX = 9;
+		static const uint SLDEXTRAST = 10;
+		static const uint SLDFCSAVAIL = 11;
+		static const uint SLDFCSACTIVE = 12;
+		static const uint SLDFCSMIN = 13;
+		static const uint SLDFCSMAX = 14;
+		static const uint CHKTCPAVAIL = 15;
+		static const uint LSTFSTACTIVE = 16;
 
 	public:
-		StatShr(const bool PupResAvail = true, const bool ButPlayActive = true, const bool ButStopActive = true, const bool SldExtAvail = true, const bool SldExtActive = true, const double SldExtMin = 0.01, const double SldExtMax = 1.0, const double SldExtRast = 1.25893, const bool SldFcsAvail = true, const bool SldFcsActive = true, const double SldFcsMin = 0.0, const double SldFcsMax = 1.0);
+		StatShr(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND, const bool PupResAvail = true, const bool ChkGrsAvail = true, const bool ButPlayActive = true, const bool ButStopActive = true, const bool SldExtAvail = true, const bool SldExtActive = true, const double SldExtMin = 0.01, const double SldExtMax = 1.0, const double SldExtRast = 1.25893, const bool SldFcsAvail = true, const bool SldFcsActive = true, const double SldFcsMin = 0.0, const double SldFcsMax = 1.0, const bool ChkTcpAvail = true, const bool LstFstActive = true);
 
 	public:
+		uint ixMsdcVExpstate;
 		bool PupResAvail;
+		bool ChkGrsAvail;
 		bool ButPlayActive;
 		bool ButStopActive;
 		bool SldExtAvail;
@@ -160,6 +174,8 @@ public:
 		bool SldFcsActive;
 		double SldFcsMin;
 		double SldFcsMax;
+		bool ChkTcpAvail;
+		bool LstFstActive;
 
 	public:
 		void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true);
@@ -227,19 +243,21 @@ public:
 		static const uint JREF = 1;
 		static const uint CONTIAC = 2;
 		static const uint CONTINF = 3;
-		static const uint FEEDFPUPRES = 4;
-		static const uint FEEDFPUPSRC = 5;
-		static const uint STATAPP = 6;
-		static const uint STATSHR = 7;
-		static const uint TAG = 8;
-		static const uint ALL = 9;
+		static const uint FEEDFLSTFST = 4;
+		static const uint FEEDFPUPRES = 5;
+		static const uint FEEDFPUPSRC = 6;
+		static const uint STATAPP = 7;
+		static const uint STATSHR = 8;
+		static const uint TAG = 9;
+		static const uint ALL = 10;
 
 	public:
-		DpchEngData(const ubigint jref = 0, ContIac* contiac = NULL, ContInf* continf = NULL, Feed* feedFPupRes = NULL, Feed* feedFPupSrc = NULL, StatShr* statshr = NULL, const set<uint>& mask = {NONE});
+		DpchEngData(const ubigint jref = 0, ContIac* contiac = NULL, ContInf* continf = NULL, Feed* feedFLstFst = NULL, Feed* feedFPupRes = NULL, Feed* feedFPupSrc = NULL, StatShr* statshr = NULL, const set<uint>& mask = {NONE});
 
 	public:
 		ContIac contiac;
 		ContInf continf;
+		Feed feedFLstFst;
 		Feed feedFPupRes;
 		Feed feedFPupSrc;
 		StatShr statshr;
@@ -285,12 +303,15 @@ public:
 	};
 
 	bool evalPupResAvail(DbsMsdc* dbsmsdc);
+	bool evalChkGrsAvail(DbsMsdc* dbsmsdc);
 	bool evalButPlayActive(DbsMsdc* dbsmsdc);
 	bool evalButStopActive(DbsMsdc* dbsmsdc);
 	bool evalSldExtAvail(DbsMsdc* dbsmsdc);
 	bool evalSldExtActive(DbsMsdc* dbsmsdc);
 	bool evalSldFcsAvail(DbsMsdc* dbsmsdc);
 	bool evalSldFcsActive(DbsMsdc* dbsmsdc);
+	bool evalChkTcpAvail(DbsMsdc* dbsmsdc);
+	bool evalLstFstActive(DbsMsdc* dbsmsdc);
 
 public:
 	PnlMsdcLivVideo(XchgMsdc* xchg, DbsMsdc* dbsmsdc, const ubigint jrefSup, const uint ixMsdcVLocale);
@@ -301,6 +322,7 @@ public:
 	ContInf continf;
 	StatShr statshr;
 
+	Feed feedFLstFst;
 	Feed feedFPupRes;
 	Feed feedFPupSrc;
 
@@ -343,6 +365,8 @@ public:
 	void handleDpchAppMsdcInit(DbsMsdc* dbsmsdc, DpchAppMsdcInit* dpchappmsdcinit, DpchEngMsdc** dpcheng);
 	void handleDpchAppDataContiac(DbsMsdc* dbsmsdc, ContIac* _contiac, DpchEngMsdc** dpcheng);
 
+	void handleDpchAppDoButRegularizeClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
+	void handleDpchAppDoButMinimizeClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
 	void handleDpchAppDoButMasterClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
 	void handleDpchAppDoButPlayClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
 	void handleDpchAppDoButStopClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
@@ -355,7 +379,6 @@ public:
 };
 
 #endif
-
 
 
 

@@ -2,8 +2,8 @@
   * \file CrdMsdcPrs.cpp
   * API code for job CrdMsdcPrs (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -123,7 +123,7 @@ set<uint> CrdMsdcPrs::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, MRLAPPHLP, MTXCRDPRS};
+	diffitems = {NUMFSGE, MRLAPPHLP, MTXCRDPRS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

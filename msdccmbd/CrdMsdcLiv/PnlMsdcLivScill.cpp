@@ -2,8 +2,8 @@
   * \file PnlMsdcLivScill.cpp
   * job handler for job PnlMsdcLivScill (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -36,7 +36,7 @@ PnlMsdcLivScill::PnlMsdcLivScill(
 
 	// IP constructor.cust1 --- INSERT
 
-	actled = new JobMsdcActLed(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	actled = new JobMsdcActLed(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -135,7 +135,11 @@ void PnlMsdcLivScill::handleRequest(
 			DpchAppDo* dpchappdo = (DpchAppDo*) (req->dpchapp);
 
 			if (dpchappdo->ixVDo != 0) {
-				if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
+				if (dpchappdo->ixVDo == VecVDo::BUTREGULARIZECLICK) {
+					handleDpchAppDoButRegularizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMINIMIZECLICK) {
+					handleDpchAppDoButMinimizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
 					handleDpchAppDoButMasterClick(dbsmsdc, &(req->dpcheng));
 				};
 
@@ -183,6 +187,26 @@ void PnlMsdcLivScill::handleDpchAppDataContiac(
 	// IP handleDpchAppDataContiac --- IEND
 	insert(moditems, DpchEngData::CONTIAC);
 	*dpcheng = getNewDpchEng(moditems);
+};
+
+void PnlMsdcLivScill::handleDpchAppDoButRegularizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButRegularizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::REGD;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButRegularizeClick --- END
+};
+
+void PnlMsdcLivScill::handleDpchAppDoButMinimizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButMinimizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::MIND;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButMinimizeClick --- END
 };
 
 void PnlMsdcLivScill::handleDpchAppDoButMasterClick(
@@ -237,7 +261,6 @@ bool PnlMsdcLivScill::handleCallMsdcShrdatChg(
 	// IP handleCallMsdcShrdatChg --- IEND
 	return retval;
 };
-
 
 
 

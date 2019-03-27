@@ -2,8 +2,8 @@
   * \file QryMsdcPrd1NData.cpp
   * API code for job QryMsdcPrd1NData (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -235,7 +235,7 @@ set<uint> QryMsdcPrd1NData::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, JNUMFIRSTLOAD, NLOAD};
+	diffitems = {JNUM, JNUMFIRSTLOAD, NLOAD};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

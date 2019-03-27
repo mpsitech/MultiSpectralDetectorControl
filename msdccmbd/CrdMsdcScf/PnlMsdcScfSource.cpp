@@ -2,8 +2,8 @@
   * \file PnlMsdcScfSource.cpp
   * job handler for job PnlMsdcScfSource (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -36,8 +36,8 @@ PnlMsdcScfSource::PnlMsdcScfSource(
 
 	// IP constructor.cust1 --- INSERT
 
-	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	srctrigger = new JobMsdcSrcTrigger(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	srctrigger = new JobMsdcSrcTrigger(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -201,7 +201,6 @@ bool PnlMsdcScfSource::handleCallMsdcMastslvChg(
 	if (!muteRefresh) refreshWithDpchEng(dbsmsdc); // IP handleCallMsdcMastslvChg --- ILINE
 	return retval;
 };
-
 
 
 

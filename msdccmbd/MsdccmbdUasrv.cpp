@@ -1,9 +1,10 @@
+// IP file --- KEEP
 /**
 	* \file MsdccmbdUasrv.cpp
 	* OPC UA server based on Matrikon FLEX OPC UA SDK for Msdc combined daemon (implementation)
 	* \author Alexander Wirthmueller
-	* \date created: 4 Oct 2018
-	* \date modified: 4 Oct 2018
+	* \date created: 18 Dec 2018
+	* \date modified: 18 Dec 2018
 	*/
 
 #include "Msdccmbd.h"
@@ -237,15 +238,27 @@ Status_t MsdccmbdUasrv::Session::GetNodeUserVisibility(
 				auto it3 = accs.find(it2->second);
 				visible = (it3 != accs.end());
 			} else {
-				auto it3 = vars.find(node.NodeId()->Hash());
-				if (it3 != vars.end()) {
+				auto it3 = iasMethods.find(node.NodeId()->Hash());
+				if (it3 != iasMethods.end()) {
 					auto it4 = accs.find(it3->second);
 					visible = (it4 != accs.end());
 				} else {
-					auto it4 = subvarsVars.find(node.NodeId()->Hash());
-					if (it4 != subvarsVars.end()) {
+					auto it4 = oasMethods.find(node.NodeId()->Hash());
+					if (it4 != oasMethods.end()) {
 						auto it5 = accs.find(it4->second);
 						visible = (it5 != accs.end());
+					} else {
+						auto it5 = vars.find(node.NodeId()->Hash());
+						if (it5 != vars.end()) {
+							auto it6 = accs.find(it5->second);
+							visible = (it6 != accs.end());
+						} else {
+							auto it6 = subvarsVars.find(node.NodeId()->Hash());
+							if (it6 != subvarsVars.end()) {
+								auto it7 = accs.find(it6->second);
+								visible = (it7 != accs.end());
+							};
+						};
 					};
 				};
 			};
@@ -383,340 +396,465 @@ Status_t MsdccmbdUasrv::MethodHandler::CallMethodBegin(
 	if (jref != 0) {
 		if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD) && (srefIxVMethod == "setOutput")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				ScopedPtr_t<Array_t<char> > dummy;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				IntrusivePtr_t<const String_t> srefIxMsdcVSqrgrp_inv_UA;
+				uint ixMsdcVSqrgrp_inv;
+
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), srefIxMsdcVSqrgrp_inv_UA);
+				ixMsdcVSqrgrp_inv = VecMsdcVSqrgrp::getIx(string(srefIxMsdcVSqrgrp_inv_UA->ToCString(dummy)));
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD, "setOutput",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&ixMsdcVSqrgrp_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD) && (srefIxVMethod == "start")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD, "start",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD) && (srefIxVMethod == "stop")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQLWIRMETHOD, "stop",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD) && (srefIxVMethod == "setFocus")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> focus_inv_UA;
+				float focus_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), focus_inv_UA);
+				focus_inv = focus_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "setFocus",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&focus_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD) && (srefIxVMethod == "setOutput")) {
 			if (requestParameters->InputArguments().Size() == 3) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				ScopedPtr_t<Array_t<char> > dummy;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				IntrusivePtr_t<const String_t> srefIxMsdcVCamres_inv_UA;
+				uint ixMsdcVCamres_inv;
+				IntrusivePtr_t<const String_t> srefIxMsdcVSqrgrp_inv_UA;
+				uint ixMsdcVSqrgrp_inv;
+				IntrusivePtr_t<const Boolean_t> grayscale_inv_UA;
+				bool grayscale_inv;
+
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), srefIxMsdcVCamres_inv_UA);
+				ixMsdcVCamres_inv = VecMsdcVCamres::getIx(string(srefIxMsdcVCamres_inv_UA->ToCString(dummy)));
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[1]), srefIxMsdcVSqrgrp_inv_UA);
+				ixMsdcVSqrgrp_inv = VecMsdcVSqrgrp::getIx(string(srefIxMsdcVSqrgrp_inv_UA->ToCString(dummy)));
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[2]), grayscale_inv_UA);
+				grayscale_inv = grayscale_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "setOutput",
-							{requestParameters->InputArguments()[0].get(),requestParameters->InputArguments()[1].get(),requestParameters->InputArguments()[2].get()},
-							{success.get()});
+							{&ixMsdcVCamres_inv,&ixMsdcVSqrgrp_inv,&grayscale_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD) && (srefIxVMethod == "setTint")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> Tint_inv_UA;
+				float Tint_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), Tint_inv_UA);
+				Tint_inv = Tint_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "setTint",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&Tint_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD) && (srefIxVMethod == "start")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "start",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD) && (srefIxVMethod == "stop")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD, "stop",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD) && (srefIxVMethod == "setFocus")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> focus_inv_UA;
+				float focus_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), focus_inv_UA);
+				focus_inv = focus_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "setFocus",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&focus_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD) && (srefIxVMethod == "setOutput")) {
 			if (requestParameters->InputArguments().Size() == 3) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				ScopedPtr_t<Array_t<char> > dummy;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				IntrusivePtr_t<const String_t> srefIxMsdcVCamres_inv_UA;
+				uint ixMsdcVCamres_inv;
+				IntrusivePtr_t<const String_t> srefIxMsdcVSqrgrp_inv_UA;
+				uint ixMsdcVSqrgrp_inv;
+				IntrusivePtr_t<const Boolean_t> grayscale_inv_UA;
+				bool grayscale_inv;
+
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), srefIxMsdcVCamres_inv_UA);
+				ixMsdcVCamres_inv = VecMsdcVCamres::getIx(string(srefIxMsdcVCamres_inv_UA->ToCString(dummy)));
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[1]), srefIxMsdcVSqrgrp_inv_UA);
+				ixMsdcVSqrgrp_inv = VecMsdcVSqrgrp::getIx(string(srefIxMsdcVSqrgrp_inv_UA->ToCString(dummy)));
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[2]), grayscale_inv_UA);
+				grayscale_inv = grayscale_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "setOutput",
-							{requestParameters->InputArguments()[0].get(),requestParameters->InputArguments()[1].get(),requestParameters->InputArguments()[2].get()},
-							{success.get()});
+							{&ixMsdcVCamres_inv,&ixMsdcVSqrgrp_inv,&grayscale_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD) && (srefIxVMethod == "setTint")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> Tint_inv_UA;
+				float Tint_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), Tint_inv_UA);
+				Tint_inv = Tint_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "setTint",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&Tint_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD) && (srefIxVMethod == "start")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "start",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD) && (srefIxVMethod == "stop")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD, "stop",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD) && (srefIxVMethod == "setWave")) {
 			if (requestParameters->InputArguments().Size() == 3) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				ScopedPtr_t<Array_t<char> > dummy;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				IntrusivePtr_t<const String_t> srefIxVFunction_inv_UA;
+				uint ixVFunction_inv;
+				IntrusivePtr_t<const Byte_t> N_inv_UA;
+				utinyint N_inv;
+				IntrusivePtr_t<const ArrayUA_t<Float_t> > seq_inv_UA;
+				vector<float> seq_inv;
+
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), srefIxVFunction_inv_UA);
+				ixVFunction_inv = VecVJobMsdcActAlignFunction::getIx(string(srefIxVFunction_inv_UA->ToCString(dummy)));
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[1]), N_inv_UA);
+				N_inv = N_inv_UA->Value();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[2]), seq_inv_UA);
+///
+				//seq_inv = seq_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD, "setWave",
-							{requestParameters->InputArguments()[0].get(),requestParameters->InputArguments()[1].get(),requestParameters->InputArguments()[2].get()},
-							{success.get()});
+							{&ixVFunction_inv,&N_inv,&seq_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD) && (srefIxVMethod == "start")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD, "start",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD) && (srefIxVMethod == "stop")) {
 			if (requestParameters->InputArguments().Size() == 0) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
-
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTALIGNMETHOD, "stop",
 							{},
-							{success.get()});
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTLEDMETHOD) && (srefIxVMethod == "setFlood")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> flood_inv_UA;
+				float flood_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), flood_inv_UA);
+				flood_inv = flood_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTLEDMETHOD, "setFlood",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&flood_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTLEDMETHOD) && (srefIxVMethod == "setSpot")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> spot_inv_UA;
+				float spot_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), spot_inv_UA);
+				spot_inv = spot_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTLEDMETHOD, "setSpot",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&spot_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTSERVOMETHOD) && (srefIxVMethod == "setPhi")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> phi_inv_UA;
+				float phi_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), phi_inv_UA);
+				phi_inv = phi_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTSERVOMETHOD, "setPhi",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&phi_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
 
 		 } else if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACTSERVOMETHOD) && (srefIxVMethod == "setTheta")) {
 			if (requestParameters->InputArguments().Size() == 1) {
-				result.reset(new SafeRefCount_t<CallMethodResult_t>());
+				IntrusivePtr_t<const Float_t> theta_inv_UA;
+				float theta_inv;
 
-				IntrusivePtr_t<Boolean_t> success = new SafeRefCount_t<Boolean_t>();
+				AddressSpaceUtilities_t::CastInputArgument(*(requestParameters->InputArguments()[0]), theta_inv_UA);
+				theta_inv = theta_inv_UA->Value();
+
+				bool success_ret;
+				IntrusivePtr_t<Boolean_t> success_ret_UA = new SafeRefCount_t<Boolean_t>();
 
 				runMethod(jref, VecMsdcVFeatgroup::VECVJOBMSDCACTSERVOMETHOD, "setTheta",
-							{requestParameters->InputArguments()[0].get()},
-							{success.get()});
+							{&theta_inv},
+							{&success_ret});
 
+				result.reset(new SafeRefCount_t<CallMethodResult_t>());
 				result->OutputArguments().Initialise(1);
 
-				success->CopyTo(result->OutputArguments()[0]);
+				success_ret_UA->Value(success_ret);
+				success_ret_UA->CopyTo((result->OutputArguments())[0]);
 
 				result->StatusCode() = OpcUa_Good;
 			};
@@ -760,6 +898,7 @@ Status_t MsdccmbdUasrv::ValueAttributeReaderWriter::ReadValueAttribute(
 
 	if ((ixMsdcVFeatgroup != 0) && (srefIxVVar != "") && (subvar != "")) {
 		dataValue = new SafeRefCount_t<DataValue_t>();
+		dataValue->StatusCode() = new SafeRefCount_t<StatusCode_t>();
 		*dataValue->StatusCode() = OpcUa_Good;
 
 		if ((ixMsdcVFeatgroup == VecMsdcVFeatgroup::VECVJOBMSDCACQADXLVAR) && (srefIxVVar == "alphaBeta")) {
@@ -1145,7 +1284,7 @@ Status_t MsdccmbdUasrv::fillAddressSpace(
 	fAS_addJobFolder(VecMsdcVJob::JOBMSDCACQLWIR, addressSpace, objectsFolder, jobFolder);
 
 	srefsParsInv.resize(1); opcUaIdsParsInv.resize(1);
-	srefsParsInv[0] = "ixMsdcVSqrgrp"; opcUaIdsParsInv[0] = OpcUaId_String;
+	srefsParsInv[0] = "srefIxMsdcVSqrgrp"; opcUaIdsParsInv[0] = OpcUaId_String;
 
 	srefsParsRet.resize(1); opcUaIdsParsRet.resize(1);
 	srefsParsRet[0] = "success"; opcUaIdsParsRet[0] = OpcUaId_Boolean;
@@ -1184,8 +1323,8 @@ Status_t MsdccmbdUasrv::fillAddressSpace(
 	fAS_addMethod(VecMsdcVJob::JOBMSDCACQVISL, VecMsdcVFeatgroup::VECVJOBMSDCACQVISLMETHOD , "setFocus", methodHandler, addressSpace, jobFolder, srefsParsInv, opcUaIdsParsInv, srefsParsRet, opcUaIdsParsRet);
 
 	srefsParsInv.resize(3); opcUaIdsParsInv.resize(3);
-	srefsParsInv[0] = "ixMsdcVCamres"; opcUaIdsParsInv[0] = OpcUaId_String;
-	srefsParsInv[1] = "ixMsdcVSqrgrp"; opcUaIdsParsInv[1] = OpcUaId_String;
+	srefsParsInv[0] = "srefIxMsdcVCamres"; opcUaIdsParsInv[0] = OpcUaId_String;
+	srefsParsInv[1] = "srefIxMsdcVSqrgrp"; opcUaIdsParsInv[1] = OpcUaId_String;
 	srefsParsInv[2] = "grayscale"; opcUaIdsParsInv[2] = OpcUaId_Boolean;
 
 	srefsParsRet.resize(1); opcUaIdsParsRet.resize(1);
@@ -1234,8 +1373,8 @@ Status_t MsdccmbdUasrv::fillAddressSpace(
 	fAS_addMethod(VecMsdcVJob::JOBMSDCACQVISR, VecMsdcVFeatgroup::VECVJOBMSDCACQVISRMETHOD , "setFocus", methodHandler, addressSpace, jobFolder, srefsParsInv, opcUaIdsParsInv, srefsParsRet, opcUaIdsParsRet);
 
 	srefsParsInv.resize(3); opcUaIdsParsInv.resize(3);
-	srefsParsInv[0] = "ixMsdcVCamres"; opcUaIdsParsInv[0] = OpcUaId_String;
-	srefsParsInv[1] = "ixMsdcVSqrgrp"; opcUaIdsParsInv[1] = OpcUaId_String;
+	srefsParsInv[0] = "srefIxMsdcVCamres"; opcUaIdsParsInv[0] = OpcUaId_String;
+	srefsParsInv[1] = "srefIxMsdcVSqrgrp"; opcUaIdsParsInv[1] = OpcUaId_String;
 	srefsParsInv[2] = "grayscale"; opcUaIdsParsInv[2] = OpcUaId_Boolean;
 
 	srefsParsRet.resize(1); opcUaIdsParsRet.resize(1);
@@ -1276,7 +1415,7 @@ Status_t MsdccmbdUasrv::fillAddressSpace(
 	fAS_addJobFolder(VecMsdcVJob::JOBMSDCACTALIGN, addressSpace, objectsFolder, jobFolder);
 
 	srefsParsInv.resize(3); opcUaIdsParsInv.resize(3);
-	srefsParsInv[0] = "ixVFunction"; opcUaIdsParsInv[0] = OpcUaId_String;
+	srefsParsInv[0] = "srefIxVFunction"; opcUaIdsParsInv[0] = OpcUaId_String;
 	srefsParsInv[1] = "N"; opcUaIdsParsInv[1] = OpcUaId_Byte;
 	srefsParsInv[2] = "seq"; opcUaIdsParsInv[2] = OpcUaId_ByteString;
 
@@ -1491,6 +1630,8 @@ Status_t MsdccmbdUasrv::fAS_addMethod(
 
 	IntrusivePtr_t<Method_t> methodObject = Method_t::CreateWithNumericId(1, nref, addressSpace, *browseNameString, true, status);
 
+	methods[nref] = featix_t(ixMsdcVFeatgroup, srefIxVMethod);
+
 	// invocation parameters
 	status = args.Initialise(srefsParsInv.size());
 	for (unsigned int i=0;i<srefsParsInv.size();i++) {
@@ -1498,7 +1639,9 @@ Status_t MsdccmbdUasrv::fAS_addMethod(
 		args[i] = arg;
 	};
 
-	status = methodObject->CreateInputArguments(nrefseq.getNewRef(), args);
+	nref = nrefseq.getNewRef();
+	status = methodObject->CreateInputArguments(nref, args);
+	iasMethods[nref] = featix_t(ixMsdcVFeatgroup, srefIxVMethod);
 
 	// return parameters
 	status = args.Initialise(srefsParsRet.size());
@@ -1507,15 +1650,15 @@ Status_t MsdccmbdUasrv::fAS_addMethod(
 		args[i] = arg;
 	};
 
-	status = methodObject->CreateOutputArguments(nrefseq.getNewRef(), args);
+	nref = nrefseq.getNewRef();
+	status = methodObject->CreateOutputArguments(nref, args);
+	oasMethods[nref] = featix_t(ixMsdcVFeatgroup, srefIxVMethod);
 
 	IntrusivePtr_t<IMethodNode_t> methodNode = methodObject->GetMethodNode();
 
 	status = methodNode->SetMethodHandler(methodHandler);
 
 	methodObject->Hide(false);
-
-	methods[nref] = featix_t(ixMsdcVFeatgroup, srefIxVMethod);
 
 	return AddressSpaceUtilities_t::CreateReference(*addressSpace, jobFolder, methodNode, OpcUaId_HasComponent);
 };
@@ -1553,6 +1696,8 @@ map<ubigint,uint> MsdccmbdUasrv::ixVFeatgroups;
 map<featix_t,DateTime_t> MsdccmbdUasrv::timestamps;
 map<uint32_t,uint> MsdccmbdUasrv::jobs;
 map<uint32_t,featix_t> MsdccmbdUasrv::methods;
+map<uint32_t,featix_t> MsdccmbdUasrv::iasMethods;
+map<uint32_t,featix_t> MsdccmbdUasrv::oasMethods;
 map<uint32_t,featix_t> MsdccmbdUasrv::vars;
 map<uint32_t,featix_t> MsdccmbdUasrv::subvarsVars;
 map<uint32_t,string> MsdccmbdUasrv::subvars;

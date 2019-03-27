@@ -6,6 +6,7 @@
 		<script>
 			function handlePupSrcChange() {parent.parent.window.handlePupChange(document,"PupSrc","");};
 			function handlePupResChange() {parent.parent.window.handlePupChange(document,"PupRes","");};
+			function handleChkGrsChange() {parent.parent.window.handleChkChange(document,"ChkGrs");};
 			function handleButPlayClick() {parent.parent.window.handleButClick("ButPlay");};
 			function handleButStopClick() {parent.parent.window.handleButClick("ButStop");};
 			function handleSldExtJpleftMov() {parent.parent.window.handleSldJpleftMov(document,"SldExt");};
@@ -34,6 +35,7 @@
 			function handleSldFcsMup() {parent.parent.window.handleSldMup(document,"SldFcs",true);};
 			function handleSldFcsValKey(evt) {return parent.parent.window.handleSldValKey(document,"SldFcs",true,false,false,evt);};
 			function handleSldFcsValChange() {parent.parent.window.handleSldValChange(document,"SldFcs",true,false,false);};
+			function handleChkTcpChange() {parent.parent.window.handleChkChange(document,"ChkTcp");};
 			<!-- IP custScript - INSERT -->
 		</script>
 		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
@@ -79,6 +81,17 @@
 					</td>
 					<td></td>
 					<td colspan="2"></td>
+				</tr>
+				<tr id="trGrs" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptGrs" class="cpt">CptGrs</span>
+					</td>
+					<td></td>
+					<td align="left">
+						<input id="ChkGrs" class="chk" name="ChkGrs" type="checkbox" checked="checked" onchange="handleChkGrsChange()"/>
+					</td>
+					<td colspan="7"></td>
 				</tr>
 				<tr id="trImg" class="show">
 					<!-- IP trImg - RBEGIN -->
@@ -159,12 +172,22 @@
 						<input id="SldFcsVal" class="txfxs" type="text" value="SldFcsVal" onchange="handleSldFcsValChange()" onkeypress="return handleSldFcsValKey(event)"/>
 					</td>
 				</tr>
+				<tr id="trTcp" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptTcp" class="cpt">CptTcp</span>
+					</td>
+					<td></td>
+					<td align="left">
+						<input id="ChkTcp" class="chk" name="ChkTcp" type="checkbox" checked="checked" onchange="handleChkTcpChange()"/>
+					</td>
+					<td colspan="7"></td>
+				</tr>
 				<tr><td colspan="11" height="4"></td></tr>
 			</tbody>
 		</form></table>
 	</body>
 </html>
-
 
 
 

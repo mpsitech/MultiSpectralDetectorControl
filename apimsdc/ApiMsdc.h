@@ -2,17 +2,17 @@
   * \file ApiMsdc.h
   * Msdc API library global functionality (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef APIMSDC_H
 #define APIMSDC_H
 
-#define MSDC_VERSION "0.1.52"
+#define MSDC_VERSION "0.1.58"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 52
+#define MSDC_VERSION_SUB 58
 
 #include "ApiMsdc_blks.h"
 
@@ -42,12 +42,6 @@
 #include "CrdMsdcUsr.h"
 #include "DlgMsdcFilDownload.h"
 #include "DlgMsdcNavLoaini.h"
-#include "JobMsdcAcqLwir.h"
-#include "JobMsdcAcqVisl.h"
-#include "JobMsdcAcqVisr.h"
-#include "JobMsdcActServo.h"
-#include "JobMsdcSrcMsdd.h"
-#include "JobMsdcSrcTrigger.h"
 #include "M2msessMsdc.h"
 #include "PnlMsdcDatAPar.h"
 #include "PnlMsdcDatDetail.h"

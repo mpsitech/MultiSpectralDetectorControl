@@ -2,8 +2,8 @@
   * \file JobMsdcActAlign.cpp
   * job handler for job JobMsdcActAlign (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -66,7 +66,7 @@ JobMsdcActAlign::JobMsdcActAlign(
 
 	// IP constructor.spec1 --- INSERT
 
-	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -287,7 +287,6 @@ bool JobMsdcActAlign::handleCallMsdcMastsrdChg(
 	// IP handleCallMsdcMastsrdChg --- IEND
 	return retval;
 };
-
 
 
 

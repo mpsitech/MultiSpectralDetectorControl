@@ -4,6 +4,13 @@
 	<head>
 		<title>Track_bcont</title>
 		<script>
+			function handlePupAmfChange() {parent.parent.window.handlePupChange(document,"PupAmf","");};
+			function handleUpdAprValKey(evt) {return parent.parent.window.handleUpdValKey(document,"UpdApr",true,evt);};
+			function handleUpdAprValChange() {parent.parent.window.handleUpdValChange(document,"UpdApr",true);};
+			function handleUpdAprUpClick() {parent.parent.window.handleUpdUpClick(document,"UpdApr",true);};
+			function handleUpdAprDownClick() {parent.parent.window.handleUpdDownClick(document,"UpdApr",true);};
+			function handleChkVidChange() {parent.parent.window.handleChkChange(document,"ChkVid");};
+			function handleChkWidChange() {parent.parent.window.handleChkChange(document,"ChkWid");};
 			<!-- IP custScript - INSERT -->
 		</script>
 		<link href="../style/pnlDetail3_2.css" rel="styleSheet" type="text/css"/>
@@ -26,6 +33,165 @@
 			</colgroup>
 			<tbody id="tbl">
 				<tr><td colspan="11" height="5"></td></tr>
+				<tr id="trAls" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<span id="HdgAls" class="cpt">HdgAls</span>&#160;&#160;
+					</td>
+				</tr>
+				<tr id="trAmf" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptAmf" class="cpt">CptAmf</span>
+					</td>
+					<td></td>
+					<td colspan="5" align="left">
+						<select id="PupAmf" class="pup" size="1" onchange="handlePupAmfChange()"/>
+					</td>
+					<td></td>
+					<td colspan="2"></td>
+				</tr>
+				<tr id="trApr" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptApr" class="cpt">CptApr</span>
+					</td>
+					<td></td>
+					<td colspan="3" align="left">
+						<input id="UpdAprVal" class="txfs" type="text" value="UpdAprVal" onchange="handleUpdAprValChange()" onkeypress="return handleUpdAprValKey(event)"/>
+					</td>
+					<td></td>
+					<td id="tdUpdApr">
+						<svg class="svg" width="16" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">
+							<g id="UpdAprUp" class="upd" onclick="handleUpdAprUpClick()">
+								<rect x="0" y="5" width="16" height="4" fill="white" stroke="none"/>
+								<line x1="0" y1="9" x2="8" y2="5" stroke-width="1"/>
+								<line x1="8" y1="5" x2="16" y2="9" stroke-width="1"/>
+							</g>
+							<g id="UpdAprDown" class="upd" onclick="handleUpdAprDownClick()">
+								<rect x="0" y="17" width="16" height="4" fill="white" stroke="none"/>
+								<line x1="0" y1="17" x2="8" y2="21" stroke-width="1"/>
+								<line x1="8" y1="21" x2="16" y2="17" stroke-width="1"/>
+							</g>
+						</svg>
+					</td>
+					<td colspan="3"></td>
+				</tr>
+				<tr id="tr11" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="tr12" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="tr13" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trVsl" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<span id="HdgVsl" class="cpt">HdgVsl</span>&#160;&#160;
+					</td>
+				</tr>
+				<tr id="trVid" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVid" class="cpt">CptVid</span>
+					</td>
+					<td></td>
+					<td align="left">
+						<input id="ChkVid" class="chk" name="ChkVid" type="checkbox" checked="checked" onchange="handleChkVidChange()"/>
+					</td>
+					<td colspan="7"></td>
+				</tr>
+				<tr id="trVpx" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVpx" class="cpt">CptVpx</span>
+					</td>
+					<td></td>
+					<td colspan="1" align="left">
+						<input id="TxtVpx" class="txfxsnoed" type="text" readonly="readonly" value="TxtVpx"/>
+					</td>
+					<td></td>
+					<td colspan="6"></td>
+				</tr>
+				<tr id="trVpy" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptVpy" class="cpt">CptVpy</span>
+					</td>
+					<td></td>
+					<td colspan="1" align="left">
+						<input id="TxtVpy" class="txfxsnoed" type="text" readonly="readonly" value="TxtVpy"/>
+					</td>
+					<td></td>
+					<td colspan="6"></td>
+				</tr>
+				<tr id="tr21" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="tr22" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="tr23" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trWsr" class="show">
+					<td height="25"></td>
+					<td colspan="2"></td>
+					<td colspan="8" align="left">
+						<span id="HdgWsr" class="cpt">HdgWsr</span>&#160;&#160;
+					</td>
+				</tr>
+				<tr id="trWid" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptWid" class="cpt">CptWid</span>
+					</td>
+					<td></td>
+					<td align="left">
+						<input id="ChkWid" class="chk" name="ChkWid" type="checkbox" checked="checked" onchange="handleChkWidChange()"/>
+					</td>
+					<td colspan="7"></td>
+				</tr>
+				<tr id="trWpx" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptWpx" class="cpt">CptWpx</span>
+					</td>
+					<td></td>
+					<td colspan="1" align="left">
+						<input id="TxtWpx" class="txfxsnoed" type="text" readonly="readonly" value="TxtWpx"/>
+					</td>
+					<td></td>
+					<td colspan="6"></td>
+				</tr>
+				<tr id="trWpy" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptWpy" class="cpt">CptWpy</span>
+					</td>
+					<td></td>
+					<td colspan="1" align="left">
+						<input id="TxtWpy" class="txfxsnoed" type="text" readonly="readonly" value="TxtWpy"/>
+					</td>
+					<td></td>
+					<td colspan="6"></td>
+				</tr>
+				<tr id="tr31" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="tr32" class="show">
+					<td height="1"></td>
+					<td colspan="10" bgcolor="#7f7f7f"></td>
+				</tr>
+				<tr id="tr33" class="show"><td colspan="11" height="3"></td></tr>
+				<tr id="trDis" class="show">
+					<td height="25"></td>
+					<td align="right">
+						<span id="CptDis" class="cpt">CptDis</span>
+					</td>
+					<td></td>
+					<td colspan="3" align="left">
+						<input id="TxtDis" class="txfsnoed" type="text" readonly="readonly" value="TxtDis"/>
+					</td>
+					<td></td>
+					<td colspan="4"></td>
+				</tr>
 				<tr><td colspan="11" height="4"></td></tr>
 			</tbody>
 		</form></table>

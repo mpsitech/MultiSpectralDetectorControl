@@ -2,8 +2,8 @@
   * \file PnlMsdcDatDetail.cpp
   * API code for job PnlMsdcDatDetail (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -129,7 +129,7 @@ set<uint> PnlMsdcDatDetail::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXFAFT, TXFSTA, TXFSTO, TXFCMT};
+	diffitems = {NUMFPUPAFT, TXFAFT, TXFSTA, TXFSTO, TXFCMT};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -190,7 +190,7 @@ set<uint> PnlMsdcDatDetail::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {TXTPRD};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

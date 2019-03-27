@@ -2,8 +2,8 @@
   * \file JobMsdcActAlign.h
   * job handler for job JobMsdcActAlign (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef JOBMSDCACTALIGN_H
@@ -42,7 +42,6 @@ public:
 
 		static string getTitle(const uint ix, const uint ixMsdcVLocale);
 
-		static void appendToFeed(const uint ix, const uint ixMsdcVLocale, Feed& feed);
 		static void fillFeed(const uint ixMsdcVLocale, Feed& feed);
 	};
 
@@ -146,7 +145,6 @@ public:
 };
 
 #endif
-
 
 
 

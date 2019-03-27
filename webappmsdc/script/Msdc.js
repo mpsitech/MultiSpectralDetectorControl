@@ -2,14 +2,14 @@
   * \file Msdc.js
   * web client global functionality for Msdc
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
-MSDC_VERSION = "0.1.52";
+MSDC_VERSION = "0.1.58";
 MSDC_VERSION_MAJOR = 0;
 MSDC_VERSION_MINOR = 1;
-MSDC_VERSION_SUB = 52;
+MSDC_VERSION_SUB = 58;
 
 function getCrdwnd() {
 	if (window.name == "Crd") return window;

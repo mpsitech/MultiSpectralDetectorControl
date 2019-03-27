@@ -2,8 +2,8 @@
   * \file JobMsdcActAlign_blks.cpp
   * job handler for job JobMsdcActAlign (implementation of blocks)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 /******************************************************************************
@@ -57,14 +57,6 @@ string JobMsdcActAlign::VecVFunction::getTitle(
 	};
 
 	return("");
-};
-
-void JobMsdcActAlign::VecVFunction::appendToFeed(
-			const uint ix
-			, const uint ixMsdcVLocale
-			, Feed& feed
-		) {
-	feed.appendIxSrefTitles(ix, getSref(ix), getTitle(ix, ixMsdcVLocale));
 };
 
 void JobMsdcActAlign::VecVFunction::fillFeed(

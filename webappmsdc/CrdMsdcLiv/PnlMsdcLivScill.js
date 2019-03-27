@@ -2,18 +2,14 @@
   * \file PnlMsdcLivScill.js
   * web client functionality for panel PnlMsdcLivScill
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 // IP cust --- INSERT
 
 // --- expand state management
 function minimize() {
-	if (retrieveSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate") == "mind") return;
-
-	setSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate", "mind");
-
 	// change container heights
 	getCrdwnd().changeHeight("Scill", 30);
 	doc.getElementById("tdSide").setAttribute("height", "30");
@@ -26,10 +22,6 @@ function minimize() {
 };
 
 function regularize() {
-	if (retrieveSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate") == "regd") return;
-
-	setSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate", "regd");
-
 	// change content (container heights in refreshBD)
 	doc.getElementById("Scill_side").src = "./PnlMsdcLivScill_bside.html";
 	doc.getElementById("Scill_cont").src = "./PnlMsdcLivScill_b.html";
@@ -68,7 +60,7 @@ function initBD(bNotD) {
 };
 
 function init() {
-	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate");
+	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
 
 	if (srefIxMsdcVExpstate == "mind") {
 		initA();
@@ -83,6 +75,8 @@ function refreshA() {
 };
 
 function refreshBD(bNotD) {
+	if (!contcontdoc) return;
+
 	var height = 60; // full cont height
 
 	// IP refreshBD.vars --- BEGIN
@@ -110,7 +104,7 @@ function refreshBD(bNotD) {
 };
 
 function refresh() {
-	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatAppMsdcLivScill", "srefIxMsdcVExpstate");
+	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
 
 	if (srefIxMsdcVExpstate == "mind") {
 		refreshA();
@@ -133,14 +127,6 @@ function handleLoad() {
 };
 
 // --- specific event handlers for app controls
-
-function handleButRegularizeClick() {
-	regularize(true);
-};
-
-function handleButMinimizeClick() {
-	minimize(true);
-};
 
 // --- generalized event handlers for app controls
 
@@ -391,7 +377,6 @@ function mergeDpchEngData(dom) {
 
 	if (updateSrcblock(dom, "DpchEngMsdcLivScillData", "ContIacMsdcLivScill", srcdoc)) mask.push("contiac");
 	if (updateSrcblock(dom, "DpchEngMsdcLivScillData", "ContInfMsdcLivScill", srcdoc)) mask.push("continf");
-	if (updateSrcblock(dom, "DpchEngMsdcLivScillData", "StatAppMsdcLivScill", srcdoc)) mask.push("statapp");
 	if (updateSrcblock(dom, "DpchEngMsdcLivScillData", "StatShrMsdcLivScill", srcdoc)) mask.push("statshr");
 	if (updateSrcblock(dom, "DpchEngMsdcLivScillData", "TagMsdcLivScill", srcdoc)) mask.push("tag");
 
@@ -400,8 +385,23 @@ function mergeDpchEngData(dom) {
 
 function handleDpchEng(dom, dpch) {
 	if (dpch == "DpchEngMsdcLivScillData") {
-		mergeDpchEngData(dom);
-		refresh();
+		var oldSrefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
+
+		var mask = mergeDpchEngData(dom);
+
+		if (mask.indexOf("statshr") != -1) {
+			var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
+
+			if (srefIxMsdcVExpstate != oldSrefIxMsdcVExpstate) {
+				if (srefIxMsdcVExpstate == "mind") minimize();
+				else if (srefIxMsdcVExpstate == "regd") regularize();
+			} else {
+				refresh();
+			};
+
+		} else {
+			refresh();
+		};
 	};
 };
 
@@ -437,8 +437,23 @@ function handleDpchAppDataDoReply() {
 				// do nothing
 
 			} else if (blk.nodeName == "DpchEngMsdcLivScillData") {
-				mergeDpchEngData(dom);
-				refresh();
+				var oldSrefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
+
+				var mask = mergeDpchEngData(dom);
+
+				if (mask.indexOf("statshr") != -1) {
+					var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivScill", "srefIxMsdcVExpstate");
+
+					if (srefIxMsdcVExpstate != oldSrefIxMsdcVExpstate) {
+						if (srefIxMsdcVExpstate == "mind") minimize();
+						else if (srefIxMsdcVExpstate == "regd") regularize();
+					} else {
+						refresh();
+					};
+
+				} else {
+					refresh();
+				};
 			};
 		};
 	};

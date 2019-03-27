@@ -2,8 +2,8 @@
   * \file Msdccmbd.cpp
   * inter-thread exchange object for Msdc combined daemon (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "Msdccmbd.h"
@@ -851,13 +851,13 @@ DpchEngMsdcAlert* AlrMsdc::prepareAlrAbt(
 	continf.TxtCpt = StrMod::cap(continf.TxtCpt);
 
 	if (ixMsdcVLocale == VecMsdcVLocale::ENUS) {
-		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.52 released on 4-10-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl version 0.1.58 released on 18-12-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "contributors: Alexander Wirthmueller";
 		continf.TxtMsg6 = "libraries: png 1.5.12, jpeg 8, devmsdd 1.0.0 and spinnaker 1.13";
 		continf.TxtMsg8 = "MultispectralDetectorControl provides users and machines with access to the MPSI Technologies Stereo+LWIR detector vision demonstrator.";
 	} else if (ixMsdcVLocale == VecMsdcVLocale::DECH) {
-		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.52 ver\\u00f6ffentlicht am 4-10-2018";
+		continf.TxtMsg1 = "MultispectralDetectorControl Version 0.1.58 ver\\u00f6ffentlicht am 18-12-2018";
 		continf.TxtMsg2 = "\\u00a9 MPSI Technologies GmbH";
 		continf.TxtMsg4 = "Mitwirkende: Alexander Wirthmueller";
 		continf.TxtMsg6 = "Programmbibliotheken: png 1.5.12, jpeg 8, devmsdd 1.0.0 und spinnaker 1.13";
@@ -1784,7 +1784,7 @@ void XchgMsdccmbd::startMon() {
 	Clstn* clstn = NULL;
 	Preset* preset = NULL;
 
-	mon.start("MultispectralDetectorControl 0.1.52", stgmsdcpath.monpath);
+	mon.start("MultispectralDetectorControl 0.1.58", stgmsdcpath.monpath);
 
 	rwmJobs.rlock("XchgMsdccmbd", "startMon");
 	for (auto it=jobs.begin();it!=jobs.end();it++) {
@@ -3889,7 +3889,6 @@ void XchgMsdccmbd::runExtcall(
 
 	extcall->xchg->addReq(req);
 };
-
 
 
 

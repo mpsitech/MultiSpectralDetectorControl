@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRef1NFile.h
   * job handler for job PnlMsdcDatRef1NFile (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCDATREF1NFILE_H

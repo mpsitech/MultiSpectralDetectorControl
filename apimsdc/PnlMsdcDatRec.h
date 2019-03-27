@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRec.h
   * API code for job PnlMsdcDatRec (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCDATREC_H
@@ -99,9 +99,9 @@ namespace PnlMsdcDatRec {
 
 	public:
 		uint ixMsdcVExpstate;
-		ubigint jrefDetail;
-		ubigint jrefAPar;
-		ubigint jrefRef1NFile;
+		string scrJrefDetail;
+		string scrJrefAPar;
+		string scrJrefRef1NFile;
 		bool ButRegularizeActive;
 
 	public:

@@ -2,18 +2,14 @@
   * \file PnlMsdcLivAlign.js
   * web client functionality for panel PnlMsdcLivAlign
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 // IP cust --- INSERT
 
 // --- expand state management
 function minimize() {
-	if (retrieveSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate") == "mind") return;
-
-	setSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate", "mind");
-
 	// change container heights
 	getCrdwnd().changeHeight("Align", 30);
 	doc.getElementById("tdSide").setAttribute("height", "30");
@@ -26,10 +22,6 @@ function minimize() {
 };
 
 function regularize() {
-	if (retrieveSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate") == "regd") return;
-
-	setSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate", "regd");
-
 	// change content (container heights in refreshBD)
 	doc.getElementById("Align_side").src = "./PnlMsdcLivAlign_bside.html";
 	doc.getElementById("Align_cont").src = "./PnlMsdcLivAlign_b.html";
@@ -70,7 +62,7 @@ function initBD(bNotD) {
 };
 
 function init() {
-	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate");
+	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
 
 	if (srefIxMsdcVExpstate == "mind") {
 		initA();
@@ -85,6 +77,8 @@ function refreshA() {
 };
 
 function refreshBD(bNotD) {
+	if (!contcontdoc) return;
+
 	var height = 117; // full cont height
 
 	// IP refreshBD.vars --- BEGIN
@@ -117,7 +111,7 @@ function refreshBD(bNotD) {
 };
 
 function refresh() {
-	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatAppMsdcLivAlign", "srefIxMsdcVExpstate");
+	var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
 
 	if (srefIxMsdcVExpstate == "mind") {
 		refreshA();
@@ -140,14 +134,6 @@ function handleLoad() {
 };
 
 // --- specific event handlers for app controls
-
-function handleButRegularizeClick() {
-	regularize(true);
-};
-
-function handleButMinimizeClick() {
-	minimize(true);
-};
 
 // --- generalized event handlers for app controls
 
@@ -398,7 +384,6 @@ function mergeDpchEngData(dom) {
 
 	if (updateSrcblock(dom, "DpchEngMsdcLivAlignData", "ContIacMsdcLivAlign", srcdoc)) mask.push("contiac");
 	if (updateSrcblock(dom, "DpchEngMsdcLivAlignData", "ContInfMsdcLivAlign", srcdoc)) mask.push("continf");
-	if (updateSrcblock(dom, "DpchEngMsdcLivAlignData", "StatAppMsdcLivAlign", srcdoc)) mask.push("statapp");
 	if (updateSrcblock(dom, "DpchEngMsdcLivAlignData", "StatShrMsdcLivAlign", srcdoc)) mask.push("statshr");
 	if (updateSrcblock(dom, "DpchEngMsdcLivAlignData", "TagMsdcLivAlign", srcdoc)) mask.push("tag");
 
@@ -407,8 +392,23 @@ function mergeDpchEngData(dom) {
 
 function handleDpchEng(dom, dpch) {
 	if (dpch == "DpchEngMsdcLivAlignData") {
-		mergeDpchEngData(dom);
-		refresh();
+		var oldSrefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
+
+		var mask = mergeDpchEngData(dom);
+
+		if (mask.indexOf("statshr") != -1) {
+			var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
+
+			if (srefIxMsdcVExpstate != oldSrefIxMsdcVExpstate) {
+				if (srefIxMsdcVExpstate == "mind") minimize();
+				else if (srefIxMsdcVExpstate == "regd") regularize();
+			} else {
+				refresh();
+			};
+
+		} else {
+			refresh();
+		};
 	};
 };
 
@@ -444,8 +444,23 @@ function handleDpchAppDataDoReply() {
 				// do nothing
 
 			} else if (blk.nodeName == "DpchEngMsdcLivAlignData") {
-				mergeDpchEngData(dom);
-				refresh();
+				var oldSrefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
+
+				var mask = mergeDpchEngData(dom);
+
+				if (mask.indexOf("statshr") != -1) {
+					var srefIxMsdcVExpstate = retrieveSi(srcdoc, "StatShrMsdcLivAlign", "srefIxMsdcVExpstate");
+
+					if (srefIxMsdcVExpstate != oldSrefIxMsdcVExpstate) {
+						if (srefIxMsdcVExpstate == "mind") minimize();
+						else if (srefIxMsdcVExpstate == "regd") regularize();
+					} else {
+						refresh();
+					};
+
+				} else {
+					refresh();
+				};
 			};
 		};
 	};

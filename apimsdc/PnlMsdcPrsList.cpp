@@ -2,8 +2,8 @@
   * \file PnlMsdcPrsList.cpp
   * API code for job PnlMsdcPrsList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -115,7 +115,7 @@ set<uint> PnlMsdcPrsList::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFTOS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -180,7 +180,7 @@ set<uint> PnlMsdcPrsList::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, NUMFCSIQST};
+	diffitems = {BUTFILTERON, NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -362,7 +362,7 @@ set<uint> PnlMsdcPrsList::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCOFNMWIDTH, TCOLNMWIDTH, TCOGRPWIDTH, TCOOWNWIDTH, TCOSEXWIDTH, TCOTELWIDTH, TCOEMLWIDTH};
+	diffitems = {TCOTITWIDTH, TCOFNMWIDTH, TCOLNMWIDTH, TCOGRPWIDTH, TCOOWNWIDTH, TCOSEXWIDTH, TCOTELWIDTH, TCOEMLWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

@@ -2,8 +2,8 @@
   * \file MsdcAMDataPar.cpp
   * database access for table TblMsdcAMDataPar (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "MsdcAMDataPar.h"
@@ -479,7 +479,10 @@ bool LiteTblMsdcAMDataPar::loadRecByRef(
 			ubigint ref
 			, MsdcAMDataPar** rec
 		) {
-	if (ref == 0) return false;
+	if (ref == 0) {
+		*rec = NULL;
+		return false;
+	};
 
 	sqlite3_bind_int64(stmtLoadRecByRef, 1, ref);
 

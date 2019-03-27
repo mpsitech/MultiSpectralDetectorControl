@@ -2,17 +2,17 @@
   * \file DbsMsdc.h
   * C++ wrapper for database DbsMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef DBSMSDC_H
 #define DBSMSDC_H
 
-#define MSDC_VERSION "0.1.52"
+#define MSDC_VERSION "0.1.58"
 #define MSDC_VERSION_MAJOR 0
 #define MSDC_VERSION_MINOR 1
-#define MSDC_VERSION_SUB 52
+#define MSDC_VERSION_SUB 58
 
 #include <sbecore/LiteDbs.h>
 
@@ -60,8 +60,11 @@
 #define VecMsdcVControl DbsMsdc::VecVControl
 #define VecMsdcVFeatgroup DbsMsdc::VecVFeatgroup
 #define VecMsdcVKeylist DbsMsdc::VecVKeylist
+#define VecMsdcVLat DbsMsdc::VecVLat
 #define VecMsdcVLocale DbsMsdc::VecVLocale
+#define VecMsdcVLop DbsMsdc::VecVLop
 #define VecMsdcVMaintable DbsMsdc::VecVMaintable
+#define VecMsdcVOolop DbsMsdc::VecVOolop
 #define VecMsdcVPreset DbsMsdc::VecVPreset
 #define VecMsdcVRecaccess DbsMsdc::VecVRecaccess
 #define VecMsdcVUserlevel DbsMsdc::VecVUserlevel
@@ -201,6 +204,19 @@ public:
 	};
 
 	/**
+		* VecVLat (full: VecMsdcVLat)
+		*/
+	class VecVLat {
+
+	public:
+		static const uint DLO = 1;
+		static const uint INI = 2;
+
+		static uint getIx(const string& sref);
+		static string getSref(const uint ix);
+	};
+
+	/**
 		* VecVLocale (full: VecMsdcVLocale)
 		*/
 	class VecVLocale {
@@ -215,6 +231,19 @@ public:
 		static string getTitle(const uint ix, const uint ixMsdcVLocale);
 
 		static void fillFeed(const uint ixMsdcVLocale, Feed& feed);
+	};
+
+	/**
+		* VecVLop (full: VecMsdcVLop)
+		*/
+	class VecVLop {
+
+	public:
+		static const uint INS = 1;
+		static const uint RMV = 2;
+
+		static uint getIx(const string& sref);
+		static string getSref(const uint ix);
 	};
 
 	/**
@@ -238,6 +267,23 @@ public:
 		static string getTitle(const uint ix, const uint ixMsdcVLocale);
 
 		static void fillFeed(const uint ixMsdcVLocale, Feed& feed);
+	};
+
+	/**
+		* VecVOolop (full: VecMsdcVOolop)
+		*/
+	class VecVOolop {
+
+	public:
+		static const uint INA = 1;
+		static const uint INB = 2;
+		static const uint RMV = 3;
+		static const uint SWP = 4;
+		static const uint TOA = 5;
+		static const uint TOB = 6;
+
+		static uint getIx(const string& sref);
+		static string getSref(const uint ix);
 	};
 
 	/**

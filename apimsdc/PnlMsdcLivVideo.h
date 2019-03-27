@@ -2,8 +2,8 @@
   * \file PnlMsdcLivVideo.h
   * API code for job PnlMsdcLivVideo (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCLIVVIDEO_H
@@ -35,9 +35,11 @@ namespace PnlMsdcLivVideo {
 	class VecVDo {
 
 	public:
-		static const uint BUTMASTERCLICK = 1;
-		static const uint BUTPLAYCLICK = 2;
-		static const uint BUTSTOPCLICK = 3;
+		static const uint BUTREGULARIZECLICK = 1;
+		static const uint BUTMINIMIZECLICK = 2;
+		static const uint BUTMASTERCLICK = 3;
+		static const uint BUTPLAYCLICK = 4;
+		static const uint BUTSTOPCLICK = 5;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);
@@ -66,17 +68,23 @@ namespace PnlMsdcLivVideo {
 	public:
 		static const uint NUMFPUPSRC = 1;
 		static const uint NUMFPUPRES = 2;
-		static const uint SLDEXT = 3;
-		static const uint SLDFCS = 4;
+		static const uint CHKGRS = 3;
+		static const uint SLDEXT = 4;
+		static const uint SLDFCS = 5;
+		static const uint CHKTCP = 6;
+		static const uint NUMFLSTFST = 7;
 
 	public:
-		ContIac(const uint numFPupSrc = 1, const uint numFPupRes = 1, const double SldExt = 0.0, const double SldFcs = 0.0);
+		ContIac(const uint numFPupSrc = 1, const uint numFPupRes = 1, const bool ChkGrs = false, const double SldExt = 0.0, const double SldFcs = 0.0, const bool ChkTcp = false, const uint numFLstFst = 1);
 
 	public:
 		uint numFPupSrc;
 		uint numFPupRes;
+		bool ChkGrs;
 		double SldExt;
 		double SldFcs;
+		bool ChkTcp;
+		uint numFLstFst;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
@@ -111,13 +119,13 @@ namespace PnlMsdcLivVideo {
 	class StatApp : public Block {
 
 	public:
-		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint LSTFSTNUMFIRSTDISP = 1;
 
 	public:
-		StatApp(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND);
+		StatApp(const uint LstFstNumFirstdisp = 1);
 
 	public:
-		uint ixMsdcVExpstate;
+		uint LstFstNumFirstdisp;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
@@ -131,24 +139,30 @@ namespace PnlMsdcLivVideo {
 	class StatShr : public Block {
 
 	public:
-		static const uint PUPRESAVAIL = 1;
-		static const uint BUTPLAYACTIVE = 2;
-		static const uint BUTSTOPACTIVE = 3;
-		static const uint SLDEXTAVAIL = 4;
-		static const uint SLDEXTACTIVE = 5;
-		static const uint SLDEXTMIN = 6;
-		static const uint SLDEXTMAX = 7;
-		static const uint SLDEXTRAST = 8;
-		static const uint SLDFCSAVAIL = 9;
-		static const uint SLDFCSACTIVE = 10;
-		static const uint SLDFCSMIN = 11;
-		static const uint SLDFCSMAX = 12;
+		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint PUPRESAVAIL = 2;
+		static const uint CHKGRSAVAIL = 3;
+		static const uint BUTPLAYACTIVE = 4;
+		static const uint BUTSTOPACTIVE = 5;
+		static const uint SLDEXTAVAIL = 6;
+		static const uint SLDEXTACTIVE = 7;
+		static const uint SLDEXTMIN = 8;
+		static const uint SLDEXTMAX = 9;
+		static const uint SLDEXTRAST = 10;
+		static const uint SLDFCSAVAIL = 11;
+		static const uint SLDFCSACTIVE = 12;
+		static const uint SLDFCSMIN = 13;
+		static const uint SLDFCSMAX = 14;
+		static const uint CHKTCPAVAIL = 15;
+		static const uint LSTFSTACTIVE = 16;
 
 	public:
-		StatShr(const bool PupResAvail = true, const bool ButPlayActive = true, const bool ButStopActive = true, const bool SldExtAvail = true, const bool SldExtActive = true, const double SldExtMin = 0.01, const double SldExtMax = 1.0, const double SldExtRast = 1.25893, const bool SldFcsAvail = true, const bool SldFcsActive = true, const double SldFcsMin = 0.0, const double SldFcsMax = 1.0);
+		StatShr(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND, const bool PupResAvail = true, const bool ChkGrsAvail = true, const bool ButPlayActive = true, const bool ButStopActive = true, const bool SldExtAvail = true, const bool SldExtActive = true, const double SldExtMin = 0.01, const double SldExtMax = 1.0, const double SldExtRast = 1.25893, const bool SldFcsAvail = true, const bool SldFcsActive = true, const double SldFcsMin = 0.0, const double SldFcsMax = 1.0, const bool ChkTcpAvail = true, const bool LstFstActive = true);
 
 	public:
+		uint ixMsdcVExpstate;
 		bool PupResAvail;
+		bool ChkGrsAvail;
 		bool ButPlayActive;
 		bool ButStopActive;
 		bool SldExtAvail;
@@ -160,6 +174,8 @@ namespace PnlMsdcLivVideo {
 		bool SldFcsActive;
 		double SldFcsMin;
 		double SldFcsMax;
+		bool ChkTcpAvail;
+		bool LstFstActive;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
@@ -176,18 +192,24 @@ namespace PnlMsdcLivVideo {
 		static const uint CPT = 1;
 		static const uint CPTSRC = 2;
 		static const uint CPTRES = 3;
-		static const uint CPTEXT = 4;
-		static const uint CPTFCS = 5;
+		static const uint CPTGRS = 4;
+		static const uint CPTEXT = 5;
+		static const uint CPTFCS = 6;
+		static const uint CPTTCP = 7;
+		static const uint CPTFST = 8;
 
 	public:
-		Tag(const string& Cpt = "", const string& CptSrc = "", const string& CptRes = "", const string& CptExt = "", const string& CptFcs = "");
+		Tag(const string& Cpt = "", const string& CptSrc = "", const string& CptRes = "", const string& CptGrs = "", const string& CptExt = "", const string& CptFcs = "", const string& CptTcp = "", const string& CptFst = "");
 
 	public:
 		string Cpt;
 		string CptSrc;
 		string CptRes;
+		string CptGrs;
 		string CptExt;
 		string CptFcs;
+		string CptTcp;
+		string CptFst;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
@@ -246,11 +268,12 @@ namespace PnlMsdcLivVideo {
 		static const uint SCRJREF = 1;
 		static const uint CONTIAC = 2;
 		static const uint CONTINF = 3;
-		static const uint FEEDFPUPRES = 4;
-		static const uint FEEDFPUPSRC = 5;
-		static const uint STATAPP = 6;
-		static const uint STATSHR = 7;
-		static const uint TAG = 8;
+		static const uint FEEDFLSTFST = 4;
+		static const uint FEEDFPUPRES = 5;
+		static const uint FEEDFPUPSRC = 6;
+		static const uint STATAPP = 7;
+		static const uint STATSHR = 8;
+		static const uint TAG = 9;
 
 	public:
 		DpchEngData();
@@ -258,6 +281,7 @@ namespace PnlMsdcLivVideo {
 	public:
 		ContIac contiac;
 		ContInf continf;
+		Feed feedFLstFst;
 		Feed feedFPupRes;
 		Feed feedFPupSrc;
 		StatApp statapp;

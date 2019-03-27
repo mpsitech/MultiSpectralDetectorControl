@@ -1,0 +1,28 @@
+/**
+  * \file VecMsdcVCamtype.h
+  * vector VecMsdcVCamtype (declarations)
+  * \author Alexander Wirthmueller
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
+  */
+
+#ifndef VECMSDCVCAMTYPE_H
+#define VECMSDCVCAMTYPE_H
+
+#include <sbecore/Xmlio.h>
+
+using namespace Xmlio;
+
+/**
+	* VecMsdcVCamtype
+	*/
+namespace VecMsdcVCamtype {
+	const uint PGBFLY = 1;
+	const uint MSLIFE = 2;
+
+	uint getIx(const string& sref);
+	string getSref(const uint ix);
+};
+
+#endif
+

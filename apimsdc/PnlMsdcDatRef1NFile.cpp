@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRef1NFile.cpp
   * API code for job PnlMsdcDatRef1NFile (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -95,7 +95,7 @@ set<uint> PnlMsdcDatRef1NFile::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -315,7 +315,7 @@ set<uint> PnlMsdcDatRef1NFile::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {TCOREFWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

@@ -2,8 +2,8 @@
   * \file PnlMsdcDatRef1NFile_evals.cpp
   * job handler for job PnlMsdcDatRef1NFile (implementation of availability/activation evaluation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 bool PnlMsdcDatRef1NFile::evalButViewAvail(

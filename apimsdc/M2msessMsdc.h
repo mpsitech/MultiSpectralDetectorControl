@@ -2,8 +2,8 @@
   * \file M2msessMsdc.h
   * API code for job M2msessMsdc (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef M2MSESSMSDC_H
@@ -38,14 +38,14 @@ namespace M2msessMsdc {
 		StatShr(const string& scrJrefAcqadxl = "", const string& scrJrefAcqlwir = "", const string& scrJrefAcqvisl = "", const string& scrJrefAcqvisr = "", const string& scrJrefActalign = "", const string& scrJrefActled = "", const string& scrJrefActservo = "", const string& scrJrefPrcstereo = "");
 
 	public:
-		ubigint jrefAcqadxl;
-		ubigint jrefAcqlwir;
-		ubigint jrefAcqvisl;
-		ubigint jrefAcqvisr;
-		ubigint jrefActalign;
-		ubigint jrefActled;
-		ubigint jrefActservo;
-		ubigint jrefPrcstereo;
+		string scrJrefAcqadxl;
+		string scrJrefAcqlwir;
+		string scrJrefAcqvisl;
+		string scrJrefAcqvisr;
+		string scrJrefActalign;
+		string scrJrefActled;
+		string scrJrefActservo;
+		string scrJrefPrcstereo;
 
 	public:
 		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);

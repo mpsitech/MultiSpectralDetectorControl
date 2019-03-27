@@ -2,8 +2,8 @@
   * \file PnlMsdcScfAcquis.cpp
   * job handler for job PnlMsdcScfAcquis (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -42,10 +42,10 @@ PnlMsdcScfAcquis::PnlMsdcScfAcquis(
 
 	// IP constructor.cust1 --- INSERT
 
-	acqadxl = new JobMsdcAcqAdxl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqlwir = new JobMsdcAcqLwir(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	acqadxl = new JobMsdcAcqAdxl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqlwir = new JobMsdcAcqLwir(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -213,7 +213,6 @@ bool PnlMsdcScfAcquis::handleCallMsdcMastslvChg(
 	if (!muteRefresh) refreshWithDpchEng(dbsmsdc); // IP handleCallMsdcMastslvChg --- ILINE
 	return retval;
 };
-
 
 
 

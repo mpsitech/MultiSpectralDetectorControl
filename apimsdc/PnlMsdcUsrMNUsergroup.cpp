@@ -2,8 +2,8 @@
   * \file PnlMsdcUsrMNUsergroup.cpp
   * API code for job PnlMsdcUsrMNUsergroup (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -95,7 +95,7 @@ set<uint> PnlMsdcUsrMNUsergroup::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -320,7 +320,7 @@ set<uint> PnlMsdcUsrMNUsergroup::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCOULVWIDTH};
+	diffitems = {TCOMREFWIDTH, TCOULVWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

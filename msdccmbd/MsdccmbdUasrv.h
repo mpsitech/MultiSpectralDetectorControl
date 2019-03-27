@@ -2,8 +2,8 @@
 	* \file MsdccmbdUasrv.h
 	* OPC UA server based on Matrikon FLEX OPC UA SDK for Msdc combined daemon (declarations)
 	* \author Alexander Wirthmueller
-	* \date created: 4 Oct 2018
-	* \date modified: 4 Oct 2018
+	* \date created: 18 Dec 2018
+	* \date modified: 18 Dec 2018
 	*/
 
 #ifndef MSDCCMBDUASRV_H
@@ -230,6 +230,8 @@ namespace MsdccmbdUasrv {
 	extern map<featix_t,DateTime_t> timestamps;
 	extern map<uint32_t,uint> jobs;
 	extern map<uint32_t,featix_t> methods;
+	extern map<uint32_t,featix_t> iasMethods;
+	extern map<uint32_t,featix_t> oasMethods;
 	extern map<uint32_t,featix_t> vars;
 	extern map<uint32_t,featix_t> subvarsVars;
 	extern map<uint32_t,string> subvars;

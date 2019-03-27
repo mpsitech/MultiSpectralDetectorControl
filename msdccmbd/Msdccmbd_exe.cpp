@@ -2,8 +2,8 @@
   * \file Msdccmbd_exe.cpp
   * Msdc combined daemon main (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #include "Msdccmbd.h"
@@ -489,7 +489,7 @@ int main(
 		xchg = msdccmbd->xchg;
 
 		// welcome message
-		cout << "Welcome to MultispectralDetectorControl 0.1.52!" << endl;
+		cout << "Welcome to MultispectralDetectorControl 0.1.58!" << endl;
 
 		if (nocp) {
 			// wait on a dummy condition

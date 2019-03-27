@@ -2,8 +2,8 @@
   * \file VecMsdcVDpch.h
   * vector VecMsdcVDpch (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -112,6 +112,7 @@ uint VecMsdcVDpch::getIx(
 	if (s == "dpchappmsdclivdo") return DPCHAPPMSDCLIVDO;
 	if (s == "dpchappmsdclivscilldata") return DPCHAPPMSDCLIVSCILLDATA;
 	if (s == "dpchappmsdclivscilldo") return DPCHAPPMSDCLIVSCILLDO;
+	if (s == "dpchappmsdclivtrackdata") return DPCHAPPMSDCLIVTRACKDATA;
 	if (s == "dpchappmsdclivtrackdo") return DPCHAPPMSDCLIVTRACKDO;
 	if (s == "dpchappmsdclivvideodata") return DPCHAPPMSDCLIVVIDEODATA;
 	if (s == "dpchappmsdclivvideodo") return DPCHAPPMSDCLIVVIDEODO;
@@ -265,6 +266,7 @@ string VecMsdcVDpch::getSref(
 	if (ix == DPCHAPPMSDCLIVDO) return("DpchAppMsdcLivDo");
 	if (ix == DPCHAPPMSDCLIVSCILLDATA) return("DpchAppMsdcLivScillData");
 	if (ix == DPCHAPPMSDCLIVSCILLDO) return("DpchAppMsdcLivScillDo");
+	if (ix == DPCHAPPMSDCLIVTRACKDATA) return("DpchAppMsdcLivTrackData");
 	if (ix == DPCHAPPMSDCLIVTRACKDO) return("DpchAppMsdcLivTrackDo");
 	if (ix == DPCHAPPMSDCLIVVIDEODATA) return("DpchAppMsdcLivVideoData");
 	if (ix == DPCHAPPMSDCLIVVIDEODO) return("DpchAppMsdcLivVideoDo");

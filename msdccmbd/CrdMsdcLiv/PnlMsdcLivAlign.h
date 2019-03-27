@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.h
   * job handler for job PnlMsdcLivAlign (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCLIVALIGN_H
@@ -19,7 +19,6 @@
 
 #define ContIacMsdcLivAlign PnlMsdcLivAlign::ContIac
 #define ContInfMsdcLivAlign PnlMsdcLivAlign::ContInf
-#define StatAppMsdcLivAlign PnlMsdcLivAlign::StatApp
 #define StatShrMsdcLivAlign PnlMsdcLivAlign::StatShr
 #define TagMsdcLivAlign PnlMsdcLivAlign::Tag
 
@@ -39,7 +38,9 @@ public:
 	class VecVDo {
 
 	public:
-		static const uint BUTMASTERCLICK = 1;
+		static const uint BUTREGULARIZECLICK = 1;
+		static const uint BUTMINIMIZECLICK = 2;
+		static const uint BUTMASTERCLICK = 3;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);
@@ -93,31 +94,24 @@ public:
 	};
 
 	/**
-		* StatApp (full: StatAppMsdcLivAlign)
-		*/
-	class StatApp {
-
-	public:
-		static void writeXML(xmlTextWriter* wr, string difftag = "", bool shorttags = true, const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND);
-	};
-
-	/**
 		* StatShr (full: StatShrMsdcLivAlign)
 		*/
 	class StatShr : public Block {
 
 	public:
-		static const uint SLDTHEACTIVE = 1;
-		static const uint SLDTHEMIN = 2;
-		static const uint SLDTHEMAX = 3;
-		static const uint SLDPHIACTIVE = 4;
-		static const uint SLDPHIMIN = 5;
-		static const uint SLDPHIMAX = 6;
+		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint SLDTHEACTIVE = 2;
+		static const uint SLDTHEMIN = 3;
+		static const uint SLDTHEMAX = 4;
+		static const uint SLDPHIACTIVE = 5;
+		static const uint SLDPHIMIN = 6;
+		static const uint SLDPHIMAX = 7;
 
 	public:
-		StatShr(const bool SldTheActive = true, const double SldTheMin = -40.0, const double SldTheMax = 40.0, const bool SldPhiActive = true, const double SldPhiMin = -40.0, const double SldPhiMax = 40.0);
+		StatShr(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND, const bool SldTheActive = true, const double SldTheMin = -40.0, const double SldTheMax = 40.0, const bool SldPhiActive = true, const double SldPhiMin = -40.0, const double SldPhiMax = 40.0);
 
 	public:
+		uint ixMsdcVExpstate;
 		bool SldTheActive;
 		double SldTheMin;
 		double SldTheMax;
@@ -191,10 +185,9 @@ public:
 		static const uint JREF = 1;
 		static const uint CONTIAC = 2;
 		static const uint CONTINF = 3;
-		static const uint STATAPP = 4;
-		static const uint STATSHR = 5;
-		static const uint TAG = 6;
-		static const uint ALL = 7;
+		static const uint STATSHR = 4;
+		static const uint TAG = 5;
+		static const uint ALL = 6;
 
 	public:
 		DpchEngData(const ubigint jref = 0, ContIac* contiac = NULL, ContInf* continf = NULL, StatShr* statshr = NULL, const set<uint>& mask = {NONE});
@@ -244,6 +237,8 @@ public:
 	void handleDpchAppMsdcInit(DbsMsdc* dbsmsdc, DpchAppMsdcInit* dpchappmsdcinit, DpchEngMsdc** dpcheng);
 	void handleDpchAppDataContiac(DbsMsdc* dbsmsdc, ContIac* _contiac, DpchEngMsdc** dpcheng);
 
+	void handleDpchAppDoButRegularizeClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
+	void handleDpchAppDoButMinimizeClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
 	void handleDpchAppDoButMasterClick(DbsMsdc* dbsmsdc, DpchEngMsdc** dpcheng);
 
 	void handleCall(DbsMsdc* dbsmsdc, Call* call);

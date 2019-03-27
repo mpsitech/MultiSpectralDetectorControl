@@ -2,8 +2,8 @@
   * \file JobMsdcSrcMsdd.cpp
   * job handler for job JobMsdcSrcMsdd (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -56,7 +56,7 @@ void JobMsdcSrcMsdd::Shrdat::init(
 #ifdef FPGA_BSS3
 		fpga.init(stg.path, 5000000);
 #endif
-		fpga.rxtxdump = true;
+		//fpga.rxtxdump = true;
 		fpga.reset();
 
 	} catch (DbeException e) {
@@ -1055,7 +1055,6 @@ bool JobMsdcSrcMsdd::handleCallMsdcMastsgeChg(
 	// IP handleCallMsdcMastsgeChg --- IEND
 	return retval;
 };
-
 
 
 

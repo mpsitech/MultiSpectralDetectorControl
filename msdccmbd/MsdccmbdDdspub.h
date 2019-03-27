@@ -2,8 +2,8 @@
 	* \file MsdccmbdDdspub.h
 	* DDS publisher based on rti DDS Connext for Msdc combined daemon (declarations)
 	* \author Alexander Wirthmueller
-	* \date created: 4 Oct 2018
-	* \date modified: 4 Oct 2018
+	* \date created: 18 Dec 2018
+	* \date modified: 18 Dec 2018
 	*/
 
 #ifndef MSDCCMBDDDSPUB_H

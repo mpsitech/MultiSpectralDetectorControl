@@ -2,8 +2,8 @@
   * \file PnlMsdcScfPrcctl.cpp
   * job handler for job PnlMsdcScfPrcctl (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -37,9 +37,9 @@ PnlMsdcScfPrcctl::PnlMsdcScfPrcctl(
 
 	// IP constructor.cust1 --- INSERT
 
-	prcstereo = new JobMsdcPrcStereo(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	prcspotfind = new JobMsdcPrcSpotfind(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	prctrack = new JobMsdcPrcTrack(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	prcstereo = new JobMsdcPrcStereo(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	prcspotfind = new JobMsdcPrcSpotfind(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	prctrack = new JobMsdcPrcTrack(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -155,7 +155,6 @@ bool PnlMsdcScfPrcctl::handleCallMsdcMastslvChg(
 	if (!muteRefresh) refreshWithDpchEng(dbsmsdc); // IP handleCallMsdcMastslvChg --- ILINE
 	return retval;
 };
-
 
 
 

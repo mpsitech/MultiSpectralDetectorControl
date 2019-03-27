@@ -2,8 +2,8 @@
   * \file DbsMsdc_vecs.cpp
   * C++ wrapper for database DbsMsdc (implementation of vectors)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 /******************************************************************************
@@ -340,6 +340,30 @@ string DbsMsdc::VecVKeylist::getTitle(
 };
 
 /******************************************************************************
+ class DbsMsdc::VecVLat
+ ******************************************************************************/
+
+uint DbsMsdc::VecVLat::getIx(
+			const string& sref
+		) {
+	string s = StrMod::lc(sref);
+
+	if (s == "dlo") return DLO;
+	if (s == "ini") return INI;
+
+	return(0);
+};
+
+string DbsMsdc::VecVLat::getSref(
+			const uint ix
+		) {
+	if (ix == DLO) return("dlo");
+	if (ix == INI) return("ini");
+
+	return("");
+};
+
+/******************************************************************************
  class DbsMsdc::VecVLocale
  ******************************************************************************/
 
@@ -387,6 +411,30 @@ void DbsMsdc::VecVLocale::fillFeed(
 	feed.clear();
 
 	for (unsigned int i=1;i<=2;i++) feed.appendIxSrefTitles(i, getSref(i), getTitle(i, ixMsdcVLocale));
+};
+
+/******************************************************************************
+ class DbsMsdc::VecVLop
+ ******************************************************************************/
+
+uint DbsMsdc::VecVLop::getIx(
+			const string& sref
+		) {
+	string s = StrMod::lc(sref);
+
+	if (s == "ins") return INS;
+	if (s == "rmv") return RMV;
+
+	return(0);
+};
+
+string DbsMsdc::VecVLop::getSref(
+			const uint ix
+		) {
+	if (ix == INS) return("ins");
+	if (ix == RMV) return("rmv");
+
+	return("");
 };
 
 /******************************************************************************
@@ -461,6 +509,38 @@ void DbsMsdc::VecVMaintable::fillFeed(
 	feed.clear();
 
 	for (unsigned int i=1;i<=8;i++) feed.appendIxSrefTitles(i, getSref(i), getTitle(i, ixMsdcVLocale));
+};
+
+/******************************************************************************
+ class DbsMsdc::VecVOolop
+ ******************************************************************************/
+
+uint DbsMsdc::VecVOolop::getIx(
+			const string& sref
+		) {
+	string s = StrMod::lc(sref);
+
+	if (s == "ina") return INA;
+	if (s == "inb") return INB;
+	if (s == "rmv") return RMV;
+	if (s == "swp") return SWP;
+	if (s == "toa") return TOA;
+	if (s == "tob") return TOB;
+
+	return(0);
+};
+
+string DbsMsdc::VecVOolop::getSref(
+			const uint ix
+		) {
+	if (ix == INA) return("ina");
+	if (ix == INB) return("inb");
+	if (ix == RMV) return("rmv");
+	if (ix == SWP) return("swp");
+	if (ix == TOA) return("toa");
+	if (ix == TOB) return("tob");
+
+	return("");
 };
 
 /******************************************************************************

@@ -2,17 +2,23 @@
   * \file ApiMsdc_blks.h
   * Msdc API library global data blocks (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef APIMSDC_BLKS_H
 #define APIMSDC_BLKS_H
 
-#include "VecMsdcVDpch.h"
+#include "VecMsdcVCamres.h"
+#include "VecMsdcVCamste.h"
+#include "VecMsdcVCamtype.h"
+#include "VecMsdcVChannel.h"
+#include "VecMsdcVCorner.h"
 #include "VecMsdcVExpstate.h"
-#include "VecMsdcVQrystate.h"
 #include "VecMsdcVReqitmode.h"
+#include "VecMsdcVSqrgrp.h"
+
+#include "VecMsdcVDpch.h"
 
 /**
 	* ContInfMsdcAlert

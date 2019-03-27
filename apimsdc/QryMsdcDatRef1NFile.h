@@ -2,8 +2,8 @@
   * \file QryMsdcDatRef1NFile.h
   * API code for job QryMsdcDatRef1NFile (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef QRYMSDCDATREF1NFILE_H

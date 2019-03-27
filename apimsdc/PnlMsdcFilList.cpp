@@ -2,8 +2,8 @@
   * \file PnlMsdcFilList.cpp
   * API code for job PnlMsdcFilList (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -115,7 +115,7 @@ set<uint> PnlMsdcFilList::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {};
+	diffitems = {NUMFTOS};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -188,7 +188,7 @@ set<uint> PnlMsdcFilList::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXTPRE, BUTFILTERON, NUMFCSIQST};
+	diffitems = {TXTFOR, TXTPRE, BUTFILTERON, NUMFCSIQST};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -360,7 +360,7 @@ set<uint> PnlMsdcFilList::StgIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TCORETWIDTH, TCOREUWIDTH, TCOCNTWIDTH, TCOMIMWIDTH, TCOSIZWIDTH};
+	diffitems = {TCOFNMWIDTH, TCORETWIDTH, TCOREUWIDTH, TCOCNTWIDTH, TCOMIMWIDTH, TCOSIZWIDTH};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

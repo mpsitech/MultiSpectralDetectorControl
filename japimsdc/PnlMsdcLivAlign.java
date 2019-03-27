@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.java
   * Java API code for job PnlMsdcLivAlign
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 package apimsdc;
@@ -18,13 +18,17 @@ public class PnlMsdcLivAlign {
 		*/
 	public static class VecVDo {
 
-		public static final int BUTMASTERCLICK = 1;
+		public static final int BUTREGULARIZECLICK = 1;
+		public static final int BUTMINIMIZECLICK = 2;
+		public static final int BUTMASTERCLICK = 3;
 
 		public static int getIx(
 					String sref
 				) {
 			String s = sref.toLowerCase();
 
+			if (s.equals("butregularizeclick")) return BUTREGULARIZECLICK;
+			if (s.equals("butminimizeclick")) return BUTMINIMIZECLICK;
 			if (s.equals("butmasterclick")) return BUTMASTERCLICK;
 
 			return 0;
@@ -33,6 +37,8 @@ public class PnlMsdcLivAlign {
 		public static String getSref(
 					int ix
 				) {
+			if (ix == BUTREGULARIZECLICK) return("ButRegularizeClick");
+			if (ix == BUTMINIMIZECLICK) return("ButMinimizeClick");
 			if (ix == BUTMASTERCLICK) return("ButMasterClick");
 
 			return "";
@@ -209,91 +215,28 @@ public class PnlMsdcLivAlign {
 	};
 
 	/**
-	  * StatApp (full: StatAppMsdcLivAlign)
-	  */
-	public class StatApp extends Block {
-
-		public static final int IXMSDCVEXPSTATE = 1;
-
-		public StatApp(
-					int ixMsdcVExpstate
-				) {
-			this.ixMsdcVExpstate = ixMsdcVExpstate;
-
-			mask = new HashSet<Integer>(Arrays.asList(IXMSDCVEXPSTATE));
-		};
-
-		public int ixMsdcVExpstate;
-
-		public boolean readXML(
-					Document doc
-					, String basexpath
-					, boolean addbasetag
-				) {
-			String srefIxMsdcVExpstate;
-
-			clear();
-
-			if (addbasetag) basexpath = Xmlio.checkUclcXPaths(doc, basexpath, "StatAppMsdcLivAlign");
-
-			String itemtag = "StatitemAppMsdcLivAlign";
-
-			if (Xmlio.checkXPath(doc, basexpath)) {
-				srefIxMsdcVExpstate = Xmlio.extractStringAttrUclc(doc, basexpath, itemtag, "Si", "sref", "srefIxMsdcVExpstate", mask, IXMSDCVEXPSTATE);
-				ixMsdcVExpstate = VecMsdcVExpstate.getIx(srefIxMsdcVExpstate);
-
-				return true;
-			};
-
-			return false;
-		};
-
-		public HashSet<Integer> comm(
-					StatApp comp
-				) {
-			HashSet<Integer> items = new HashSet<Integer>();
-
-			if (ixMsdcVExpstate == comp.ixMsdcVExpstate) items.add(IXMSDCVEXPSTATE);
-
-			return(items);
-		};
-
-		public HashSet<Integer> diff(
-					StatApp comp
-				) {
-			HashSet<Integer> commitems;
-			HashSet<Integer> diffitems;
-
-			commitems = comm(comp);
-
-			diffitems = new HashSet<Integer>(Arrays.asList(IXMSDCVEXPSTATE));
-			for (Integer ci: commitems) diffitems.remove(ci);
-
-			return(diffitems);
-		};
-
-	};
-
-	/**
 	  * StatShr (full: StatShrMsdcLivAlign)
 	  */
 	public class StatShr extends Block {
 
-		public static final int SLDTHEACTIVE = 1;
-		public static final int SLDTHEMIN = 2;
-		public static final int SLDTHEMAX = 3;
-		public static final int SLDPHIACTIVE = 4;
-		public static final int SLDPHIMIN = 5;
-		public static final int SLDPHIMAX = 6;
+		public static final int IXMSDCVEXPSTATE = 1;
+		public static final int SLDTHEACTIVE = 2;
+		public static final int SLDTHEMIN = 3;
+		public static final int SLDTHEMAX = 4;
+		public static final int SLDPHIACTIVE = 5;
+		public static final int SLDPHIMIN = 6;
+		public static final int SLDPHIMAX = 7;
 
 		public StatShr(
-					boolean SldTheActive
+					int ixMsdcVExpstate
+					, boolean SldTheActive
 					, double SldTheMin
 					, double SldTheMax
 					, boolean SldPhiActive
 					, double SldPhiMin
 					, double SldPhiMax
 				) {
+			this.ixMsdcVExpstate = ixMsdcVExpstate;
 			this.SldTheActive = SldTheActive;
 			this.SldTheMin = SldTheMin;
 			this.SldTheMax = SldTheMax;
@@ -301,9 +244,10 @@ public class PnlMsdcLivAlign {
 			this.SldPhiMin = SldPhiMin;
 			this.SldPhiMax = SldPhiMax;
 
-			mask = new HashSet<Integer>(Arrays.asList(SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX));
+			mask = new HashSet<Integer>(Arrays.asList(IXMSDCVEXPSTATE, SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX));
 		};
 
+		public int ixMsdcVExpstate;
 		public boolean SldTheActive;
 		public double SldTheMin;
 		public double SldTheMax;
@@ -316,6 +260,7 @@ public class PnlMsdcLivAlign {
 					, String basexpath
 					, boolean addbasetag
 				) {
+			String srefIxMsdcVExpstate;
 
 			clear();
 
@@ -324,6 +269,8 @@ public class PnlMsdcLivAlign {
 			String itemtag = "StatitemShrMsdcLivAlign";
 
 			if (Xmlio.checkXPath(doc, basexpath)) {
+				srefIxMsdcVExpstate = Xmlio.extractStringAttrUclc(doc, basexpath, itemtag, "Si", "sref", "srefIxMsdcVExpstate", mask, IXMSDCVEXPSTATE);
+				ixMsdcVExpstate = VecMsdcVExpstate.getIx(srefIxMsdcVExpstate);
 				SldTheActive = Xmlio.extractBooleanAttrUclc(doc, basexpath, itemtag, "Si", "sref", "SldTheActive", mask, SLDTHEACTIVE);
 				SldTheMin = Xmlio.extractDoubleAttrUclc(doc, basexpath, itemtag, "Si", "sref", "SldTheMin", mask, SLDTHEMIN);
 				SldTheMax = Xmlio.extractDoubleAttrUclc(doc, basexpath, itemtag, "Si", "sref", "SldTheMax", mask, SLDTHEMAX);
@@ -342,6 +289,7 @@ public class PnlMsdcLivAlign {
 				) {
 			HashSet<Integer> items = new HashSet<Integer>();
 
+			if (ixMsdcVExpstate == comp.ixMsdcVExpstate) items.add(IXMSDCVEXPSTATE);
 			if (SldTheActive == comp.SldTheActive) items.add(SLDTHEACTIVE);
 			if (Xmlio.compareDouble(SldTheMin, comp.SldTheMin) < 1.0e-4) items.add(SLDTHEMIN);
 			if (Xmlio.compareDouble(SldTheMax, comp.SldTheMax) < 1.0e-4) items.add(SLDTHEMAX);
@@ -360,7 +308,7 @@ public class PnlMsdcLivAlign {
 
 			commitems = comm(comp);
 
-			diffitems = new HashSet<Integer>(Arrays.asList(SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX));
+			diffitems = new HashSet<Integer>(Arrays.asList(IXMSDCVEXPSTATE, SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX));
 			for (Integer ci: commitems) diffitems.remove(ci);
 
 			return(diffitems);
@@ -574,23 +522,20 @@ public class PnlMsdcLivAlign {
 		public static final int SCRJREF = 1;
 		public static final int CONTIAC = 2;
 		public static final int CONTINF = 3;
-		public static final int STATAPP = 4;
-		public static final int STATSHR = 5;
-		public static final int TAG = 6;
+		public static final int STATSHR = 4;
+		public static final int TAG = 5;
 
 		public DpchEngData() {
 			super(VecMsdcVDpch.DPCHENGMSDCLIVALIGNDATA);
 
 			contiac = new ContIac(0.0, 0.0);
 			continf = new ContInf(false, "", "");
-			statapp = new StatApp(0);
-			statshr = new StatShr(false, 0.0, 0.0, false, 0.0, 0.0);
+			statshr = new StatShr(0, false, 0.0, 0.0, false, 0.0, 0.0);
 			tag = new Tag("", "", "", "", "");
 		};
 
 		public ContIac contiac;
 		public ContInf continf;
-		public StatApp statapp;
 		public StatShr statshr;
 		public Tag tag;
 
@@ -600,7 +545,6 @@ public class PnlMsdcLivAlign {
 			if (has(SCRJREF)) ss.add("scrJref");
 			if (has(CONTIAC)) ss.add("contiac");
 			if (has(CONTINF)) ss.add("continf");
-			if (has(STATAPP)) ss.add("statapp");
 			if (has(STATSHR)) ss.add("statshr");
 			if (has(TAG)) ss.add("tag");
 
@@ -621,15 +565,13 @@ public class PnlMsdcLivAlign {
 				scrJref = Xmlio.extractStringUclc(doc, basexpath, "scrJref", "", mask, SCRJREF);
 				if (contiac.readXML(doc, basexpath, true)) add(CONTIAC);
 				if (continf.readXML(doc, basexpath, true)) add(CONTINF);
-				if (statapp.readXML(doc, basexpath, true)) add(STATAPP);
 				if (statshr.readXML(doc, basexpath, true)) add(STATSHR);
 				if (tag.readXML(doc, basexpath, true)) add(TAG);
 			} else {
 				scrJref = "";
 				contiac = new ContIac(0.0, 0.0);
 				continf = new ContInf(false, "", "");
-				statapp = new StatApp(0);
-				statshr = new StatShr(false, 0.0, 0.0, false, 0.0, 0.0);
+				statshr = new StatShr(0, false, 0.0, 0.0, false, 0.0, 0.0);
 				tag = new Tag("", "", "", "", "");
 			};
 		};

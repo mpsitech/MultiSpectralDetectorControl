@@ -2,8 +2,8 @@
   * \file JobMsdcPrcTrack.cpp
   * job handler for job JobMsdcPrcTrack (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -55,16 +55,16 @@ JobMsdcPrcTrack::JobMsdcPrcTrack(
 	jref = xchg->addMsjob(dbsmsdc, this);
 
 	acqvisl = NULL;
-	actservo = NULL;
+	acqvisr = NULL;
 	actalign = NULL;
 
 	// IP constructor.cust1 --- INSERT
 
 	// IP constructor.spec1 --- INSERT
 
-	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actservo = new JobMsdcActServo(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -211,7 +211,6 @@ void JobMsdcPrcTrack::handleRequest(
 	} else if (req->ixVBasetype == ReqMsdc::VecVBasetype::REGULAR) {
 	};
 };
-
 
 
 

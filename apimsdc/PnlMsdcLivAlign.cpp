@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.cpp
   * API code for job PnlMsdcLivAlign (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -21,6 +21,8 @@ uint PnlMsdcLivAlign::VecVDo::getIx(
 		) {
 	string s = StrMod::lc(sref);
 
+	if (s == "butregularizeclick") return BUTREGULARIZECLICK;
+	if (s == "butminimizeclick") return BUTMINIMIZECLICK;
 	if (s == "butmasterclick") return BUTMASTERCLICK;
 
 	return(0);
@@ -29,6 +31,8 @@ uint PnlMsdcLivAlign::VecVDo::getIx(
 string PnlMsdcLivAlign::VecVDo::getSref(
 			const uint ix
 		) {
+	if (ix == BUTREGULARIZECLICK) return("ButRegularizeClick");
+	if (ix == BUTMINIMIZECLICK) return("ButMinimizeClick");
 	if (ix == BUTMASTERCLICK) return("ButMasterClick");
 
 	return("");
@@ -110,7 +114,7 @@ set<uint> PnlMsdcLivAlign::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, SLDPHI};
+	diffitems = {SLDTHE, SLDPHI};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -179,27 +183,39 @@ set<uint> PnlMsdcLivAlign::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXTAPH, TXTBTA};
+	diffitems = {BUTMASTERON, TXTAPH, TXTBTA};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
 };
 
 /******************************************************************************
- class PnlMsdcLivAlign::StatApp
+ class PnlMsdcLivAlign::StatShr
  ******************************************************************************/
 
-PnlMsdcLivAlign::StatApp::StatApp(
+PnlMsdcLivAlign::StatShr::StatShr(
 			const uint ixMsdcVExpstate
+			, const bool SldTheActive
+			, const double SldTheMin
+			, const double SldTheMax
+			, const bool SldPhiActive
+			, const double SldPhiMin
+			, const double SldPhiMax
 		) :
 			Block()
 		{
 	this->ixMsdcVExpstate = ixMsdcVExpstate;
+	this->SldTheActive = SldTheActive;
+	this->SldTheMin = SldTheMin;
+	this->SldTheMax = SldTheMax;
+	this->SldPhiActive = SldPhiActive;
+	this->SldPhiMin = SldPhiMin;
+	this->SldPhiMax = SldPhiMax;
 
-	mask = {IXMSDCVEXPSTATE};
+	mask = {IXMSDCVEXPSTATE, SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX};
 };
 
-bool PnlMsdcLivAlign::StatApp::readXML(
+bool PnlMsdcLivAlign::StatShr::readXML(
 			xmlXPathContext* docctx
 			, string basexpath
 			, bool addbasetag
@@ -211,80 +227,6 @@ bool PnlMsdcLivAlign::StatApp::readXML(
 	bool basefound;
 
 	if (addbasetag)
-		basefound = checkUclcXPaths(docctx, basexpath, basexpath, "StatAppMsdcLivAlign");
-	else
-		basefound = checkXPath(docctx, basexpath);
-
-	string itemtag = "StatitemAppMsdcLivAlign";
-
-	if (basefound) {
-		if (extractStringAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "srefIxMsdcVExpstate", srefIxMsdcVExpstate)) {
-			ixMsdcVExpstate = VecMsdcVExpstate::getIx(srefIxMsdcVExpstate);
-			add(IXMSDCVEXPSTATE);
-		};
-	};
-
-	return basefound;
-};
-
-set<uint> PnlMsdcLivAlign::StatApp::comm(
-			const StatApp* comp
-		) {
-	set<uint> items;
-
-	if (ixMsdcVExpstate == comp->ixMsdcVExpstate) insert(items, IXMSDCVEXPSTATE);
-
-	return(items);
-};
-
-set<uint> PnlMsdcLivAlign::StatApp::diff(
-			const StatApp* comp
-		) {
-	set<uint> commitems;
-	set<uint> diffitems;
-
-	commitems = comm(comp);
-
-	diffitems = {IXMSDCVEXPSTATE};
-	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
-
-	return(diffitems);
-};
-
-/******************************************************************************
- class PnlMsdcLivAlign::StatShr
- ******************************************************************************/
-
-PnlMsdcLivAlign::StatShr::StatShr(
-			const bool SldTheActive
-			, const double SldTheMin
-			, const double SldTheMax
-			, const bool SldPhiActive
-			, const double SldPhiMin
-			, const double SldPhiMax
-		) :
-			Block()
-		{
-	this->SldTheActive = SldTheActive;
-	this->SldTheMin = SldTheMin;
-	this->SldTheMax = SldTheMax;
-	this->SldPhiActive = SldPhiActive;
-	this->SldPhiMin = SldPhiMin;
-	this->SldPhiMax = SldPhiMax;
-
-	mask = {SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX};
-};
-
-bool PnlMsdcLivAlign::StatShr::readXML(
-			xmlXPathContext* docctx
-			, string basexpath
-			, bool addbasetag
-		) {
-	clear();
-
-	bool basefound;
-
-	if (addbasetag)
 		basefound = checkUclcXPaths(docctx, basexpath, basexpath, "StatShrMsdcLivAlign");
 	else
 		basefound = checkXPath(docctx, basexpath);
@@ -292,6 +234,10 @@ bool PnlMsdcLivAlign::StatShr::readXML(
 	string itemtag = "StatitemShrMsdcLivAlign";
 
 	if (basefound) {
+		if (extractStringAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "srefIxMsdcVExpstate", srefIxMsdcVExpstate)) {
+			ixMsdcVExpstate = VecMsdcVExpstate::getIx(srefIxMsdcVExpstate);
+			add(IXMSDCVEXPSTATE);
+		};
 		if (extractBoolAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "SldTheActive", SldTheActive)) add(SLDTHEACTIVE);
 		if (extractDoubleAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "SldTheMin", SldTheMin)) add(SLDTHEMIN);
 		if (extractDoubleAttrUclc(docctx, basexpath, itemtag, "Si", "sref", "SldTheMax", SldTheMax)) add(SLDTHEMAX);
@@ -308,6 +254,7 @@ set<uint> PnlMsdcLivAlign::StatShr::comm(
 		) {
 	set<uint> items;
 
+	if (ixMsdcVExpstate == comp->ixMsdcVExpstate) insert(items, IXMSDCVEXPSTATE);
 	if (SldTheActive == comp->SldTheActive) insert(items, SLDTHEACTIVE);
 	if (compareDouble(SldTheMin, comp->SldTheMin) < 1.0e-4) insert(items, SLDTHEMIN);
 	if (compareDouble(SldTheMax, comp->SldTheMax) < 1.0e-4) insert(items, SLDTHEMAX);
@@ -326,7 +273,7 @@ set<uint> PnlMsdcLivAlign::StatShr::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX};
+	diffitems = {IXMSDCVEXPSTATE, SLDTHEACTIVE, SLDTHEMIN, SLDTHEMAX, SLDPHIACTIVE, SLDPHIMIN, SLDPHIMAX};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -475,7 +422,6 @@ string PnlMsdcLivAlign::DpchEngData::getSrefsMask() {
 	if (has(SCRJREF)) ss.push_back("scrJref");
 	if (has(CONTIAC)) ss.push_back("contiac");
 	if (has(CONTINF)) ss.push_back("continf");
-	if (has(STATAPP)) ss.push_back("statapp");
 	if (has(STATSHR)) ss.push_back("statshr");
 	if (has(TAG)) ss.push_back("tag");
 
@@ -502,13 +448,11 @@ void PnlMsdcLivAlign::DpchEngData::readXML(
 		if (extractStringUclc(docctx, basexpath, "scrJref", "", scrJref)) add(SCRJREF);
 		if (contiac.readXML(docctx, basexpath, true)) add(CONTIAC);
 		if (continf.readXML(docctx, basexpath, true)) add(CONTINF);
-		if (statapp.readXML(docctx, basexpath, true)) add(STATAPP);
 		if (statshr.readXML(docctx, basexpath, true)) add(STATSHR);
 		if (tag.readXML(docctx, basexpath, true)) add(TAG);
 	} else {
 		contiac = ContIac();
 		continf = ContInf();
-		statapp = StatApp();
 		statshr = StatShr();
 		tag = Tag();
 	};

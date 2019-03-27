@@ -2,8 +2,8 @@
   * \file VecMsdcVDpch.java
   * vector VecMsdcVDpch
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 package apimsdc;
@@ -101,61 +101,62 @@ public class VecMsdcVDpch {
 	public static final int DPCHAPPMSDCLIVDO = 89;
 	public static final int DPCHAPPMSDCLIVSCILLDATA = 90;
 	public static final int DPCHAPPMSDCLIVSCILLDO = 91;
-	public static final int DPCHAPPMSDCLIVTRACKDO = 92;
-	public static final int DPCHAPPMSDCLIVVIDEODATA = 93;
-	public static final int DPCHAPPMSDCLIVVIDEODO = 94;
-	public static final int DPCHAPPMSDCNAVADMINDATA = 95;
-	public static final int DPCHAPPMSDCNAVADMINDO = 96;
-	public static final int DPCHAPPMSDCNAVDO = 97;
-	public static final int DPCHAPPMSDCNAVOPRDATA = 98;
-	public static final int DPCHAPPMSDCNAVOPRDO = 99;
-	public static final int DPCHAPPMSDCNAVPREDO = 100;
-	public static final int DPCHAPPMSDCPRD1NDATADATA = 101;
-	public static final int DPCHAPPMSDCPRD1NDATADO = 102;
-	public static final int DPCHAPPMSDCPRDDETAILDATA = 103;
-	public static final int DPCHAPPMSDCPRDDETAILDO = 104;
-	public static final int DPCHAPPMSDCPRDDO = 105;
-	public static final int DPCHAPPMSDCPRDLISTDATA = 106;
-	public static final int DPCHAPPMSDCPRDLISTDO = 107;
-	public static final int DPCHAPPMSDCPRDRECDO = 108;
-	public static final int DPCHAPPMSDCPRSDETAILDATA = 109;
-	public static final int DPCHAPPMSDCPRSDETAILDO = 110;
-	public static final int DPCHAPPMSDCPRSDO = 111;
-	public static final int DPCHAPPMSDCPRSLISTDATA = 112;
-	public static final int DPCHAPPMSDCPRSLISTDO = 113;
-	public static final int DPCHAPPMSDCPRSRECDO = 114;
-	public static final int DPCHAPPMSDCRESUME = 115;
-	public static final int DPCHAPPMSDCSCFACQUISDATA = 116;
-	public static final int DPCHAPPMSDCSCFACQUISDO = 117;
-	public static final int DPCHAPPMSDCSCFACTUDATA = 118;
-	public static final int DPCHAPPMSDCSCFACTUDO = 119;
-	public static final int DPCHAPPMSDCSCFDO = 120;
-	public static final int DPCHAPPMSDCSCFPRCCTLDO = 121;
-	public static final int DPCHAPPMSDCSCFSOURCEDATA = 122;
-	public static final int DPCHAPPMSDCSCFSOURCEDO = 123;
-	public static final int DPCHAPPMSDCUSGAACCESSDATA = 124;
-	public static final int DPCHAPPMSDCUSGAACCESSDO = 125;
-	public static final int DPCHAPPMSDCUSGDETAILDATA = 126;
-	public static final int DPCHAPPMSDCUSGDETAILDO = 127;
-	public static final int DPCHAPPMSDCUSGDO = 128;
-	public static final int DPCHAPPMSDCUSGLISTDATA = 129;
-	public static final int DPCHAPPMSDCUSGLISTDO = 130;
-	public static final int DPCHAPPMSDCUSGMNUSERDATA = 131;
-	public static final int DPCHAPPMSDCUSGMNUSERDO = 132;
-	public static final int DPCHAPPMSDCUSGRECDO = 133;
-	public static final int DPCHAPPMSDCUSR1NSESSIONDATA = 134;
-	public static final int DPCHAPPMSDCUSR1NSESSIONDO = 135;
-	public static final int DPCHAPPMSDCUSRAACCESSDATA = 136;
-	public static final int DPCHAPPMSDCUSRAACCESSDO = 137;
-	public static final int DPCHAPPMSDCUSRDETAILDATA = 138;
-	public static final int DPCHAPPMSDCUSRDETAILDO = 139;
-	public static final int DPCHAPPMSDCUSRDO = 140;
-	public static final int DPCHAPPMSDCUSRLISTDATA = 141;
-	public static final int DPCHAPPMSDCUSRLISTDO = 142;
-	public static final int DPCHAPPMSDCUSRMNUSERGROUPDATA = 143;
-	public static final int DPCHAPPMSDCUSRMNUSERGROUPDO = 144;
-	public static final int DPCHAPPMSDCUSRRECDO = 145;
-	public static final int DPCHAPPROOTMSDCLOGIN = 146;
+	public static final int DPCHAPPMSDCLIVTRACKDATA = 92;
+	public static final int DPCHAPPMSDCLIVTRACKDO = 93;
+	public static final int DPCHAPPMSDCLIVVIDEODATA = 94;
+	public static final int DPCHAPPMSDCLIVVIDEODO = 95;
+	public static final int DPCHAPPMSDCNAVADMINDATA = 96;
+	public static final int DPCHAPPMSDCNAVADMINDO = 97;
+	public static final int DPCHAPPMSDCNAVDO = 98;
+	public static final int DPCHAPPMSDCNAVOPRDATA = 99;
+	public static final int DPCHAPPMSDCNAVOPRDO = 100;
+	public static final int DPCHAPPMSDCNAVPREDO = 101;
+	public static final int DPCHAPPMSDCPRD1NDATADATA = 102;
+	public static final int DPCHAPPMSDCPRD1NDATADO = 103;
+	public static final int DPCHAPPMSDCPRDDETAILDATA = 104;
+	public static final int DPCHAPPMSDCPRDDETAILDO = 105;
+	public static final int DPCHAPPMSDCPRDDO = 106;
+	public static final int DPCHAPPMSDCPRDLISTDATA = 107;
+	public static final int DPCHAPPMSDCPRDLISTDO = 108;
+	public static final int DPCHAPPMSDCPRDRECDO = 109;
+	public static final int DPCHAPPMSDCPRSDETAILDATA = 110;
+	public static final int DPCHAPPMSDCPRSDETAILDO = 111;
+	public static final int DPCHAPPMSDCPRSDO = 112;
+	public static final int DPCHAPPMSDCPRSLISTDATA = 113;
+	public static final int DPCHAPPMSDCPRSLISTDO = 114;
+	public static final int DPCHAPPMSDCPRSRECDO = 115;
+	public static final int DPCHAPPMSDCRESUME = 116;
+	public static final int DPCHAPPMSDCSCFACQUISDATA = 117;
+	public static final int DPCHAPPMSDCSCFACQUISDO = 118;
+	public static final int DPCHAPPMSDCSCFACTUDATA = 119;
+	public static final int DPCHAPPMSDCSCFACTUDO = 120;
+	public static final int DPCHAPPMSDCSCFDO = 121;
+	public static final int DPCHAPPMSDCSCFPRCCTLDO = 122;
+	public static final int DPCHAPPMSDCSCFSOURCEDATA = 123;
+	public static final int DPCHAPPMSDCSCFSOURCEDO = 124;
+	public static final int DPCHAPPMSDCUSGAACCESSDATA = 125;
+	public static final int DPCHAPPMSDCUSGAACCESSDO = 126;
+	public static final int DPCHAPPMSDCUSGDETAILDATA = 127;
+	public static final int DPCHAPPMSDCUSGDETAILDO = 128;
+	public static final int DPCHAPPMSDCUSGDO = 129;
+	public static final int DPCHAPPMSDCUSGLISTDATA = 130;
+	public static final int DPCHAPPMSDCUSGLISTDO = 131;
+	public static final int DPCHAPPMSDCUSGMNUSERDATA = 132;
+	public static final int DPCHAPPMSDCUSGMNUSERDO = 133;
+	public static final int DPCHAPPMSDCUSGRECDO = 134;
+	public static final int DPCHAPPMSDCUSR1NSESSIONDATA = 135;
+	public static final int DPCHAPPMSDCUSR1NSESSIONDO = 136;
+	public static final int DPCHAPPMSDCUSRAACCESSDATA = 137;
+	public static final int DPCHAPPMSDCUSRAACCESSDO = 138;
+	public static final int DPCHAPPMSDCUSRDETAILDATA = 139;
+	public static final int DPCHAPPMSDCUSRDETAILDO = 140;
+	public static final int DPCHAPPMSDCUSRDO = 141;
+	public static final int DPCHAPPMSDCUSRLISTDATA = 142;
+	public static final int DPCHAPPMSDCUSRLISTDO = 143;
+	public static final int DPCHAPPMSDCUSRMNUSERGROUPDATA = 144;
+	public static final int DPCHAPPMSDCUSRMNUSERGROUPDO = 145;
+	public static final int DPCHAPPMSDCUSRRECDO = 146;
+	public static final int DPCHAPPROOTMSDCLOGIN = 147;
 
 	public static int getIx(
 				String sref
@@ -253,6 +254,7 @@ public class VecMsdcVDpch {
 		if (s.equals("dpchappmsdclivdo")) return DPCHAPPMSDCLIVDO;
 		if (s.equals("dpchappmsdclivscilldata")) return DPCHAPPMSDCLIVSCILLDATA;
 		if (s.equals("dpchappmsdclivscilldo")) return DPCHAPPMSDCLIVSCILLDO;
+		if (s.equals("dpchappmsdclivtrackdata")) return DPCHAPPMSDCLIVTRACKDATA;
 		if (s.equals("dpchappmsdclivtrackdo")) return DPCHAPPMSDCLIVTRACKDO;
 		if (s.equals("dpchappmsdclivvideodata")) return DPCHAPPMSDCLIVVIDEODATA;
 		if (s.equals("dpchappmsdclivvideodo")) return DPCHAPPMSDCLIVVIDEODO;
@@ -406,6 +408,7 @@ public class VecMsdcVDpch {
 		if (ix == DPCHAPPMSDCLIVDO) return("DpchAppMsdcLivDo");
 		if (ix == DPCHAPPMSDCLIVSCILLDATA) return("DpchAppMsdcLivScillData");
 		if (ix == DPCHAPPMSDCLIVSCILLDO) return("DpchAppMsdcLivScillDo");
+		if (ix == DPCHAPPMSDCLIVTRACKDATA) return("DpchAppMsdcLivTrackData");
 		if (ix == DPCHAPPMSDCLIVTRACKDO) return("DpchAppMsdcLivTrackDo");
 		if (ix == DPCHAPPMSDCLIVVIDEODATA) return("DpchAppMsdcLivVideoData");
 		if (ix == DPCHAPPMSDCLIVVIDEODO) return("DpchAppMsdcLivVideoDo");

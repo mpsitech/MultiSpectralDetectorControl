@@ -2,8 +2,8 @@
   * \file JobMsdcPrcStereo.cpp
   * job handler for job JobMsdcPrcStereo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -61,8 +61,8 @@ JobMsdcPrcStereo::JobMsdcPrcStereo(
 
 	// IP constructor.spec1 --- INSERT
 
-	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	acqvisl = new JobMsdcAcqVisl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	acqvisr = new JobMsdcAcqVisr(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -232,7 +232,6 @@ bool JobMsdcPrcStereo::handleCallMsdcMastsgeChg(
 	// IP handleCallMsdcMastsgeChg --- IEND
 	return retval;
 };
-
 
 
 

@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.h
   * API code for job PnlMsdcLivAlign (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef PNLMSDCLIVALIGN_H
@@ -15,7 +15,6 @@
 
 #define ContIacMsdcLivAlign PnlMsdcLivAlign::ContIac
 #define ContInfMsdcLivAlign PnlMsdcLivAlign::ContInf
-#define StatAppMsdcLivAlign PnlMsdcLivAlign::StatApp
 #define StatShrMsdcLivAlign PnlMsdcLivAlign::StatShr
 #define TagMsdcLivAlign PnlMsdcLivAlign::Tag
 
@@ -33,7 +32,9 @@ namespace PnlMsdcLivAlign {
 	class VecVDo {
 
 	public:
-		static const uint BUTMASTERCLICK = 1;
+		static const uint BUTREGULARIZECLICK = 1;
+		static const uint BUTMINIMIZECLICK = 2;
+		static const uint BUTMASTERCLICK = 3;
 
 		static uint getIx(const string& sref);
 		static string getSref(const uint ix);
@@ -87,42 +88,24 @@ namespace PnlMsdcLivAlign {
 	};
 
 	/**
-	  * StatApp (full: StatAppMsdcLivAlign)
-	  */
-	class StatApp : public Block {
-
-	public:
-		static const uint IXMSDCVEXPSTATE = 1;
-
-	public:
-		StatApp(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND);
-
-	public:
-		uint ixMsdcVExpstate;
-
-	public:
-		bool readXML(xmlXPathContext* docctx, string basexpath = "", bool addbasetag = false);
-		set<uint> comm(const StatApp* comp);
-		set<uint> diff(const StatApp* comp);
-	};
-
-	/**
 	  * StatShr (full: StatShrMsdcLivAlign)
 	  */
 	class StatShr : public Block {
 
 	public:
-		static const uint SLDTHEACTIVE = 1;
-		static const uint SLDTHEMIN = 2;
-		static const uint SLDTHEMAX = 3;
-		static const uint SLDPHIACTIVE = 4;
-		static const uint SLDPHIMIN = 5;
-		static const uint SLDPHIMAX = 6;
+		static const uint IXMSDCVEXPSTATE = 1;
+		static const uint SLDTHEACTIVE = 2;
+		static const uint SLDTHEMIN = 3;
+		static const uint SLDTHEMAX = 4;
+		static const uint SLDPHIACTIVE = 5;
+		static const uint SLDPHIMIN = 6;
+		static const uint SLDPHIMAX = 7;
 
 	public:
-		StatShr(const bool SldTheActive = true, const double SldTheMin = -40.0, const double SldTheMax = 40.0, const bool SldPhiActive = true, const double SldPhiMin = -40.0, const double SldPhiMax = 40.0);
+		StatShr(const uint ixMsdcVExpstate = VecMsdcVExpstate::MIND, const bool SldTheActive = true, const double SldTheMin = -40.0, const double SldTheMax = 40.0, const bool SldPhiActive = true, const double SldPhiMin = -40.0, const double SldPhiMax = 40.0);
 
 	public:
+		uint ixMsdcVExpstate;
 		bool SldTheActive;
 		double SldTheMin;
 		double SldTheMax;
@@ -215,9 +198,8 @@ namespace PnlMsdcLivAlign {
 		static const uint SCRJREF = 1;
 		static const uint CONTIAC = 2;
 		static const uint CONTINF = 3;
-		static const uint STATAPP = 4;
-		static const uint STATSHR = 5;
-		static const uint TAG = 6;
+		static const uint STATSHR = 4;
+		static const uint TAG = 5;
 
 	public:
 		DpchEngData();
@@ -225,7 +207,6 @@ namespace PnlMsdcLivAlign {
 	public:
 		ContIac contiac;
 		ContInf continf;
-		StatApp statapp;
 		StatShr statshr;
 		Tag tag;
 

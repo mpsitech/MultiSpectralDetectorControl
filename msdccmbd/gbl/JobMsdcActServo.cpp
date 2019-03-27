@@ -2,8 +2,8 @@
   * \file JobMsdcActServo.cpp
   * job handler for job JobMsdcActServo (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -63,7 +63,7 @@ JobMsdcActServo::JobMsdcActServo(
 
 	// IP constructor.spec1 --- INSERT
 
-	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	srcmsdd = new JobMsdcSrcMsdd(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -248,11 +248,10 @@ bool JobMsdcActServo::handleCallMsdcShrdatChg(
 		) {
 	bool retval = false;
 	// IP handleCallMsdcShrdatChg --- IBEGIN
-	xchg->triggerSrefCall(dbsmsdc, VecMsdcVCall::CALLMSDCSHRDATCHG, jref, "thetaPhi");
+	xchg->triggerIxSrefCall(dbsmsdc, VecMsdcVCall::CALLMSDCSHRDATCHG, jref, ixInv, srefInv);
 	// IP handleCallMsdcShrdatChg --- IEND
 	return retval;
 };
-
 
 
 

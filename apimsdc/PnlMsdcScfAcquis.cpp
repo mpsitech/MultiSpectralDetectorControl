@@ -2,8 +2,8 @@
   * \file PnlMsdcScfAcquis.cpp
   * API code for job PnlMsdcScfAcquis (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef _WIN32
@@ -115,7 +115,7 @@ set<uint> PnlMsdcScfAcquis::ContIac::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXFVLP, TXFVRP};
+	diffitems = {NUMFPUPVTY, TXFVLP, TXFVRP};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);
@@ -204,7 +204,7 @@ set<uint> PnlMsdcScfAcquis::ContInf::diff(
 
 	commitems = comm(comp);
 
-	diffitems = {, TXTISN, TXTIPS, TXTIFL, TXTIFN, TXTVPS, TXTVFL, TXTVFN};
+	diffitems = {BUTMASTERON, TXTISN, TXTIPS, TXTIFL, TXTIFN, TXTVPS, TXTVFL, TXTVFN};
 	for (auto it=commitems.begin();it!=commitems.end();it++) diffitems.erase(*it);
 
 	return(diffitems);

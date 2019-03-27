@@ -2,8 +2,8 @@
   * \file MsdcQUsr1NSession.h
   * API code for table TblMsdcQUsr1NSession (declarations)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifndef MSDCQUSR1NSESSION_H

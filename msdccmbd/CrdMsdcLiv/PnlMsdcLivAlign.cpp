@@ -2,8 +2,8 @@
   * \file PnlMsdcLivAlign.cpp
   * job handler for job PnlMsdcLivAlign (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -38,9 +38,9 @@ PnlMsdcLivAlign::PnlMsdcLivAlign(
 
 	// IP constructor.cust1 --- INSERT
 
-	acqadxl = new JobMsdcAcqAdxl(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actservo = new JobMsdcActServo(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	acqadxl = new JobMsdcAcqAdxl(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	actservo = new JobMsdcActServo(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -145,7 +145,11 @@ void PnlMsdcLivAlign::handleRequest(
 			DpchAppDo* dpchappdo = (DpchAppDo*) (req->dpchapp);
 
 			if (dpchappdo->ixVDo != 0) {
-				if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
+				if (dpchappdo->ixVDo == VecVDo::BUTREGULARIZECLICK) {
+					handleDpchAppDoButRegularizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMINIMIZECLICK) {
+					handleDpchAppDoButMinimizeClick(dbsmsdc, &(req->dpcheng));
+				} else if (dpchappdo->ixVDo == VecVDo::BUTMASTERCLICK) {
 					handleDpchAppDoButMasterClick(dbsmsdc, &(req->dpcheng));
 				};
 
@@ -193,6 +197,26 @@ void PnlMsdcLivAlign::handleDpchAppDataContiac(
 	// IP handleDpchAppDataContiac --- IEND
 	insert(moditems, DpchEngData::CONTIAC);
 	*dpcheng = getNewDpchEng(moditems);
+};
+
+void PnlMsdcLivAlign::handleDpchAppDoButRegularizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButRegularizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::REGD;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButRegularizeClick --- END
+};
+
+void PnlMsdcLivAlign::handleDpchAppDoButMinimizeClick(
+			DbsMsdc* dbsmsdc
+			, DpchEngMsdc** dpcheng
+		) {
+	// IP handleDpchAppDoButMinimizeClick --- BEGIN
+	statshr.ixMsdcVExpstate = VecMsdcVExpstate::MIND;
+	*dpcheng = getNewDpchEng({DpchEngData::STATSHR});
+	// IP handleDpchAppDoButMinimizeClick --- END
 };
 
 void PnlMsdcLivAlign::handleDpchAppDoButMasterClick(
@@ -252,7 +276,6 @@ bool PnlMsdcLivAlign::handleCallMsdcShrdatChg(
 	// IP handleCallMsdcShrdatChg --- IEND
 	return retval;
 };
-
 
 
 

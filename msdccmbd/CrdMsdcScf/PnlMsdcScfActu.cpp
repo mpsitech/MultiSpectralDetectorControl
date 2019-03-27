@@ -2,8 +2,8 @@
   * \file PnlMsdcScfActu.cpp
   * job handler for job PnlMsdcScfActu (implementation)
   * \author Alexander Wirthmueller
-  * \date created: 4 Oct 2018
-  * \date modified: 4 Oct 2018
+  * \date created: 18 Dec 2018
+  * \date modified: 18 Dec 2018
   */
 
 #ifdef MSDCCMBD
@@ -37,9 +37,9 @@ PnlMsdcScfActu::PnlMsdcScfActu(
 
 	// IP constructor.cust1 --- INSERT
 
-	actled = new JobMsdcActLed(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actservo = new JobMsdcActServo(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
-	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, true);
+	actled = new JobMsdcActLed(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	actservo = new JobMsdcActServo(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
+	actalign = new JobMsdcActAlign(xchg, dbsmsdc, jref, ixMsdcVLocale, false);
 
 	// IP constructor.cust2 --- INSERT
 
@@ -197,7 +197,6 @@ bool PnlMsdcScfActu::handleCallMsdcMastslvChg(
 	if (!muteRefresh) refreshWithDpchEng(dbsmsdc); // IP handleCallMsdcMastslvChg --- ILINE
 	return retval;
 };
-
 
 
 

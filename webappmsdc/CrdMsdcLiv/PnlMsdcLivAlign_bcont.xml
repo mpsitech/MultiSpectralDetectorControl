@@ -58,11 +58,11 @@
 						<span id="CptAph" class="cpt">CptAph</span>
 					</td>
 					<td></td>
-					<td colspan="5" align="left">
-						<input id="TxtAph" class="txfnoed" type="text" readonly="readonly" value="TxtAph"/>
+					<td colspan="3" align="left">
+						<input id="TxtAph" class="txfsnoed" type="text" readonly="readonly" value="TxtAph"/>
 					</td>
 					<td></td>
-					<td colspan="2"></td>
+					<td colspan="4"></td>
 				</tr>
 				<tr id="trBta" class="show">
 					<td height="25"></td>
@@ -70,11 +70,11 @@
 						<span id="CptBta" class="cpt">CptBta</span>
 					</td>
 					<td></td>
-					<td colspan="5" align="left">
-						<input id="TxtBta" class="txfnoed" type="text" readonly="readonly" value="TxtBta"/>
+					<td colspan="3" align="left">
+						<input id="TxtBta" class="txfsnoed" type="text" readonly="readonly" value="TxtBta"/>
 					</td>
 					<td></td>
-					<td colspan="2"></td>
+					<td colspan="4"></td>
 				</tr>
 				<tr id="tr11" class="show"><td colspan="11" height="3"></td></tr>
 				<tr id="tr12" class="show">
